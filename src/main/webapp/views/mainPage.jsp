@@ -22,7 +22,7 @@
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
 		function initApplication() {
-			console.info("Application initialization script");
+			console.info("Application initialization script!");
 			createLayout();
         }
 	</script>
