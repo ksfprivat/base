@@ -30,7 +30,6 @@
 </head>
 
 <body onload="initApplication()">
-    <div w3-include-html="content.html"></div>
 	<%--<img src="resources/img/logoBlack.png"/><br>--%>
 	<%--<h1>${message}</h1> <br>--%>
 	<%--<a href="logout" > Logout</a>--%>
