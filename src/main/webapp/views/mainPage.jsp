@@ -17,7 +17,10 @@
 	<%--JQuery--%>
 	<script src="resources/lib/jquery/jquery-1.11.3.js"></script>
 	<%--Application layout--%>
+    <script src="<c:url value="resources/app/frames/header.js" />"></script>
+    <script src="<c:url value="resources/app/frames/footer.js" />"></script>
 	<script src="<c:url value="resources/app/layout.js" />"></script>
+
 
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
