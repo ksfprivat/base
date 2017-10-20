@@ -39,6 +39,11 @@ div.footer {
     background: #0D47A1;
 }
 
+div.dummy {
+    background: #BDBDBD;
+}
+
+
 .logo {
     float: left;
 }

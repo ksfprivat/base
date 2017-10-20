@@ -1,3 +1,5 @@
+const imgDir = "/resources/img/ui";
+
 function createLayout() {
     VLayout.create({
         width: "100%",
@@ -8,17 +10,23 @@ function createLayout() {
             createFooter()
         ]
     });
-    console.info("Create Layout");
 }
 
 function createMainFrame() {
+   return (
+        HLayout.create({
+            width:  "100%",
+            height: "100%",
+            members:[
+                createNavigationFrame(),
+                createBrowserFrame()
+        ]
+    })
+   );
+}
 
-    return HTMLFlow.create(
-      {
-        width: "100%",
-        height: "100%",
-        contents: "<h1>Hello World !</h1>"
-    });
+function separator() {
+    return VLayout.create({height:3});
 }
 
 function createHeader() {

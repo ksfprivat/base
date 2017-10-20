@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 
@@ -17,8 +18,12 @@
 	<%--JQuery--%>
 	<script src="resources/lib/jquery/jquery-1.11.3.js"></script>
 	<%--Application layout--%>
-    <script src="<c:url value="resources/app/frames/header.js" />"></script>
-    <script src="<c:url value="resources/app/frames/footer.js" />"></script>
+    <script src="<c:url value="resources/app/header.js" />"></script>
+    <script src="<c:url value="resources/app/footer.js" />"></script>
+
+	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
+    <script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
+
 	<script src="<c:url value="resources/app/layout.js" />"></script>
 
 
