@@ -5,6 +5,7 @@
 <head>
     <%--Styles--%>
     <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
+	<link rel="shortcut icon" href="resources/icons/favicon.ico" type="image/x-icon">
 	<%--Isomorphic SmarClient init scripts	--%>
 	<script>var isomorphicDir="/resources/lib/isomorphic/";</script>
 	<script src="resources/lib/isomorphic/system/modules/ISC_Core.js"></script>
@@ -20,6 +21,8 @@
 	<%--Application layout--%>
     <script src="<c:url value="resources/app/header.js" />"></script>
     <script src="<c:url value="resources/app/footer.js" />"></script>
+
+	<script src="<c:url value="resources/app/dataBinding/customers.js" />"></script>
 
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
     <script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
@@ -38,8 +41,6 @@
 </head>
 
 <body onload="initApplication()">
-	<%--<img src="resources/img/logoBlack.png"/><br>--%>
-	<%--<h1>${message}</h1> <br>--%>
-	<%--<a href="logout" > Logout</a>--%>
+
 </body>
 </html>
