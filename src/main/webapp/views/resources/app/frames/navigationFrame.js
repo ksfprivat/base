@@ -75,28 +75,38 @@ function loadNavTreeViewData()
 
         navTreeData = Tree.create({ID:"treeData",  data:nodes});
         navTreeView.setData(navTreeData);
-        dataSource = DataSource({ID:"dataSource"});
-        dataSource.setTestData(navTreeData);
-        dataSource.setClientOnly(true);
-        navTreeView.setDataSource(dataSource);
+
+        dataSource = DataSource.create({
+                ID:"nodesDS",
+                fields: [{name:"title", title:"Наименование"}],
+                clientOnly:true,
+                testData: navTreeData,
+            data:navTreeData
+        });
+
+       navTreeView.setDataSource(dataSource);
+       navTreeView.setData(navTreeData);
+
     });
 }
 
 
 function createNavigationTreeView() {
-     navTreeView = TreeGrid.create({alternateRecordStyles:true,
+
+
+     navTreeView = TreeGrid.create({
+        dataSource: dataSource,
         fields: [{name:"title", title:"Наименование"}],
         folderIcon: imgDir+"/folder.png",
         nodeIcon: imgDir+"/frame.png",
         showOpenIcons:false,
         showDropIcons:false,
         closedIconSuffix:"",
-        autoFetchData:true,
-        dataFetchMode:"local",
-
-        loadDataOnDemand:false,
-        showFilterEditor: true,
-
+         loadDataOnDemand:false,
+         showFilterEditor:true,
+         filterData : function (criteria, callback, requestProperties) {
+             return this.fetchData(criteria, callback, requestProperties);
+         },
         nodeClick: onNodeClick
     });
 
@@ -106,11 +116,7 @@ function createNavigationTreeView() {
 }
 
 function setFilterNavTree() {
-    //navTreeView.filterData({title: "Адм"}, function(dsResponse, data, dsRequest) {
-    //    navTreeData.setData(data);
-    //    console.log(data);
-    //});
-    //navTreeView.setCriteria({title: "Адм."});
-    //console.log("sdfsdf");
-    navTreeView.fetchData({title: "Адм"});
+    navTreeView.filterData({title: "Anna"});
+
+
 }
