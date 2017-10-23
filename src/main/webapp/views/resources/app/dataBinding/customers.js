@@ -9,3 +9,15 @@ function getCustomers(callback) {
         }
     });
 }
+
+function getCustomerNodes(callback) {
+    var result;
+    $.ajax({
+        type: 'POST',
+        url: 'getCustomerNodes',
+        success: function(data) {
+            result = data;
+            if(typeof callback === "function") callback(result);
+        }
+    });
+}

@@ -22,8 +22,12 @@
     <script src="<c:url value="resources/app/header.js" />"></script>
     <script src="<c:url value="resources/app/footer.js" />"></script>
 
+    <%--Data binding    --%>
 	<script src="<c:url value="resources/app/dataBinding/customers.js" />"></script>
+    <script src="<c:url value="resources/app/dataBinding/contracts.js" />"></script>
+    <script src="<c:url value="resources/app/dataBinding/contacts.js" />"></script>
 
+    <%--UI elements   --%>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
     <script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
 
@@ -33,14 +37,14 @@
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
 		function initApplication() {
-			console.info("Application initialization script!");
+			console.info("Application initialization.");
 			createLayout();
         }
 	</script>
 
 </head>
 
-<body onload="initApplication()">
+<body onLoad="initApplication()">
 
 </body>
 </html>
