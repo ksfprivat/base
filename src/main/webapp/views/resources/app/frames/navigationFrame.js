@@ -1,7 +1,7 @@
 var  navTreeView;
 var  navTreeData;
 var  dataSource;
-
+// var  nodes;
 
 function createNavigationFrame() {
     return (
@@ -60,7 +60,7 @@ function onNodeClick(viewer, node, recordNum) {
 
 }
 
-function loadNavTreeViewData()
+function loadNavTreeData()
 {
     getCustomerNodes(function(customers){
         var nodes = [];
@@ -76,42 +76,29 @@ function loadNavTreeViewData()
         navTreeData = Tree.create({ID:"treeData",  data:nodes});
         navTreeView.setData(navTreeData);
 
-        dataSource = DataSource.create({
-                ID:"nodesDS",
-                fields: [{name:"title", title:"Наименование"}],
-                clientOnly:true,
-                testData: navTreeData,
-            data:navTreeData
-        });
-
-       navTreeView.setDataSource(dataSource);
-       navTreeView.setData(navTreeData);
-
+        // dataSource = DataSource.create({
+        //     fields: [{name: "title", title:"Наименование"}],
+        //     clientOnly: true,
+        //     cacheData: nodes
+        // });
+        //
+        // navTreeView.setDataSource(dataSource);
+        // navTreeView.clearCriteria();
     });
 }
 
 
 function createNavigationTreeView() {
-
-
-     navTreeView = TreeGrid.create({
-        dataSource: dataSource,
+    loadNavTreeData();
+    navTreeView = TreeGrid.create({
         fields: [{name:"title", title:"Наименование"}],
         folderIcon: imgDir+"/folder.png",
         nodeIcon: imgDir+"/frame.png",
         showOpenIcons:false,
         showDropIcons:false,
         closedIconSuffix:"",
-         loadDataOnDemand:false,
-         showFilterEditor:true,
-         filterData : function (criteria, callback, requestProperties) {
-             return this.fetchData(criteria, callback, requestProperties);
-         },
         nodeClick: onNodeClick
     });
-
-    loadNavTreeViewData();
-
     return navTreeView;
 }
 
