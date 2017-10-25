@@ -73,17 +73,19 @@ function loadNavTreeData()
                 ]};
         }
 
-        navTreeData = Tree.create({ID:"treeData",  data:nodes});
-        navTreeView.setData(navTreeData);
+        // Local data based tree nodes load method
+        // navTreeData = Tree.create({ID:"treeData",  data:nodes});
+        // navTreeView.setData(navTreeData);
 
-        // dataSource = DataSource.create({
-        //     fields: [{name: "title", title:"Наименование"}],
-        //     clientOnly: true,
-        //     cacheData: nodes
-        // });
-        //
-        // navTreeView.setDataSource(dataSource);
-        // navTreeView.clearCriteria();
+        // Local datasource based tree nodes load method
+        dataSource = DataSource.create({
+            fields: [{name: "title", title:"Наименование"}],
+            clientOnly: true,
+            cacheData: nodes
+        });
+
+        navTreeView.setDataSource(dataSource);
+        navTreeView.clearCriteria();
     });
 }
 
@@ -97,6 +99,7 @@ function createNavigationTreeView() {
         showOpenIcons:false,
         showDropIcons:false,
         closedIconSuffix:"",
+        loadDataOnDemand: true,
         nodeClick: onNodeClick
     });
     return navTreeView;
