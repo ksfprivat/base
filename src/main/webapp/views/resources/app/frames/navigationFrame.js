@@ -1,59 +1,60 @@
-var  navTreeView;
+var  navTree;
 var  navTreeData;
 var  dataSource;
-// var  nodes;
+var  navTreeSearchForm;
+
 
 function createNavigationFrame() {
     return (
-        HLayout.create({
+        VLayout.create({
             width: 280,
             height: "100%",
             showResizeBar: true,
             members: [
-                createNavigationTreeView()
+                createNavTreeToolbar(),
+                createNavTreeSearchBar(),
+                createNavTree()
             ]
         })
     );
 }
 
-// !!! - Здесь пришлось прибегнуть к методам Reverse Engineering.
-// Поскольку оригинальная библиотека SmartClient не предоставляет возможности обработки событий открытия каталога дерева
-// (можно только переопределить метод openFolder() - что блокирует дальнейшую отрисовку открытия ветки) пришлось внедрить
-// в function isc_Tree_openFolder(_1,_2) модуля библиотеки ISC_Grid вызов своей функции onTreeViewOpenFolder
-// В качестве параметра node из оригинальной библиотеки передается параметр _1 - в котором хранится состояние ветки.
-// (!!! - Учесть при смене версий библиотеки SmartClient).
+function createNavTreeToolbar() {
+    return (
+        HLayout.create({
+           width:"100%",
+           members:[
+               Button.create({title: "Filter", click:setFilterNavTree}),
+               Button.create({title: "Clear", click: clearFilterNavTree})
+           ]
+        })
+    );
+}
 
-function onTreeViewOpenFolder(node) {
-    // Загрузка каталога дерева - сработка только при открытии узла
-    if (node.state == "closed") {
-        if (node.baseFolder) {
-            var parentPath = "/"+node._parent_treeData.title+"/"+node.title;
-            var parent = navTreeData.find(parentPath);
+function createNavTreeSearchBar() {
+   navTreeSearchForm = DynamicForm.create({
+       numRows: 0,
+       autoDraw: false,
+       items: [
+           {type: "text", name: "filterEdit", title: "Filter"}
+       ],
+       keyUp: onNavTreeFilterApply
+    });
+   
+    return (
+        HLayout.create({
+            width:"100%",
+            members:[
+                navTreeSearchForm
+            ]
+        })
 
-            navTreeData.unloadChildren(parent);
+    );
+}
 
-            if (node.type == "contacts")
-                getContactNodesByCustomerId(node.parentId, function(contacts) {
-                    navTreeData.addList(contacts, parent);
-                });
-            if (node.type == "contracts")
-                getContractNodesByCustomerId(node.parentId, function(contracts) {
-                    navTreeData.addList(contracts, parent);
-                });
-            // Даже если базовый каталог пустой всеравно вернуть ему статус Каталога
-            node.isFolder = true;
-        }
-    }
-// !!! - Еще одна особенность библиотеки SmartClient - как выяснилось при выполнения метода closeFolder (при закрытии узла дерева)
-// почемуто вызывается метод openFolder, что в нашем случае приводит к нежелательному повторному обращению к серверу (т.е. повторное выполнение кода onTreeViewOpenFolder).
-// Поэтому для избежания избыточных транзакций на стороне сервера (а также повторной передачи данных на сторону клиента)
-// для базовых катаогов вводится дополнительное полее "state", которое указывает текущее состояние opened/closed
-// Это позволяет избежать повторное выполнение кода. Далее идет переключение состояний.
 
-    if (node.state == "closed")
-        node.state = "opened";
-    else
-        node.state = "closed";
+function onNavTreeOpenFolder(node) {
+
 }
 
 function onNodeClick(viewer, node, recordNum) {
@@ -68,14 +69,14 @@ function loadNavTreeData()
         for (var i = 0; i < customers.length; i++) {
             nodes[i] = {title: customers[i].title, name: customers[i].title, id: customers[i].id, isFolder: true, type: "customer",
                 children: [
-                    {title: "Контакты", name: "Контакты", isFolder: true, icon: imgDir+"/contacts.png", type:"contacts", baseFolder:true, state:"closed"},
-                    {title: "Контракты", name: "Контракты", isFolder: true, type: "contracts", baseFolder: true, state:"closed"}
+                    {title: "Контакты", name: "Контакты", isFolder: true, icon: imgDir+"/contacts.png", type:"contacts", search:false},
+                    {title: "Контракты", name: "Контракты", isFolder: true, type: "contracts", search: false}
                 ]};
         }
 
         // Local data based tree nodes load method
-        // navTreeData = Tree.create({ID:"treeData",  data:nodes});
-        // navTreeView.setData(navTreeData);
+        navTreeData = Tree.create({data:nodes});
+
 
         // Local datasource based tree nodes load method
         dataSource = DataSource.create({
@@ -84,29 +85,51 @@ function loadNavTreeData()
             cacheData: nodes
         });
 
-        navTreeView.setDataSource(dataSource);
-        navTreeView.clearCriteria();
+        // navTree.setDataSource(dataSource);
+        navTree.setData(navTreeData);
+       // navTree.clearCriteria();
     });
 }
 
 
-function createNavigationTreeView() {
+function createNavTree() {
     loadNavTreeData();
-    navTreeView = TreeGrid.create({
+    navTree = TreeGrid.create({
+        height: "100%",
         fields: [{name:"title", title:"Наименование"}],
         folderIcon: imgDir+"/folder.png",
         nodeIcon: imgDir+"/frame.png",
         showOpenIcons:false,
         showDropIcons:false,
         closedIconSuffix:"",
-        loadDataOnDemand: true,
+        showHeader: false,
+        // keepParentsOnFilter: true,
+        loadDataOnDemand: false,
         nodeClick: onNodeClick
     });
-    return navTreeView;
+    return navTree;
 }
 
-function setFilterNavTree() {
-    navTreeView.filterData({title: "Anna"});
+function setFilterNavTree(filter) {
+    navTree.setDataSource(dataSource);
+    // navTree.filterData({title: "Anna"});
+    navTree.filterData(filter);
+}
 
+function clearFilterNavTree() {
+    navTree.filterData(null);
+    navTree.setData(navTreeData);
+}
 
+function navTreeIsFiltered() {
+    var filter = navTreeSearchForm.getValue("filterEdit");
+    return filter !== null && filter !== undefined;
+}
+
+function onNavTreeFilterApply() {
+    if (navTreeIsFiltered()) {
+        setFilterNavTree({title: navTreeSearchForm.getValue("filterEdit"), search: true});
+    } else {
+        clearFilterNavTree();
+    }
 }

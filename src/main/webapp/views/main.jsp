@@ -14,7 +14,7 @@
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_Grids.js"/>"></script>
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_Forms.js"/>"></script>
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_DataBinding.js"/>"></script>
-	<script src="<c:url value="resources/lib/isomorphic/skins/Enterprise/load_skin.js"/>"></script>
+	<script src="<c:url value="resources/lib/isomorphic/skins/Tahoe/load_skin.js"/>"></script>
 
 	<%--JQuery--%>
 	<script src="<c:url value="resources/lib/jquery/jquery-1.11.3.js"/>"></script>
@@ -38,6 +38,8 @@
 	<script  type="text/javascript">
 		function initApplication() {
 			console.info("Application initialization.");
+            isc.Canvas.resizeFonts(3);
+            isc.Canvas.resizeControls(10);
 			createLayout();
         }
 	</script>
