@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Collection;
 
-/**
- * Created by Konstantin S. Fedotovskih on 17.10.2017.
- */
+
 @Entity
 public class Customer {
     private int id;

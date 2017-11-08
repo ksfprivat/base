@@ -2,8 +2,9 @@ package ru.base.controllers.nodes;
 
 
 public class CustomerNode {
-    int id;
-    String title;
+    private int id;
+    private String title;
+
 
     public CustomerNode(int id, String title) {
         this.id = id;

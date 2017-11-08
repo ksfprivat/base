@@ -2,9 +2,7 @@ package ru.base.orm.entities;
 
 import javax.persistence.*;
 
-/**
- * Created by Konstantin S. Fedotovskih on 17.10.2017.
- */
+
 @Entity
 public class Contact {
     private int id;
