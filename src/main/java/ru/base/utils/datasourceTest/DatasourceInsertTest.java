@@ -17,7 +17,7 @@ public class DatasourceInsertTest {
         System.out.println("Datasource Delete test");
 
         ApplicationContext ctx =
-                new ClassPathXmlApplicationContext("dataSource.xml");
+                new ClassPathXmlApplicationContext("navTreeCache.xml");
 
         CustomerService customerService =
                 (CustomerService) ctx.getBean("CustomerServiceImpl");

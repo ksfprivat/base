@@ -1,14 +1,15 @@
 var  navTree;
 var  navTreeData;
-var  dataSource;
+var  navTreeCache;
 var  navTreeSearchForm;
+var  selectedNode;
 
 var testContacts = [
-    {title: "Bill"},
-    {title: "Gregory"},
-    {title: "Sergei"},
-    {title: "Larry"},
-    {title: "Melissa"}
+    {title: "Bill", parentId: 730},
+    {title: "Gregory", parentId: 730},
+    {title: "Sergei", parentId: 730},
+    {title: "Larry", parentId: 730},
+    {title: "Melissa", parentId: 730}
 ];
 
 
@@ -32,17 +33,18 @@ function createNavTreeToolbar() {
         HLayout.create({
            width:"100%",
            members:[
-               Button.create({title: "Filter", click:setFilterNavTree}),
-               Button.create({title: "Clear", click: clearFilterNavTree}),
-               Button.create({title: "Open All", click: openAllFolders})
+               Button.create({title: "Filter", width:"80", click:setFilterNavTree}),
+               Button.create({title: "Clear", width:"80",  click: clearFilterNavTree}),
+               Button.create({title: "Open All", width:"80", click: openAllFolders})
            ]
         })
     );
 }
 
 function openAllFolders() {
-
-
+    // console.log(navTree.getData().getAllNodes());
+    navTree.setDataSource(navTreeCache);
+    navTree.filterData(null);
 }
 
 function createNavTreeSearchBar() {
@@ -69,49 +71,69 @@ function createNavTreeSearchBar() {
 
 function onNavTreeOpenFolder(node) {
 
-   if (!navTreeIsFiltered()) {
+   // if (!navTreeIsFiltered())
 
         switch (node.type) {
             case  "contacts":
+                if (!navTreeIsFiltered()) {
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
-                    navTreeData.unloadChildren(node);
-                    navTreeData.addList(contacts, node);
-                });
+                        navTreeData.unloadChildren(node);
+                        navTreeData.addList(contacts, node);
+                });} else {
+                    console.info(node);
+                }
                 break;
         }
-    }
+
     navTree.getData().openFolder(node);
 }
 
 function onNodeClick(viewer, node, recordNum) {
+    selectedNode = node;
+}
+
+
+function loadNavTreeContactNodes(){
 
 }
 
-function loadNavTreeData()
-{
-    getCustomerNodes(function(customers){
+
+function loadNavTreeData() {
+    getCustomerNodes(function (customers) {
         var nodes = [];
 
         for (var i = 0; i < customers.length; i++) {
-            nodes[i] = {title: customers[i].title, name: customers[i].title, id: customers[i].id, isFolder: true, type: "customer",
+            nodes[i] = {
+                title: customers[i].title,
+                name: customers[i].title,
+                id: customers[i].id,
+                isFolder: true,
+                type: "customer",
                 children: [
-                    {title: "Контакты", name: "Контакты", parentId:customers[i].id, isFolder: true, icon: imgDir+"/contacts.png", type:"contacts", search:false},
-                    {title: "Контракты", name: "Контракты", isFolder: true, type: "contracts", search: false}
-                ]};
+                    {
+                        id: "contacts_" + customers[i].id, parentId: customers[i].id,
+                        title: "Контакты", name: "Контакты", isFolder: true, type: "contacts", search: false
+                    },
+                    {
+                        id: "contracts_" + customers[i].id, parentId: customers[i].id,
+                        title: "Контракты", name: "Контракты", isFolder: true, type: "contracts", search: false
+                    }
+                ]
+            };
         }
 
-        // Local data based tree nodes load method
-        navTreeData = Tree.create({data:nodes});
+        // Tree Data
+        navTreeData = Tree.create({data: nodes});
 
-        // Local datasource based tree nodes load method
-        dataSource = DataSource.create({
-            fields: [{name: "title", title:"Наименование"}],
+        // Tree Cache - for enable filtering
+        navTreeCache = DataSource.create({
+            fields: [
+                {name: "id", title: "id", primaryKey: true},
+                {name: "title", title: "Наименование"}],
             clientOnly: true,
             cacheData: nodes
         });
-        // navTree.openAll();
         navTree.setData(navTreeData);
-
     });
 }
 
@@ -137,18 +159,20 @@ function createNavTree() {
 }
 
 function setFilterNavTree(filter) {
-    navTree.setDataSource(dataSource);
+    navTree.setDataSource(navTreeCache);
     navTree.filterData(filter);
 }
 
 function clearFilterNavTree() {
     navTree.filterData(null);
+    navTreeSearchForm.resetValues();
     navTree.setData(navTreeData);
 }
 
 function navTreeIsFiltered() {
     var filter = navTreeSearchForm.getValue("filterEdit");
     return filter !== null && filter !== undefined;
+
 }
 
 function onNavTreeFilterApply() {

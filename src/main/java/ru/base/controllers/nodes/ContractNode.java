@@ -2,8 +2,8 @@ package ru.base.controllers.nodes;
 
 
 public class ContractNode {
-    int id;
-    String title;
+    private int id;
+    private String title;
 
     public ContractNode(int id, String title) {
         this.id = id;

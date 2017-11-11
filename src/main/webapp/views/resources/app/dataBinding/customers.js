@@ -19,5 +19,8 @@ function getCustomerNodes(callback) {
             result = data;
             if(typeof callback === "function") callback(result);
         }
+    }).done(function (result) {
+
+        console.log("do");
     });
 }
