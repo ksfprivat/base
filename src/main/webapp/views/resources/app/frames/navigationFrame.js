@@ -75,13 +75,25 @@ function onNavTreeOpenFolder(node) {
 
         switch (node.type) {
             case  "contacts":
-                if (!navTreeIsFiltered()) {
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
+                    if (!navTreeIsFiltered()) {
+
                         navTreeData.unloadChildren(node);
                         navTreeData.addList(contacts, node);
-                });} else {
-                    console.info(node);
-                }
+                    } else {
+                        var parent = navTreeData.getParent(node);
+                        navTree.setData(navTreeData);
+                        clearFilterNavTree();
+                        navTree.selectRecord(parent);
+                        navTree.scrollToRow(navTree.getFocusRow());
+                        navTree.getData().openFolder(parent);
+                        navTree.selectRecord(node);
+                        navTree.deselectRecord(parent);
+                        navTreeData.unloadChildren(node);
+                        navTreeData.addList(contacts, node);
+                        navTree.getData().openFolder(node);
+                    }
+                });
                 break;
         }
 
