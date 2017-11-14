@@ -39,7 +39,7 @@
 		function initApplication() {
 			console.info("Application initialization.");
             isc.Canvas.resizeFonts(3);
-            isc.Canvas.resizeControls(10);
+            isc.Canvas.resizeControls(8);
 			createLayout();
         }
 	</script>

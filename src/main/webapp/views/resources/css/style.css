@@ -81,10 +81,64 @@ div.dummy {
     padding: 10px;
 }
 
+.toolBtn {
+    color: white;
+    background: #1976D2;
+}
 
 
+.toolBtnDown,
+.toolBtnFocusedDown,
+.toolBtnSelectedDown,
+.toolBtnSelectedFocusedDown,
+.toolBtnOpened,
+.toolBtnOverOpened,
+.toolBtnDownOpened,
+.toolBtnFocusedOpened,
+.toolBtnFocusedDownOpened,
+.toolBtnFocusedOverOpened,
+.toolBtnSelectedOpened,
+.toolBtnSelectedDownOpened,
+.toolBtnSelectedOverOpened {
+    color: white;
+    background: #1E88E5;
+}
 
 
+.toolBtnOver,
+.toolBtnFocusedOver,
+.toolBtnSelectedFocused,
+.toolBtnSelectedFocusedOver,
+.toolBtnOpened,
+.toolBtnOverOpened,
+.toolBtnDownOpened,
+.toolBtnFocusedOpened,
+.toolBtnFocusedDownOpened,
+.toolBtnFocusedOverOpened,
+.toolBtnSelectedOpened,
+.toolBtnSelectedDownOpened,
+.toolBtnSelectedOverOpened {
+    color: white;
+    background: #1565C0;
+}
+
+.toolBtnOpened,
+.toolBtnOverOpened,
+.toolBtnDownOpened,
+.toolBtnFocusedOpened,
+.toolBtnFocusedDownOpened,
+.toolBtnFocusedOverOpened,
+.toolBtnSelectedOpened,
+.toolBtnSelectedDownOpened,
+.toolBtnSelectedOverOpened,
+.toolBtnFocused,
+.toolBtnFocusedOver,
+.toolBtnSelectedFocused,
+.toolBtnSelectedFocusedOver,
+.toolBtnSelectedFocusedDown {
+    color: white;
+    background: #0D47A1;
+}
 
 
 

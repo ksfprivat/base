@@ -16,7 +16,7 @@ var testContacts = [
 function createNavigationFrame() {
     return (
         VLayout.create({
-            width: 280,
+            width: "290",
             height: "100%",
             showResizeBar: true,
             members: [
@@ -29,16 +29,37 @@ function createNavigationFrame() {
 }
 
 function createNavTreeToolbar() {
-    return (
-        HLayout.create({
-           width:"100%",
-           members:[
-               Button.create({title: "Filter", width:"80", click:setFilterNavTree}),
-               Button.create({title: "Clear", width:"80",  click: clearFilterNavTree}),
-               Button.create({title: "Open All", width:"80", click: openAllFolders})
-           ]
-        })
-    );
+    return (ToolStrip.create({
+        height:24,
+        border:0,
+        layoutMargin: 3,
+        members: [
+            ToolStripButton.create({
+                ID: "btnAdd",
+                iconSize: 16,
+                showDownIcon: false,
+                title:"Добавить",
+                icon: imgDir+"/add.png",
+                showFocused: false
+            }),
+            ToolStripButton.create({
+                ID: "btnDelete",
+                iconSize: 16,
+                showDownIcon: false,
+                title:"Удалить",
+                icon: imgDir+"/delete.png",
+                showFocused: false
+            }),
+            ToolStripButton.create({
+                ID: "btnEdit",
+                iconSize: 16,
+                showDownIcon: false,
+                title:"Изменить",
+                icon: imgDir+"/edit.png",
+                showFocused: false
+            })
+        ]
+    }));
 }
 
 function openAllFolders() {
@@ -50,11 +71,14 @@ function openAllFolders() {
 function createNavTreeSearchBar() {
    navTreeSearchForm = DynamicForm.create({
        numRows: 0,
+       width: "100%",
+       numCols: 2,
+       colWidths: [50, "*"],
        autoDraw: false,
+       titleSuffix:"",
        items: [
-           {type: "text", name: "filterEdit", title: "Filter"}
-       ],
-       keyUp: onNavTreeFilterApply
+         {type: "text", name: "filterEdit", title: "Поиск", width:"*", changed:onNavTreeFilterApply}
+       ]
     });
    
     return (
@@ -68,6 +92,19 @@ function createNavTreeSearchBar() {
     );
 }
 
+function openFilteredNode(node, data) {
+    var parent = navTreeData.getParent(node);
+    navTree.setData(navTreeData);
+    clearFilterNavTree();
+    navTree.selectRecord(parent);
+    navTree.scrollToRow(navTree.getFocusRow());
+    navTree.getData().openFolder(parent);
+    navTree.selectRecord(node);
+    navTreeData.unloadChildren(node);
+    navTreeData.addList(data, node);
+    navTree.getData().openFolder(node);
+    navTree.deselectRecord(parent);
+}
 
 function onNavTreeOpenFolder(node) {
 
@@ -77,21 +114,10 @@ function onNavTreeOpenFolder(node) {
             case  "contacts":
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
                     if (!navTreeIsFiltered()) {
-
                         navTreeData.unloadChildren(node);
                         navTreeData.addList(contacts, node);
                     } else {
-                        var parent = navTreeData.getParent(node);
-                        navTree.setData(navTreeData);
-                        clearFilterNavTree();
-                        navTree.selectRecord(parent);
-                        navTree.scrollToRow(navTree.getFocusRow());
-                        navTree.getData().openFolder(parent);
-                        navTree.selectRecord(node);
-                        navTree.deselectRecord(parent);
-                        navTreeData.unloadChildren(node);
-                        navTreeData.addList(contacts, node);
-                        navTree.getData().openFolder(node);
+                        openFilteredNode(node,contacts);
                     }
                 });
                 break;
@@ -103,12 +129,6 @@ function onNavTreeOpenFolder(node) {
 function onNodeClick(viewer, node, recordNum) {
     selectedNode = node;
 }
-
-
-function loadNavTreeContactNodes(){
-
-}
-
 
 function loadNavTreeData() {
     getCustomerNodes(function (customers) {
@@ -154,7 +174,9 @@ function createNavTree() {
     loadNavTreeData();
     navTree = TreeGrid.create({
         height: "100%",
+        width:"100%",
         fields: [{name:"title", title:"Наименование"}],
+        // iconSize: 24,
         folderIcon: imgDir+"/folder.png",
         nodeIcon: imgDir+"/frame.png",
         showOpenIcons:false,
@@ -163,7 +185,6 @@ function createNavTree() {
         alwaysShowOpener: true,
         showHeader: false,
         loadDataOnDemand: false,
-        // keepParentsOnFilter: true,
         nodeClick: onNodeClick,
         openFolder: onNavTreeOpenFolder
     });
