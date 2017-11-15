@@ -81,11 +81,17 @@ div.dummy {
     padding: 10px;
 }
 
+.toolBar {
+    color: white;
+    background: #0D47A1;
+ }
+
 .toolBtn {
     color: white;
     background: #1976D2;
+    padding: 4px;
+    margin: 4px;
 }
-
 
 .toolBtnDown,
 .toolBtnFocusedDown,
@@ -102,6 +108,8 @@ div.dummy {
 .toolBtnSelectedOverOpened {
     color: white;
     background: #1E88E5;
+    padding: 4px;
+    margin: 4px;
 }
 
 
@@ -120,6 +128,8 @@ div.dummy {
 .toolBtnSelectedOverOpened {
     color: white;
     background: #1565C0;
+    padding: 4px;
+    margin: 4px;
 }
 
 .toolBtnOpened,
@@ -138,8 +148,19 @@ div.dummy {
 .toolBtnSelectedFocusedDown {
     color: white;
     background: #0D47A1;
+    padding: 4px;
+    margin: 4px;
 }
 
+.searchBtn,
+.searchBtnOver,
+.searchBtnSelected,
+.searchBtnOpened
+ {
+    background: white;
+    padding: 4px;
+    margin: 4px;
+}
 
 
 

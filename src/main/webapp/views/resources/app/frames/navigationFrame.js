@@ -16,7 +16,7 @@ var testContacts = [
 function createNavigationFrame() {
     return (
         VLayout.create({
-            width: "290",
+            width: "315",
             height: "100%",
             showResizeBar: true,
             members: [
@@ -36,26 +36,26 @@ function createNavTreeToolbar() {
         members: [
             ToolStripButton.create({
                 ID: "btnAdd",
-                iconSize: 16,
+                iconSize: 24,
                 showDownIcon: false,
                 title:"Добавить",
-                icon: imgDir+"/add.png",
+                icon: imgDir+"/ic_add.png",
                 showFocused: false
             }),
             ToolStripButton.create({
                 ID: "btnDelete",
-                iconSize: 16,
+                iconSize: 24,
                 showDownIcon: false,
                 title:"Удалить",
-                icon: imgDir+"/delete.png",
+                icon: imgDir+"/ic_delete.png",
                 showFocused: false
             }),
             ToolStripButton.create({
                 ID: "btnEdit",
-                iconSize: 16,
+                iconSize: 24,
                 showDownIcon: false,
                 title:"Изменить",
-                icon: imgDir+"/edit.png",
+                icon: imgDir+"/ic_edit.png",
                 showFocused: false
             })
         ]
@@ -69,26 +69,26 @@ function openAllFolders() {
 }
 
 function createNavTreeSearchBar() {
+
    navTreeSearchForm = DynamicForm.create({
-       numRows: 0,
+       numRows:0,
        width: "100%",
-       numCols: 2,
-       colWidths: [50, "*"],
+       titleWidth:3,
        autoDraw: false,
        titleSuffix:"",
        items: [
-         {type: "text", name: "filterEdit", title: "Поиск", width:"*", changed:onNavTreeFilterApply}
+         {type: "text", name: "filterEdit", title: null, hint: "Поиск", width:"*",showHintInField:true, changed:onNavTreeFilterApply}
        ]
     });
-   
     return (
         HLayout.create({
             width:"100%",
+            padding: 4,
             members:[
+                Button.create({icon: imgDir+"/ic_search.png", iconSize:24, title:null, width:30, baseStyle:"searchBtn", iconAlign:"center"}),
                 navTreeSearchForm
             ]
         })
-
     );
 }
 
@@ -144,7 +144,7 @@ function loadNavTreeData() {
                 children: [
                     {
                         id: "contacts_" + customers[i].id, parentId: customers[i].id,
-                        title: "Контакты", name: "Контакты", isFolder: true, type: "contacts", search: false
+                        title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contacts", search: false
                     },
                     {
                         id: "contracts_" + customers[i].id, parentId: customers[i].id,
@@ -176,9 +176,9 @@ function createNavTree() {
         height: "100%",
         width:"100%",
         fields: [{name:"title", title:"Наименование"}],
-        // iconSize: 24,
-        folderIcon: imgDir+"/folder.png",
-        nodeIcon: imgDir+"/frame.png",
+        iconSize: 22,
+        folderIcon: imgDir+"/ic_folder.png",
+        nodeIcon: imgDir+"/ic_contact.png",
         showOpenIcons:false,
         showDropIcons:false,
         closedIconSuffix:"",
