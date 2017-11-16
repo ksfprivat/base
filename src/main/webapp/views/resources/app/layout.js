@@ -17,6 +17,7 @@ function createMainFrame() {
         HLayout.create({
             width:  "100%",
             height: "100%",
+
             members:[
                 createNavigationFrame(),
                 createBrowserFrame()

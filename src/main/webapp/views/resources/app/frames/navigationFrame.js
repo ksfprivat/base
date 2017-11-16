@@ -2,7 +2,8 @@ var  navTree;
 var  navTreeData;
 var  navTreeCache;
 var  navTreeSearchForm;
-var  selectedNode;
+var  navTreeTabSet;
+var  navTreeSelectedNode;
 
 var testContacts = [
     {title: "Bill", parentId: 730},
@@ -16,8 +17,9 @@ var testContacts = [
 function createNavigationFrame() {
     return (
         VLayout.create({
-            width: "315",
+            width: "320",
             height: "100%",
+            minWidth: 320,
             showResizeBar: true,
             members: [
                 createNavTreeToolbar(),
@@ -71,21 +73,22 @@ function openAllFolders() {
 function createNavTreeSearchBar() {
 
    navTreeSearchForm = DynamicForm.create({
-       numRows:0,
+       numRows:1,
        width: "100%",
        titleWidth:3,
+       padding: 6,
        autoDraw: false,
        titleSuffix:"",
        items: [
-         {type: "text", name: "filterEdit", title: null, hint: "Поиск", width:"*",showHintInField:true, changed:onNavTreeFilterApply}
+        {type: "text", name: "filterEdit", title: null, hint: "Поиск", width: "*", showHintInField:true, changed:onNavTreeFilterApply}
        ]
     });
+
     return (
         HLayout.create({
             width:"100%",
-            padding: 4,
             members:[
-                Button.create({icon: imgDir+"/ic_search.png", iconSize:24, title:null, width:30, baseStyle:"searchBtn", iconAlign:"center"}),
+                Img.create({imageType: "normal", width:"30", padding: 10,  src: imgDir+"/ic_search.png"}),
                 navTreeSearchForm
             ]
         })
@@ -127,7 +130,7 @@ function onNavTreeOpenFolder(node) {
 }
 
 function onNodeClick(viewer, node, recordNum) {
-    selectedNode = node;
+    navTreeSelectedNode = node;
 }
 
 function loadNavTreeData() {
@@ -174,7 +177,7 @@ function createNavTree() {
     loadNavTreeData();
     navTree = TreeGrid.create({
         height: "100%",
-        width:"100%",
+        // width:"100%",
         fields: [{name:"title", title:"Наименование"}],
         iconSize: 22,
         folderIcon: imgDir+"/ic_folder.png",
@@ -188,7 +191,21 @@ function createNavTree() {
         nodeClick: onNodeClick,
         openFolder: onNavTreeOpenFolder
     });
+
+    // navTreeTabSet = TabSet.create({
+    //     width: "100%",
+    //     height: "100%",
+    //     border: 0,
+    //     padding:0,
+    //     margin:0,
+    //     tabs: [
+    //         {title: "ОРГАНИЗАЦИИ", pane: navTree},
+    //         {title: "КОНТАКТЫ", pane: navTree},
+    //         {title: "КОНТРАКТЫ", pane: navTree}]
+    // });
+
     return navTree;
+    // return navTreeTabSet;
 }
 
 function setFilterNavTree(filter) {
