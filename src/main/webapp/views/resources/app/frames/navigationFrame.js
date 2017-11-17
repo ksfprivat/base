@@ -23,6 +23,7 @@ function createNavigationFrame() {
             showResizeBar: true,
             members: [
                 createNavTreeToolbar(),
+                createSearchBar(),
                 createNavTreeSearchBar(),
                 createNavTree()
             ]

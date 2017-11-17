@@ -163,6 +163,44 @@ div.dummy {
 }
 
 
+.searchBar {
+    padding: 10px;
+    background-color: #1565c0;
+}
 
+.searchTextBox {
+    background-color: white;
+    border-radius: 2px;
+    width: 100%;
+    padding-right: 6px;
+    box-shadow: 0px 0px 13px -3px #000000;
+}
+
+.searchTextBox:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.searchInputText {
+    border: 0;
+    width: 100%;
+    margin-left: 6px;
+    margin-right: 6px;
+    font-size: 12px;
+    font-family: RobotoLight;
+}
+
+.searchInputText:focus {
+    outline-width: 0;
+}
+
+.searchInputText::-ms-clear {
+    display: none;
+}
+
+.img {
+    display: block;
+    margin: auto;
+    outline-width: 0;
+}
 
 
