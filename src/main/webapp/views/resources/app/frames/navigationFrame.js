@@ -1,18 +1,8 @@
 var  navTree;
 var  navTreeData;
 var  navTreeCache;
-var  navTreeSearchForm;
 var  navTreeTabSet;
 var  navTreeSelectedNode;
-
-var testContacts = [
-    {title: "Bill", parentId: 730},
-    {title: "Gregory", parentId: 730},
-    {title: "Sergei", parentId: 730},
-    {title: "Larry", parentId: 730},
-    {title: "Melissa", parentId: 730}
-];
-
 
 function createNavigationFrame() {
     return (
@@ -24,7 +14,6 @@ function createNavigationFrame() {
             members: [
                 createNavTreeToolbar(),
                 createSearchBar(),
-                createNavTreeSearchBar(),
                 createNavTree()
             ]
         })
@@ -65,37 +54,6 @@ function createNavTreeToolbar() {
     }));
 }
 
-function openAllFolders() {
-    // console.log(navTree.getData().getAllNodes());
-    navTree.setDataSource(navTreeCache);
-    navTree.filterData(null);
-}
-
-function createNavTreeSearchBar() {
-
-   navTreeSearchForm = DynamicForm.create({
-       numRows:1,
-       width: "100%",
-       titleWidth:3,
-       padding: 6,
-       autoDraw: false,
-       titleSuffix:"",
-       items: [
-        {type: "text", name: "filterEdit", title: null, hint: "Поиск", width: "*", showHintInField:true, changed:onNavTreeFilterApply}
-       ]
-    });
-
-    return (
-        HLayout.create({
-            width:"100%",
-            members:[
-                Img.create({imageType: "normal", width:"30", padding: 10,  src: imgDir+"/ic_search.png"}),
-                navTreeSearchForm
-            ]
-        })
-    );
-}
-
 function openFilteredNode(node, data) {
     var parent = navTreeData.getParent(node);
     navTree.setData(navTreeData);
@@ -111,7 +69,6 @@ function openFilteredNode(node, data) {
 }
 
 function onNavTreeOpenFolder(node) {
-
         switch (node.type) {
             case  "contacts":
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
@@ -124,7 +81,6 @@ function onNavTreeOpenFolder(node) {
                 });
                 break;
         }
-
     navTree.getData().openFolder(node);
 }
 
@@ -155,7 +111,6 @@ function loadNavTreeData() {
                 ]
             };
         }
-
         // Tree Data
         navTreeData = Tree.create({data: nodes});
 
@@ -167,11 +122,9 @@ function loadNavTreeData() {
             clientOnly: true,
             cacheData: nodes
         });
-
         navTree.setData(navTreeData);
     });
 }
-
 
 function createNavTree() {
     loadNavTreeData();
@@ -217,22 +170,11 @@ function setFilterNavTree(filter) {
 
 function clearFilterNavTree() {
     navTree.filterData(null);
-    //navTreeSearchForm.resetValues();
     $("#searchText").val("");
     navTree.setData(navTreeData);
 }
 
 function navTreeIsFiltered() {
-    //var filter = navTreeSearchForm.getValue("filterEdit");
     var filter = $("#searchText").val();
     return filter !== null && filter !== undefined;
-
-}
-
-function onNavTreeFilterApply() {
-    if (navTreeIsFiltered()) {
-        setFilterNavTree({title: navTreeSearchForm.getValue("filterEdit"), search: true});
-    } else {
-        clearFilterNavTree();
-    }
 }
