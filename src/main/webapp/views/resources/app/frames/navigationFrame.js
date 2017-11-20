@@ -169,6 +169,7 @@ function loadNavTreeData() {
             clientOnly: true,
             cacheData: nodes
         });
+
         navTree.setData(navTreeData);
     });
 }
@@ -178,21 +179,23 @@ function createNavTree() {
     loadNavTreeData();
     navTree = TreeGrid.create({
         height: "100%",
-        // width:"100%",
         fields: [{name:"title", title:"Наименование"}],
         iconSize: 22,
+        border:0,
         folderIcon: imgDir+"/ic_folder.png",
         nodeIcon: imgDir+"/ic_contact.png",
         showOpenIcons:false,
         showDropIcons:false,
         closedIconSuffix:"",
         alwaysShowOpener: true,
+        showEmptyMessage: false,
+        showLoadingIcons:false,
         showHeader: false,
         loadDataOnDemand: false,
         nodeClick: onNodeClick,
         openFolder: onNavTreeOpenFolder
     });
-
+    navTree.showLoadingIcons = false;
     // navTreeTabSet = TabSet.create({
     //     width: "100%",
     //     height: "100%",
@@ -216,12 +219,14 @@ function setFilterNavTree(filter) {
 
 function clearFilterNavTree() {
     navTree.filterData(null);
-    navTreeSearchForm.resetValues();
+    //navTreeSearchForm.resetValues();
+    $("#searchText").val("");
     navTree.setData(navTreeData);
 }
 
 function navTreeIsFiltered() {
-    var filter = navTreeSearchForm.getValue("filterEdit");
+    //var filter = navTreeSearchForm.getValue("filterEdit");
+    var filter = $("#searchText").val();
     return filter !== null && filter !== undefined;
 
 }
