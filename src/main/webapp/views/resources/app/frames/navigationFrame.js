@@ -112,8 +112,6 @@ function openFilteredNode(node, data) {
 
 function onNavTreeOpenFolder(node) {
 
-   // if (!navTreeIsFiltered())
-
         switch (node.type) {
             case  "contacts":
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
