@@ -24,7 +24,7 @@ function createNavigationFrame() {
             members: [
                 createNavTreeToolbar(),
                 createSearchBar(),
-                //createNavTreeSearchBar(),
+                createNavTreeSearchBar(),
                 createNavTree()
             ]
         })
