@@ -164,7 +164,7 @@ div.dummy {
 
 
 .searchBar {
-    padding: 10px;
+    padding: 8px 8px 14px 8px;
     background-color: #1565c0;
 }
 
@@ -173,7 +173,7 @@ div.dummy {
     border-radius: 2px;
     width: 100%;
     padding-right: 6px;
-    box-shadow: 0px 0px 13px -3px #000000;
+    box-shadow: 0 0 13px -3px #000000;
 }
 
 .searchTextBox:hover {
@@ -183,10 +183,9 @@ div.dummy {
 .searchInputText {
     border: 0;
     width: 100%;
-    margin-left: 6px;
     margin-right: 6px;
     font-size: 12px;
-    font-family: RobotoLight;
+    font-family: RobotoLight, serif;
 }
 
 .searchInputText:focus {
@@ -201,6 +200,11 @@ div.dummy {
     display: block;
     margin: auto;
     outline-width: 0;
+}
+
+.tabSet {
+    background-color: #1565c0;
+    font-family: RobotoLight, serif;
 }
 
 

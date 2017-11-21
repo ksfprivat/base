@@ -7,9 +7,9 @@ var  navTreeSelectedNode;
 function createNavigationFrame() {
     return (
         VLayout.create({
-            width: "320",
+            width: 324,
             height: "100%",
-            minWidth: 320,
+            minWidth: 324,
             showResizeBar: true,
             members: [
                 createNavTreeToolbar(),
@@ -146,21 +146,25 @@ function createNavTree() {
         nodeClick: onNodeClick,
         openFolder: onNavTreeOpenFolder
     });
-    navTree.showLoadingIcons = false;
-    // navTreeTabSet = TabSet.create({
-    //     width: "100%",
-    //     height: "100%",
-    //     border: 0,
-    //     padding:0,
-    //     margin:0,
-    //     tabs: [
-    //         {title: "ОРГАНИЗАЦИИ", pane: navTree},
-    //         {title: "КОНТАКТЫ", pane: navTree},
-    //         {title: "КОНТРАКТЫ", pane: navTree}]
-    // });
 
-    return navTree;
-    // return navTreeTabSet;
+    navTreeTabSet = TabSet.create({
+        width: "100%",
+        height: "100%",
+        styleName:"tabSet",
+        showTabScroller:false,
+        showTabPicker:false,
+        showTabContextMenu:false,
+        autoDraw: false,
+        defaultTabWidth:100,
+        paneMargin:0,
+            tabs: [
+             {title: "ОГАНИЗАЦИЯ", pane: navTree},
+             {title: "КОНТАКТЫ",  pane: navTree},
+             {title: "КОНТРАКТЫ", pane: navTree}]
+    });
+
+    //return navTree;
+   return navTreeTabSet;
 }
 
 function setFilterNavTree(filter) {
