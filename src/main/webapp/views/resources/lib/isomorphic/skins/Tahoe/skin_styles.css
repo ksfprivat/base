@@ -1190,6 +1190,7 @@ into the listGrid filterEditor  */
   border: 0;
   color: #ffffff;
   background: #1E88E5;
+  border-bottom: 8px solid #90CAF9;
 }
 
 .tabButtonTopFocused,
@@ -3195,8 +3196,6 @@ ul {
     6) TabSet and tab titles
 ============================================================*/
 .tabSetContainer {
-  /*background-color: white;*/
-  /*border: 1px solid #ffffff;*/
   color: #d6d6d6;
   font-family: RobotoLight;
   font-size: 11px;

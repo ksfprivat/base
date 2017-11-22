@@ -354,7 +354,7 @@ with (theWindow) {
     if (isc.TabBar) {
         isc.TabBar.changeDefaults("baseLineDefaults", {
             _constructor: "Canvas",
-            backgroundColor: "#9C9C9C"
+            backgroundColor: "#1564bf"
         });
         isc.TabBar.changeDefaults("tabDefaults", {
             showFocusOutline: false
