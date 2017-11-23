@@ -3,6 +3,7 @@ var  navTreeData;
 var  navTreeCache;
 var  navTreeTabSet;
 var  navTreeSelectedNode;
+var  navContactsGrid;
 
 function createNavigationFrame() {
     return (
@@ -73,10 +74,12 @@ function onNavTreeOpenFolder(node) {
             case  "contacts":
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
                     if (!navTreeIsFiltered()) {
+                        console.log("no");
                         navTreeData.unloadChildren(node);
                         navTreeData.addList(contacts, node);
                     } else {
-                        openFilteredNode(node,contacts);
+                         console.log("yes");
+                         openFilteredNode(node,contacts);
                     }
                 });
                 break;
@@ -132,6 +135,7 @@ function createNavTree() {
         height: "100%",
         fields: [{name:"title", title:"Наименование"}],
         iconSize: 22,
+        autoDraw: false,
         border:0,
         folderIcon: imgDir+"/ic_folder.png",
         nodeIcon: imgDir+"/ic_contact.png",
@@ -147,6 +151,8 @@ function createNavTree() {
         openFolder: onNavTreeOpenFolder
     });
 
+    navContactsGrid = createNavContactsGrid();
+
     navTreeTabSet = TabSet.create({
         width: "100%",
         height: "100%",
@@ -159,11 +165,11 @@ function createNavTree() {
         paneMargin:0,
             tabs: [
              {title: "ОГАНИЗАЦИЯ", pane: navTree},
-             {title: "КОНТАКТЫ",  pane: navTree},
+             {title: "КОНТАКТЫ",  pane: navContactsGrid},
              {title: "КОНТРАКТЫ", pane: navTree}]
     });
 
-    //return navTree;
+    // return navTree;
    return navTreeTabSet;
 }
 
@@ -179,6 +185,5 @@ function clearFilterNavTree() {
 }
 
 function navTreeIsFiltered() {
-    var filter = $("#searchText").val();
-    return filter !== null && filter !== undefined;
+    return $("#searchText").val().length != 0;
 }

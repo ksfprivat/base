@@ -28,7 +28,8 @@
     <script src="<c:url value="resources/app/dataBinding/contacts.js" />"></script>
 
     <%--UI elements   --%>
-	<script src="<c:url value="resources/app/forms/searchBar.js" />"></script>
+	<script src="<c:url value="resources/app/forms/searchBar.js"/>"></script>
+	<script src="<c:url value="resources/app/frames/navContactsGrid.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
     <script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
 
