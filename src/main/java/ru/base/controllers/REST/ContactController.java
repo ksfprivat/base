@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.base.controllers.items.ContactListItem;
 import ru.base.controllers.nodes.ContactNode;
 import ru.base.orm.entities.Contact;
 import ru.base.orm.services.CustomerService;
@@ -38,5 +39,21 @@ public class ContactController {
       }
 
       return contactNodes;
+   }
+
+   @RequestMapping(value = "getAllContactsNodes", method = RequestMethod.POST)
+   @ResponseBody
+   public List<ContactListItem> getAllContactsNodes() {
+      List<Contact> contacts = customerService.getContacts();
+      List<ContactListItem> contactListItems = new ArrayList<ContactListItem>();
+
+      for (Contact contact: contacts) {
+          if (!contact.getName().equals(""))
+                contactListItems.add(
+                        new ContactListItem(contact.getId(), contact.getName(),
+                                contact.getPosition(), contact.getCustomer().getTitle()));
+      }
+
+      return contactListItems;
    }
 }

@@ -79,6 +79,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
+    public List<Contact> getContacts() {
+        return customerDAO.getContacts();
+    }
+
+    @Override
+    @Transactional
     public List<Contact> getContactsById(int customersId) {
         return customerDAO.getContactsById(customersId);
     }

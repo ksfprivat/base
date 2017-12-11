@@ -1,16 +1,3 @@
-function getContactsByCustomerId(customerId, callback) {
-    var result;
-    $.ajax({
-        type: 'POST',
-        url: 'getContactsByCustomerId',
-        data: 'id='+customerId,
-        success: function (data) {
-            result = data;
-            if (typeof callback === "function") callback(result);
-        }
-    });
-}
-
 function getContactNodesByCustomerId(customerId, callback) {
     var result;
     $.ajax({
@@ -23,3 +10,16 @@ function getContactNodesByCustomerId(customerId, callback) {
         }
     });
 }
+
+function getAllContactsNodes(callback) {
+    var result;
+    $.ajax({
+        type: 'POST',
+        url: 'getAllContactsNodes',
+        success: function(data) {
+            result = data;
+            if(typeof callback === "function") callback(result);
+        }
+    });
+}
+

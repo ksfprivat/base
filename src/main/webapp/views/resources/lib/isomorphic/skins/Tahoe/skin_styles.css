@@ -6840,10 +6840,13 @@ select[disabled] option {
 .specialColSelected,
 .recordSummaryCellSelected,
 .recordSummaryCellSelectedDark {
-  background: #5fbaf2;
-  color: white;
-  border-bottom: 1px solid #5fbaf2;
-  border-top: 1px solid #5fbaf2;
+  /*background: #5fbaf2;*/
+  background: #90CAF9;
+  /*color: white; */
+  /*border-bottom: 1px solid #5fbaf2;*/
+  /*border-top: 1px solid #5fbaf2;*/
+    border-bottom: 1px solid #90CAF9;
+    border-top: 1px solid #90CAF9;
 }
 
 .tallCellSelected,
@@ -6858,7 +6861,7 @@ select[disabled] option {
 .recordSummaryCellSelectedOver,
 .recordSummaryCellSelectedOverDark {
   background-color: #83c9f5;
-  color: white;
+  /*color: white;*/
   border-bottom: 1px solid #5fbaf2;
   border-top: 1px solid #5fbaf2;
 }

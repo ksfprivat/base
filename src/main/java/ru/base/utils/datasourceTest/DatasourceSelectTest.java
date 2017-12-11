@@ -17,7 +17,7 @@ public class DatasourceSelectTest {
 
         System.out.println("Datasource read test");
         ApplicationContext ctx =
-                new ClassPathXmlApplicationContext("navTreeCache.xml");
+                new ClassPathXmlApplicationContext("dataSource.xml");
 
         CustomerService customerService =
                 (CustomerService) ctx.getBean("CustomerServiceImpl");

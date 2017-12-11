@@ -207,4 +207,8 @@ div.dummy {
     font-family: RobotoLight, serif;
 }
 
-
+.listItem {
+    text-align: left;
+    font-family: RobotoLight, serif;
+    width: 100%;
+}

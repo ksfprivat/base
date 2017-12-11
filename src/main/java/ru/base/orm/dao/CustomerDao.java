@@ -13,6 +13,8 @@ public interface CustomerDao {
 
     Contact getContactById(int contactId);
 
+    List<Contact> getContacts();
+
     Contract getContractById(int contractId);
 
     void  insertCustomer(Customer customer);

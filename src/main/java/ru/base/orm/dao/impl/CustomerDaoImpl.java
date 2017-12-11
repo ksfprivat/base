@@ -28,6 +28,12 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<Contact> getContacts() {
+        return sessionFactory.getCurrentSession().createQuery("from Contact order by name").list();
+    }
+
+    @Override
     public Contract getContractById(int contractId) {
         return (Contract) sessionFactory.getCurrentSession().get(Contract.class, contractId);
     }
