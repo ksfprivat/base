@@ -26,9 +26,9 @@ function createMainFrame() {
    );
 }
 
-function separator() {
-    return VLayout.create({height:3});
-}
+// function separator() {
+//     return VLayout.create({height:3});
+// }
 
 function createHeader() {
     return HTMLFlow.create({

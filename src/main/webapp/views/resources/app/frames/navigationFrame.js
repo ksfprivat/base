@@ -74,12 +74,10 @@ function onNavTreeOpenFolder(node) {
             case  "contacts":
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
                     if (!navTreeIsFiltered()) {
-                        console.log("no");
                         navTreeData.unloadChildren(node);
                         navTreeData.addList(contacts, node);
                     } else {
-                         console.log("yes");
-                         openFilteredNode(node,contacts);
+                        openFilteredNode(node,contacts);
                     }
                 });
                 break;
@@ -153,11 +151,6 @@ function createNavTree() {
 
     navContactsGrid = NavContactsGrid.create();
 
-    function _itemClick(i, j) {
-        console.log("item clicked");
-
-    }
-
     navTreeTabSet = TabSet.create({
         width: "100%",
         height: "100%",
@@ -171,22 +164,37 @@ function createNavTree() {
             tabs: [
              {title: "ОГАНИЗАЦИЯ", pane: navTree},
              {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
-             {title: "КОНТРАКТЫ", pane: null}]
+             {title: "КОНТРАКТЫ", pane: null}],
+        onChange: tabChange
      });
 
-    // return navTree;
    return navTreeTabSet;
 }
 
+function tabChange() {
+    console.log("Tab Changed");
+
+}
+
 function setFilterNavTree(filter) {
-    navTree.setDataSource(navTreeCache);
-    navTree.filterData(filter);
+    switch (navTreeTabSet.getSelectedTabNumber()) {
+        case 0: // Companies
+            navTree.setDataSource(navTreeCache);
+            navTree.filterData(filter);
+            break;
+        case 1: // Contacts
+            navContactsGrid.setFilter(filter);
+            break;
+    }
 }
 
 function clearFilterNavTree() {
+   if (navTreeTabSet.getSelectedTabNumber() != 0)
+       navTree.setDataSource(navTreeCache);
     navTree.filterData(null);
     $("#searchText").val("");
     navTree.setData(navTreeData);
+    navContactsGrid.clearFilter();
 }
 
 function navTreeIsFiltered() {

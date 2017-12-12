@@ -43,6 +43,14 @@ var NavContactsGrid =  {
             listGrid.hideFields(["id"]);
             listGrid.clearCriteria();
         });
+    },
+
+    setFilter: function (filter) {
+        this.listGrid.filterData(filter);
+    },
+
+    clearFilter: function () {
+        this.listGrid.filterData(null);
     }
 };
 
