@@ -101,6 +101,34 @@ div.dummy {
     box-shadow: 0 1px 6px 1px #b6b6b6;
 }
 
+.cardBoxTitle {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    /*background-color: #1976D2; !important;*/
+    color: #1565C0; !important;
+    font-size: 20px; !important;
+    padding: 10px;
+    font-family: RobotoLight, sans-serif; !important;
+}
+
+.cardBoxSectionTitle {
+    color: #212121; !important;
+    font-size: 16px; !important;
+    padding-left: 8px;
+    margin-left: 8px;
+    font-family: RobotoLight, sans-serif; !important;
+}
+
+.cardBoxSeparator {
+    height: 1px;
+    padding-left: 16px;
+    margin-left: 16px;
+    padding-right: 16px;
+    margin-right: 16px;
+    margin-top: 4px;
+    background-color: #BDBDBD;
+}
+
 .toolBtnDown,
 .toolBtnFocusedDown,
 .toolBtnSelectedDown,
