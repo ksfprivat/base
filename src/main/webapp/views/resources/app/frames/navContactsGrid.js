@@ -10,6 +10,7 @@ var NavContactsGrid =  {
             alternateFieldStyles: true,
             showHeader: false,
             autoDraw: false,
+            sortField: 1,
             fields: [
                 {name: "id"},
                 {name: "title", title:"Контакты"}
@@ -34,11 +35,11 @@ var NavContactsGrid =  {
                     "<table class='listItem'><tr>"+
                         "<td><img src='"+imgDir+"/ic_contact.png'></td>"+
                         "<td width='100%'>"+contacts[i].title+"" +
-                    "       <br><small style='color: #0D47A1'>"+contacts[i].customerTitle+"<small/></td>"+
+                        "<br><small style='color: #0D47A1'>"+contacts[i].customerTitle+"<small/></td>"+
                     "</tr></table>";
-                this.dataSource.addData({id:i, title: row});
-            }
+                this.dataSource.addData({id:contacts[i].id, title: row});
 
+            }
             listGrid.setDataSource(this.dataSource);
             listGrid.hideFields(["id"]);
             listGrid.clearCriteria();

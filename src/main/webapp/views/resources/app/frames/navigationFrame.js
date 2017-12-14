@@ -149,7 +149,7 @@ function createNavTree() {
         openFolder: onNavTreeOpenFolder
     });
 
-    navContactsGrid = NavContactsGrid.create();
+   navContactsGrid = NavContactsGrid.create();
 
     navTreeTabSet = TabSet.create({
         width: "100%",
@@ -164,7 +164,7 @@ function createNavTree() {
             tabs: [
              {title: "ОГАНИЗАЦИЯ", pane: navTree},
              {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
-             {title: "КОНТРАКТЫ", pane: null}],
+             {title: "КОНТРАКТЫ", pane: navContactsGrid.listGrid}],
         onChange: tabChange
      });
 

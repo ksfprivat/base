@@ -2,6 +2,7 @@ body {
     margin:     0;
     padding:    0;
     border:     0;
+    background: #EEEEEE;
 }
 
 table#container {
@@ -81,6 +82,7 @@ div.dummy {
     padding: 10px;
 }
 
+
 .toolBar {
     color: white;
     background: #0D47A1;
@@ -91,6 +93,12 @@ div.dummy {
     background: #1976D2;
     padding: 4px;
     margin: 4px;
+}
+
+.cardBox {
+    background: white;
+    border-radius: 2px;
+    box-shadow: 0 1px 6px 1px #b6b6b6;
 }
 
 .toolBtnDown,
