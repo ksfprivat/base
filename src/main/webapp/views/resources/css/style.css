@@ -97,23 +97,26 @@ div.dummy {
 
 .cardBox {
     background: white;
+    display: block;
     border-radius: 2px;
     box-shadow: 0 1px 6px 1px #b6b6b6;
+    outline-width: 0;
+    margin: auto;
 }
 
 .cardBoxTitle {
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     /*background-color: #1976D2; !important;*/
-    color: #1565C0; !important;
-    font-size: 20px; !important;
+    color: #2962FF; !important;
+    font-size: 18px; !important;
     padding: 10px;
     font-family: RobotoLight, sans-serif; !important;
 }
 
 .cardBoxSectionTitle {
     color: #212121; !important;
-    font-size: 16px; !important;
+    font-size: 14px; !important;
     padding-left: 8px;
     margin-left: 8px;
     font-family: RobotoLight, sans-serif; !important;
@@ -126,8 +129,15 @@ div.dummy {
     padding-right: 16px;
     margin-right: 16px;
     margin-top: 4px;
-    background-color: #BDBDBD;
+    background-color: #E0E0E0;
 }
+
+.browserArea {
+    background-color: #EEEEEE;
+    display: block;
+    outline-width: 0;
+}
+
 
 .toolBtnDown,
 .toolBtnFocusedDown,
