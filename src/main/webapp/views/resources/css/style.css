@@ -246,6 +246,7 @@ div.dummy {
     display: block;
     margin: auto;
     outline-width: 0;
+    cursor: pointer;
 }
 
 .tabSet {

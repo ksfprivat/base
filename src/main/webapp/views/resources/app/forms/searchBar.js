@@ -28,5 +28,6 @@ function onSearchTextChanged(value) {
 
 function clearSearchText() {
     $("#searchText").val("");
+    $("#navBarSearchTextClearButton").attr("style", "visibility:hidden");
     onSearchTextChanged("");
 }

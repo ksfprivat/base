@@ -193,6 +193,7 @@ function clearFilterNavTree() {
        navTree.setDataSource(navTreeCache);
     navTree.filterData(null);
     $("#searchText").val("");
+    $("#navBarSearchTextClearButton").attr("style", "visibility:hidden");
     navTree.setData(navTreeData);
     navContactsGrid.clearFilter();
 }
