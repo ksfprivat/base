@@ -132,6 +132,18 @@ div.dummy {
     background-color: #E0E0E0;
 }
 
+.cardBoxHeaderButton {
+    display: block;
+    margin: auto;
+    outline-width: 0;
+    cursor: pointer;
+}
+
+.cardBoxHeaderButton:hover {
+    background-color: #EEEEEE;
+    border-radius: 3px;
+}
+
 .browserArea {
     background-color: #EEEEEE;
     display: block;

@@ -6,10 +6,10 @@ var CustomerForm  = {
         this.header = HTMLFlow.create({
             contents:
             "<table class='cardBoxTitle'><tr>"+
-            "<td><input id='cardBoxExpandButton' title='Свернуть' type='image' src='"+imgDir+"/ic_expand.png' class='img' onclick='CustomerForm.cardExpand()'></td>"+
+            "<td><input id='cardBoxExpandButton' title='Свернуть' type='image' src='"+imgDir+"/ic_expand.png' class='cardBoxHeaderButton' onclick='CustomerForm.cardExpand()'></td>"+
             "<td width='100%'>Организация</td>"+
-            "<td><input id='cardBoxCommitChangesButton' title='Сохранить' type='image' src='"+imgDir+"/ic_commit.png' class='img' style='visibility: hidden' onclick='CustomerForm.commitChanges()'></td>"+
-            "<td><input id='cardBoxRollbackChangesButton' title='Отменить' type='image' src='"+imgDir+"/ic_rollback.png' class='img' style='visibility: hidden' onclick='CustomerForm.rollbackChanges()'></td>"+
+            "<td><input id='cardBoxCommitChangesButton' title='Сохранить' type='image' src='"+imgDir+"/ic_commit.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='CustomerForm.commitChanges()'></td>"+
+            "<td><input id='cardBoxRollbackChangesButton' title='Отменить' type='image' src='"+imgDir+"/ic_rollback.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='CustomerForm.rollbackChanges()'></td>"+
             "</tr></table>"
         });
 
