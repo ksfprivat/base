@@ -87,6 +87,7 @@ function onNavTreeOpenFolder(node) {
 
 function onNodeClick(viewer, node, recordNum) {
     navTreeSelectedNode = node;
+    console.log(node);
 }
 
 function loadNavTreeData() {
@@ -149,7 +150,7 @@ function createNavTree() {
         openFolder: onNavTreeOpenFolder
     });
 
-  // navContactsGrid = NavContactsGrid.create();
+    navContactsGrid = NavContactsGrid.create();
 
     navTreeTabSet = TabSet.create({
         width: "100%",
@@ -163,18 +164,13 @@ function createNavTree() {
         paneMargin:0,
             tabs: [
              {title: "ОРГАНИЗАЦИЯ", pane: navTree},
-  //           {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
-             {title: "КОНТРАКТЫ", pane: null}],
-        onChange: tabChange
+             {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
+             {title: "КОНТРАКТЫ", pane: null}]
      });
 
    return navTreeTabSet;
 }
 
-function tabChange() {
-    console.log("Tab Changed");
-
-}
 
 function setFilterNavTree(filter) {
     switch (navTreeTabSet.getSelectedTabNumber()) {
