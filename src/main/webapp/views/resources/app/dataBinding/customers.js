@@ -1,3 +1,16 @@
+function getCustomerById(customerId, callback) {
+    var result;
+    $.ajax({
+        type: 'GET',
+        url: 'getCustomerById',
+        data: 'id='+customerId,
+        success: function (data) {
+            result = data;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+
 function getCustomers(callback) {
     var result;
     $.ajax({

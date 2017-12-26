@@ -3,6 +3,7 @@ var CustomerForm  = {
     create: function () {
         this.expanded = true;
         this.changed = false;
+        this.data = null;
         this.header = HTMLFlow.create({
             contents:
             "<table class='cardBoxTitle'><tr>"+
@@ -71,24 +72,32 @@ var CustomerForm  = {
         return Object.create(this);
     },
 
-    setData: function () {
-        this.changed = false;
+    setData: function (customer) {
+        CustomerForm.changed = false;
+        CustomerForm.data = customer;
+        CustomerForm.titleBlock.setValues(this.data);
+        CustomerForm.addressBlock.setValues(this.data);
         CustomerForm.setChangeBlockState("hidden");
+    },
+
+    getData: function () {
+        return [this.titleBlock.getValues(), this.addressBlock.getValues()][0];
     },
 
     fieldsChanged: function () {
-        this.changed = true;
+        CustomerForm.changed = true;
         CustomerForm.setChangeBlockState("visible");
     },
 
-    commitChanges: function () {
-        this.changed = false;
+    commitChanges: function (customer) {
+        CustomerForm.changed = false;
         CustomerForm.setChangeBlockState("hidden");
+        CustomerForm.data = CustomerForm.getData();
+        refreshSelectedNode();
     },
 
     rollbackChanges: function () {
-        this.changed = false;
-        CustomerForm.setChangeBlockState("hidden");
+        CustomerForm.setData(this.data);
     },
 
     cardExpand: function () {

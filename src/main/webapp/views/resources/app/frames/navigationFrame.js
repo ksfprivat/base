@@ -8,9 +8,9 @@ var  navContactsGrid;
 function createNavigationFrame() {
     return (
         VLayout.create({
-            width: 324,
+            width: 334,
             height: "100%",
-            minWidth: 324,
+            minWidth: 334,
             showResizeBar: true,
             members: [
                 createNavTreeToolbar(),
@@ -85,9 +85,18 @@ function onNavTreeOpenFolder(node) {
     navTree.getData().openFolder(node);
 }
 
+function refreshSelectedNode() {
+    navTreeSelectedNode.title = customerCard.data.title;
+    navTree.refreshRow(navTree.getRowNum(navTreeSelectedNode));
+}
+
 function onNodeClick(viewer, node, recordNum) {
     navTreeSelectedNode = node;
-    console.log(node);
+    if (node.type == "customer") {
+        getCustomerById(node.id, function (customer) {
+            customerCard.setData(customer);
+        });
+    }
 }
 
 function loadNavTreeData() {
@@ -163,7 +172,7 @@ function createNavTree() {
         defaultTabWidth:100,
         paneMargin:0,
             tabs: [
-             {title: "ОРГАНИЗАЦИЯ", pane: navTree},
+             {title: "ОРГАНИЗАЦИИ", pane: navTree},
              {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
              {title: "КОНТРАКТЫ", pane: null}]
      });
