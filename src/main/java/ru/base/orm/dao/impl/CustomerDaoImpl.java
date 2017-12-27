@@ -44,6 +44,11 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    public void updateCustomer(Customer customer) {
+        sessionFactory.getCurrentSession().update(customer);
+    }
+
+    @Override
     public void deleteCustomer(Customer customer) {
         sessionFactory.getCurrentSession().delete(customer);
     }

@@ -15,7 +15,9 @@ public interface CustomerService {
 
     Contract getContractById(int contractId);
 
-    void  insertCustomer(Customer customer);
+    void insertCustomer(Customer customer);
+
+    void updateCustomer(Customer customer);
 
     void  deleteCustomer(Customer customer);
 
@@ -23,7 +25,7 @@ public interface CustomerService {
 
     void deleteContact(Contact contact);
 
-    void  insertContract(Contract contract);
+    void insertContract(Contract contract);
 
     void deleteContract(Contract contract);
 

@@ -3,10 +3,7 @@ package ru.base.controllers.REST;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ru.base.controllers.nodes.ContactNode;
 import ru.base.controllers.nodes.CustomerNode;
 import ru.base.orm.entities.Contact;
@@ -47,4 +44,17 @@ public class CustomerController {
         }
         return customerNodes;
     }
+
+    @RequestMapping(value = "updateCustomer", method = RequestMethod.POST)
+    @ResponseBody
+    public void updateCustomer(Customer customer) {
+        System.out.println(customer.getTitle());
+        System.out.println(customer.getCity());
+        System.out.println(customer.getInn());
+        System.out.println(customer.getTitleFull());
+        System.out.println(customer.getPost());
+
+        customerService.updateCustomer(customer);
+    }
+
 }

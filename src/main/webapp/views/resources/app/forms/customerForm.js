@@ -1,16 +1,16 @@
-var CustomerForm  = {
+var CustomerForm;
+CustomerForm = {
 
     create: function () {
         this.expanded = true;
         this.changed = false;
         this.data = null;
         this.header = HTMLFlow.create({
-            contents:
-            "<table class='cardBoxTitle'><tr>"+
-            "<td><input id='cardBoxExpandButton' title='Свернуть' type='image' src='"+imgDir+"/ic_expand.png' class='cardBoxHeaderButton' onclick='CustomerForm.cardExpand()'></td>"+
-            "<td width='100%'>Организация</td>"+
-            "<td><input id='cardBoxCommitChangesButton' title='Сохранить' type='image' src='"+imgDir+"/ic_commit.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='CustomerForm.commitChanges()'></td>"+
-            "<td><input id='cardBoxRollbackChangesButton' title='Отменить' type='image' src='"+imgDir+"/ic_rollback.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='CustomerForm.rollbackChanges()'></td>"+
+            contents: "<table class='cardBoxTitle'><tr>" +
+            "<td><input id='cardBoxExpandButton' title='Свернуть' type='image' src='" + imgDir + "/ic_expand.png' class='cardBoxHeaderButton' onclick='CustomerForm.cardExpand()'></td>" +
+            "<td width='100%'>Организация</td>" +
+            "<td><input id='cardBoxCommitChangesButton' title='Сохранить' type='image' src='" + imgDir + "/ic_commit.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='CustomerForm.commitChanges()'></td>" +
+            "<td><input id='cardBoxRollbackChangesButton' title='Отменить' type='image' src='" + imgDir + "/ic_rollback.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='CustomerForm.rollbackChanges()'></td>" +
             "</tr></table>"
         });
 
@@ -18,40 +18,42 @@ var CustomerForm  = {
             width: "100%",
             numCols: 2,
             colWidths: [100, "*"],
-            padding:6,
+            padding: 6,
             margin: 8,
-            autoDraw:false,
+            autoDraw: false,
             fields: [
-                {name: "title", title: "Сокращенное", type: "text", width:"100%"},
-                {name: "titleFull", title: "Полное", type: "text", width:"100%"},
-                {name: "address", title: "ИНН", type: "text", width:"200"}
+                {name: "title", title: "Сокращенное", type: "text", width: "100%"},
+                {name: "titleFull", title: "Полное", type: "text", width: "100%"},
+                {name: "inn", title: "ИНН", type: "text", width: "200"}
             ],
             itemChanged: this.fieldsChanged
         });
 
         this.addressBlock = DynamicForm.create({
-            titleOrientation : "top",
+            titleOrientation: "top",
             width: 500,
             numCols: 3,
-            padding:6,
+            padding: 6,
             margin: 8,
-            autoDraw:false,
+            autoDraw: false,
             fields: [
-                {name: "postIndex", title: "Индекс", type: "text"},
+                {name: "post", title: "Индекс", type: "text"},
                 {name: "district", title: "Регион", type: "text"},
                 {name: "region", title: "Область", type: "text"},
                 {name: "city", title: "Город", type: "text"},
-                {name: "address", title: "Улица", type: "text"},
+                {name: "street", title: "Улица", type: "text"},
                 {name: "building", title: "Дом", type: "text"}
             ],
             itemChanged: this.fieldsChanged
+
         });
 
 
         function blockTitle(title) {
             return HTMLFlow.create({
-                contents: "<div class='cardBoxSectionTitle'>"+title+"</div><div class='cardBoxSeparator'/>"
-            });}
+                contents: "<div class='cardBoxSectionTitle'>" + title + "</div><div class='cardBoxSeparator'/>"
+            });
+        }
 
         this.content = VLayout.create({
             width: "100%",
@@ -65,7 +67,6 @@ var CustomerForm  = {
                 this.addressBlock
             ]
         });
-
 
         this.content.setStyleName("cardBox");
 
@@ -81,7 +82,15 @@ var CustomerForm  = {
     },
 
     getData: function () {
-        return [this.titleBlock.getValues(), this.addressBlock.getValues()][0];
+
+      CustomerForm.titleBlock.rememberValues();
+      CustomerForm.addressBlock.rememberValues();
+      var result = $.extend(CustomerForm.titleBlock.getValues(), CustomerForm.addressBlock.getValues());
+
+
+
+      // return [CustomerForm.titleBlock.getValues(), CustomerForm.addressBlock.getValues()][0];
+        return result;
     },
 
     fieldsChanged: function () {
@@ -89,11 +98,14 @@ var CustomerForm  = {
         CustomerForm.setChangeBlockState("visible");
     },
 
-    commitChanges: function (customer) {
+    commitChanges: function () {
         CustomerForm.changed = false;
         CustomerForm.setChangeBlockState("hidden");
         CustomerForm.data = CustomerForm.getData();
-        refreshSelectedNode();
+        console.log(CustomerForm.data);
+        updateCustomer(CustomerForm.data, function (success) {
+            if (success) refreshSelectedNode();
+        })
     },
 
     rollbackChanges: function () {
@@ -105,18 +117,25 @@ var CustomerForm  = {
             if (this.expanded) {
                 this.content.members[i].hide();
                 this.content.setHeight(30);
-                $("#cardBoxExpandButton").attr("src", imgDir+"/ic_collapse.png");
+                $("#cardBoxExpandButton").attr("src", imgDir + "/ic_collapse.png");
             } else {
                 this.content.members[i].show();
                 this.content.setHeight(300);
-                $("#cardBoxExpandButton").attr("src", imgDir+"/ic_expand.png");
+                $("#cardBoxExpandButton").attr("src", imgDir + "/ic_expand.png");
             }
         }
         this.expanded = !this.expanded;
     },
 
     setChangeBlockState: function (state) {
-        $("#cardBoxCommitChangesButton").attr("style", "visibility:"+state);
-        $("#cardBoxRollbackChangesButton").attr("style", "visibility:"+state);
+        $("#cardBoxCommitChangesButton").attr("style", "visibility:" + state);
+        $("#cardBoxRollbackChangesButton").attr("style", "visibility:" + state);
     }
 };
+
+function update(customer, callback) {
+    updateCustomer(customer, function (success) {
+        return success;
+    })
+}
+
