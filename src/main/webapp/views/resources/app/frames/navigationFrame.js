@@ -33,7 +33,8 @@ function createNavTreeToolbar() {
                 showDownIcon: false,
                 title:"Добавить",
                 icon: imgDir+"/ic_add.png",
-                showFocused: false
+                showFocused: false,
+                click: addButtonClick
             }),
             ToolStripButton.create({
                 ID: "btnDelete",
@@ -205,4 +206,21 @@ function clearFilterNavTree() {
 
 function navTreeIsFiltered() {
     return $("#searchText").val().length != 0;
+}
+
+
+function addButtonClick() {
+    console.log("Add button clicked");
+
+    isc.Window.create({
+        title: "Новая организация",
+        showHeaderIcon: false,
+        isModal: true,
+        showModalMask: true,
+        autoCenter: true,
+        autoSize: true,
+        items:[
+            CustomerForm.create("card").content
+        ]
+    });
 }

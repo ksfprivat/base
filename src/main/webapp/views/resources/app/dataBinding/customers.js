@@ -42,11 +42,11 @@ function foo() {
 function updateCustomer(customer, callback) {
     var result;
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: "updateCustomer",
         data: customer,
         success: function() {
-            console.log("Success");
+            console.log("Success: Update customer:"+customer.id);
             result = true;
             if(typeof callback === "function") callback(result);
         },

@@ -45,15 +45,9 @@ public class CustomerController {
         return customerNodes;
     }
 
-    @RequestMapping(value = "updateCustomer", method = RequestMethod.POST)
+    @RequestMapping(value = "updateCustomer", method = RequestMethod.GET)
     @ResponseBody
     public void updateCustomer(Customer customer) {
-        System.out.println(customer.getTitle());
-        System.out.println(customer.getCity());
-        System.out.println(customer.getInn());
-        System.out.println(customer.getTitleFull());
-        System.out.println(customer.getPost());
-
         customerService.updateCustomer(customer);
     }
 

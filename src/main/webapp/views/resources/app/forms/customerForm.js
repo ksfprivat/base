@@ -26,6 +26,7 @@ CustomerForm = {
                 {name: "titleFull", title: "Полное", type: "text", width: "100%"},
                 {name: "inn", title: "ИНН", type: "text", width: "200"}
             ],
+
             itemChanged: this.fieldsChanged
         });
 
@@ -44,6 +45,7 @@ CustomerForm = {
                 {name: "street", title: "Улица", type: "text"},
                 {name: "building", title: "Дом", type: "text"}
             ],
+
             itemChanged: this.fieldsChanged
 
         });
@@ -82,15 +84,13 @@ CustomerForm = {
     },
 
     getData: function () {
-
-      CustomerForm.titleBlock.rememberValues();
-      CustomerForm.addressBlock.rememberValues();
-      var result = $.extend(CustomerForm.titleBlock.getValues(), CustomerForm.addressBlock.getValues());
-
-
-
-      // return [CustomerForm.titleBlock.getValues(), CustomerForm.addressBlock.getValues()][0];
-        return result;
+      // Rewrite addressBlock values in titleBlock (merge values to Customer entity)
+      var result = CustomerForm.titleBlock.getValues();
+      var addressBlockFields = CustomerForm.addressBlock.getFields();
+      for (var i = 0; i < addressBlockFields.length; i++) {
+          result[addressBlockFields[i].name] = CustomerForm.addressBlock.getValue(addressBlockFields[i].name);
+      }
+      return result;
     },
 
     fieldsChanged: function () {
@@ -102,7 +102,6 @@ CustomerForm = {
         CustomerForm.changed = false;
         CustomerForm.setChangeBlockState("hidden");
         CustomerForm.data = CustomerForm.getData();
-        console.log(CustomerForm.data);
         updateCustomer(CustomerForm.data, function (success) {
             if (success) refreshSelectedNode();
         })
@@ -133,9 +132,4 @@ CustomerForm = {
     }
 };
 
-function update(customer, callback) {
-    updateCustomer(customer, function (success) {
-        return success;
-    })
-}
 
