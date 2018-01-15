@@ -1,4 +1,4 @@
-var CustomerForm;
+// var CustomerForm;
 CustomerForm = {
 
     create: function () {
@@ -32,7 +32,7 @@ CustomerForm = {
 
         this.addressBlock = DynamicForm.create({
             titleOrientation: "top",
-            width: 500,
+            colWidths: ["100", "100", "100"],
             numCols: 3,
             padding: 6,
             margin: 8,
@@ -49,7 +49,6 @@ CustomerForm = {
             itemChanged: this.fieldsChanged
 
         });
-
 
         function blockTitle(title) {
             return HTMLFlow.create({

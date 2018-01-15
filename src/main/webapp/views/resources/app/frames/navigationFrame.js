@@ -160,7 +160,7 @@ function createNavTree() {
         openFolder: onNavTreeOpenFolder
     });
 
-    navContactsGrid = NavContactsGrid.create();
+    //navContactsGrid = NavContactsGrid.create();
 
     navTreeTabSet = TabSet.create({
         width: "100%",
@@ -174,7 +174,7 @@ function createNavTree() {
         paneMargin:0,
             tabs: [
              {title: "ОРГАНИЗАЦИИ", pane: navTree},
-             {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
+         //    {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
              {title: "КОНТРАКТЫ", pane: null}]
      });
 
@@ -212,15 +212,7 @@ function navTreeIsFiltered() {
 function addButtonClick() {
     console.log("Add button clicked");
 
-    isc.Window.create({
-        title: "Новая организация",
-        showHeaderIcon: false,
-        isModal: true,
-        showModalMask: true,
-        autoCenter: true,
-        autoSize: true,
-        items:[
-            CustomerForm.create("card").content
-        ]
-    });
+    var customerWindow =  CustomerWindow.create();
+
+
 }
