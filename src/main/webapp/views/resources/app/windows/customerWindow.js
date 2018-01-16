@@ -5,7 +5,7 @@ CustomerWindow = {
             width: "100%",
             contents: "<table class='cardBoxTitle'><tr>" +
             "<td width='100%'>Новая организация</td>" +
-            "<td><input id='cardBoxCommitChangesButton' title='Закрыть' type='image' src='" + imgDir + "/ic_close.png' class='cardBoxHeaderButton' onclick=CustomerWindow.close()></td>" +
+            "<td><input id='cardBoxCommitChangesButton' title='Закрыть' type='image' src='"+imgDir +"/ic_close.png' class='cardBoxHeaderButton' onclick=CustomerWindow.close()></td>" +
             "</tr></table>"
         });
 
@@ -61,7 +61,7 @@ CustomerWindow = {
             });
         }
 
-        this.window = Window.create({
+        this.window = isc.Window.create({
             width: 700,
             showHeaderIcon: false,
             isModal: true,
@@ -85,8 +85,9 @@ CustomerWindow = {
 
     save: function () {
        console.log(CustomerWindow.getData());
-       if (!CustomerWindow.validate()) console.log("ee");
-       CustomerWindow.window.close();
+       if (CustomerWindow.validate()) {
+           CustomerWindow.window.close();
+       }
     },
 
     close: function () {
@@ -106,11 +107,10 @@ CustomerWindow = {
     validate: function () {
         if (CustomerWindow.titleBlock.getValue("title") == undefined) {
             console.log(CustomerWindow.titleBlock.getValue("title"));
-            warn("Необходимо внести наименование организаци !");
+            isc.warn("Необходимо внести наименование организаци !");
             return false
         }
         else return true;
     }
-
 
 };

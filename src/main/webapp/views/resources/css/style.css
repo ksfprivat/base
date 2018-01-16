@@ -129,8 +129,8 @@ div.dummy {
 }
 
 .cardBoxTitle {
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     /*background-color: #1976D2; !important;*/
     color: #2962FF; !important;
     font-size: 18px; !important;

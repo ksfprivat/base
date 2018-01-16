@@ -2495,11 +2495,12 @@ into the listGrid filterEditor  */
   background: #47a7e3;
   color: #fff;
   font-size: 14px;
-  font-weight: bold;
+  /*font-weight: bold;*/
   line-height: 17px;
   padding-left: 10px;
   padding-right: 10px;
-  font-family: calibri;
+  /*font-family: calibri;*/
+  font-family: RobotoLight, sans-serif; !important;
 }
 
 .windowStatusBar,
@@ -3294,7 +3295,7 @@ ul {
 .tabScrollerLeftForwardSpriteDisabled,
 .tabScrollerLeftForwardSprite,
 .tabScrollerLeftForwardSpriteDown {
-  background-image: url(./images/TabSet/tabset_sprite.png);*/
+  background-image: url(./images/TabSet/tabset_sprite.png);
 }
 
 .tabScrollerTopBackSpriteDisabled {
