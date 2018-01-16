@@ -1,6 +1,10 @@
+const TRANSACTION_INSERT = 55555;
+const TRANSACTION_UPDATE = 55556;
+
 CustomerWindow = {
 
-    create: function () {
+    create: function (transactionType) {
+        this.transactionType = transactionType;
         this.header = HTMLFlow.create({
             width: "100%",
             contents: "<table class='cardBoxTitle'><tr>" +
@@ -83,9 +87,13 @@ CustomerWindow = {
         return Object.create(this);
     },
 
-    save: function () {
-       console.log(CustomerWindow.getData());
+   save: function () {
        if (CustomerWindow.validate()) {
+           insertCustomer(CustomerWindow.getData(), function (success) {
+                if (success) {
+                    console.log("OK");
+                }
+           });
            CustomerWindow.window.close();
        }
     },
@@ -107,7 +115,7 @@ CustomerWindow = {
     validate: function () {
         if (CustomerWindow.titleBlock.getValue("title") == undefined) {
             console.log(CustomerWindow.titleBlock.getValue("title"));
-            isc.warn("Необходимо внести наименование организаци !");
+            isc.warn("Необходимо ввести наименование организаци !");
             return false
         }
         else return true;

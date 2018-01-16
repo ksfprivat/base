@@ -51,4 +51,12 @@ public class CustomerController {
         customerService.updateCustomer(customer);
     }
 
+    @RequestMapping(value = "insertCustomer", method = RequestMethod.GET)
+    @ResponseBody
+    public void insertCustomer(Customer customer) { customerService.insertCustomer(customer);}
+
+    @RequestMapping(value = "deleteCustomer", method = RequestMethod.GET)
+    @ResponseBody
+    public void deleteCustomer(@RequestParam(value = "customerId") int customerId) {customerService.deleteCustomer(customerId);}
 }
+

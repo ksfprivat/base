@@ -45,15 +45,54 @@ function updateCustomer(customer, callback) {
         type: "GET",
         url: "updateCustomer",
         data: customer,
-        success: function() {
-            console.log("Success: Update customer:"+customer.id);
+        success: function () {
+            console.log("Success: Update customer:" + customer.title);
             result = true;
-            if(typeof callback === "function") callback(result);
+            if (typeof callback === "function") callback(result);
         },
-        error: function(jqXHR, status, error) {
-            alert("Error:"+ jqXHR.status+"\n\n"+jqXHR.responseText+"\n\n"+error);
+        error: function (jqXHR, status, error) {
+            alert("Error:" + jqXHR.status + "\n\n" + jqXHR.responseText + "\n\n" + error);
             result = false;
-            if(typeof callback === "function") callback(result);
+            if (typeof callback === "function") callback(result);
         }
     });
 }
+
+function insertCustomer(customer, callback) {
+    var result;
+    $.ajax({
+        type: "GET",
+        url: "insertCustomer",
+        data: customer,
+        success: function () {
+            console.log("Success: Insert customer:" + customer.title);
+            result = true;
+            if (typeof callback === "function") callback(result);
+        },
+        error: function (jqXHR, status, error) {
+            alert("Error:" + jqXHR.status + "\n\n" + jqXHR.responseText + "\n\n" + error);
+            result = false;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+
+function deleteCustomer(customerId, callback) {
+    var result;
+    $.ajax({
+        type: "GET",
+        url: "deleteCustomer",
+        data: 'customerId='+customerId,
+        success: function () {
+            console.log("Success: Delete customer:" + customerId);
+            result = true;
+            if (typeof callback === "function") callback(result);
+        },
+        error: function (jqXHR, status, error) {
+            alert("Error:" + jqXHR.status + "\n\n" + jqXHR.responseText + "\n\n" + error);
+            result = false;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+

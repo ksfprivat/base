@@ -42,7 +42,8 @@ function createNavTreeToolbar() {
                 showDownIcon: false,
                 title:"Удалить",
                 icon: imgDir+"/ic_delete.png",
-                showFocused: false
+                showFocused: false,
+                click: deleteButtonClick
             }),
             ToolStripButton.create({
                 ID: "btnEdit",
@@ -160,7 +161,7 @@ function createNavTree() {
         openFolder: onNavTreeOpenFolder
     });
 
-    navContactsGrid = NavContactsGrid.create();
+    // navContactsGrid = NavContactsGrid.create();
 
     navTreeTabSet = TabSet.create({
         width: "100%",
@@ -174,7 +175,7 @@ function createNavTree() {
         paneMargin:0,
             tabs: [
              {title: "ОРГАНИЗАЦИИ", pane: navTree},
-             {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
+             // {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
              {title: "КОНТРАКТЫ", pane: null}]
      });
    return navTreeTabSet;
@@ -211,7 +212,17 @@ function navTreeIsFiltered() {
 function addButtonClick() {
     console.log("Add button clicked");
 
-    var customerWindow =  CustomerWindow.create();
+    var customerWindow =  CustomerWindow.create(TRANSACTION_INSERT);
 
+}
 
+function deleteButtonClick() {
+    isc.ask("Вы хотите удалить: "+navTreeSelectedNode.title,
+        {
+            yesClick: function() {
+                deleteCustomer(navTreeSelectedNode.id, function (success) {
+                    if (success) console.log("Success deleting: "+navTreeSelectedNode.id);
+                });
+                return this.Super('yesClick', arguments);}}
+    );
 }

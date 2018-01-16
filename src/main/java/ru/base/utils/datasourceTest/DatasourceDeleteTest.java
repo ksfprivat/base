@@ -18,7 +18,7 @@ public class DatasourceDeleteTest {
 
 
         try {
-            customerService.deleteCustomer(customerService.getCustomerById(810));
+//            customerService.deleteCustomer(customerService.getCustomerById(810));
 //            customerService.deleteContact(customerService.getContactById(2883));
         } catch (Exception e) {
             System.out.println(e.getMessage());
