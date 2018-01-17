@@ -53,7 +53,11 @@ public class CustomerController {
 
     @RequestMapping(value = "insertCustomer", method = RequestMethod.GET)
     @ResponseBody
-    public void insertCustomer(Customer customer) { customerService.insertCustomer(customer);}
+    public Integer insertCustomer(Customer customer) {
+        Integer id = customerService.insertCustomer(customer);
+        System.out.println("RETURN CUSTOMER_ID:"+id);
+        return id;
+    }
 
     @RequestMapping(value = "deleteCustomer", method = RequestMethod.GET)
     @ResponseBody

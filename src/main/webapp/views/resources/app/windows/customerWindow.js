@@ -89,10 +89,29 @@ CustomerWindow = {
 
    save: function () {
        if (CustomerWindow.validate()) {
-           insertCustomer(CustomerWindow.getData(), function (success) {
-                if (success) {
-                    console.log("OK");
-                }
+
+
+
+           insertCustomer(CustomerWindow.getData(), function (data) {
+
+               var customer = CustomerWindow.getData();
+
+               var node = {
+                   title: customer.title,
+                   name: "1111",
+                   id: Math.round(new Date().getTime()/1000),
+                   isFolder: true,
+                   type: "customer"
+               };
+               // clearFilterNavTree();
+
+               navTreeData.add(node, navTreeData.root);
+               navTree.sort("title");
+               navTree.deselectAllRecords();
+               navTree.selectRecord(node);
+               navTree.scrollToRow(navTree.getFocusRow());
+               onNodeClick(null,node, null);
+               navTreeCache.addData(node);
            });
            CustomerWindow.window.close();
        }

@@ -39,8 +39,10 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public void insertCustomer(Customer customer) {
-        sessionFactory.getCurrentSession().save(customer);
+    public Integer insertCustomer(Customer customer) {
+        Integer id = (Integer) sessionFactory.getCurrentSession().save(customer);
+        System.out.println("CUSTOMER_ID:"+id);
+        return id;
     }
 
     @Override

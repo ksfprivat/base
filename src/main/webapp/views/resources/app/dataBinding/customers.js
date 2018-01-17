@@ -64,9 +64,9 @@ function insertCustomer(customer, callback) {
         type: "GET",
         url: "insertCustomer",
         data: customer,
-        success: function () {
+        success: function (data) {
             console.log("Success: Insert customer:" + customer.title);
-            result = true;
+            result = data;
             if (typeof callback === "function") callback(result);
         },
         error: function (jqXHR, status, error) {

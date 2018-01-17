@@ -23,6 +23,7 @@ public class Customer {
     private Collection<Contract> contractsById;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;

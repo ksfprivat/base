@@ -15,7 +15,7 @@ public interface CustomerService {
 
     Contract getContractById(int contractId);
 
-    void insertCustomer(Customer customer);
+    Integer insertCustomer(Customer customer);
 
     void updateCustomer(Customer customer);
 

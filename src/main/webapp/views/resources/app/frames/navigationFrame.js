@@ -201,7 +201,7 @@ function clearFilterNavTree() {
     $("#searchText").val("");
     $("#navBarSearchTextClearButton").attr("style", "visibility:hidden");
     navTree.setData(navTreeData);
-    navContactsGrid.clearFilter();
+    //navContactsGrid.clearFilter();
 }
 
 function navTreeIsFiltered() {
