@@ -88,40 +88,48 @@ CustomerWindow = {
     },
 
    save: function () {
+        switch (CustomerWindow.transactionType) {
+            case TRANSACTION_INSERT: CustomerWindow.insert();
+                break;
+            case TRANSACTION_UPDATE: CustomerWindow.update();
+                break;
+        }
+   },
+
+   insert: function () {
        if (CustomerWindow.validate()) {
-
-
-
-
-
-               var customer = CustomerWindow.getData();
-
+              var customer = CustomerWindow.getData();
               insertCustomer(customer, function (newCustomerId) {
                   var node = {
                       title: customer.title,
-                      name: "1111",
+                      name: customer.title,
                       id: newCustomerId,
                       isFolder: true,
-                      type: "customer"
+                      type: "customer",
+                      children: [
+                          {
+                              id: "contacts_" + newCustomerId, parentId: newCustomerId,
+                              title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false
+                          },
+                          {
+                              id: "contracts_" + newCustomerId, parentId: newCustomerId,
+                              title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false
+                          }
+                      ]
                   };
-                  if (navTreeIsFiltered()) clearFilterNavTree();
-                  navTreeData.add(node, navTreeData.root);
-                  navTree.sort("title");
-                  navTree.deselectAllRecords();
-                  navTree.selectRecord(node);
-                  navTree.scrollToRow(navTree.getFocusRow());
-                  onNodeClick(null,node, null);
-                  navTreeCache.addData(node);
-
+                  navTreeAddCustomerNode(node);
               });
-
-
-
-               // clearFilterNavTree();
-
-
-               CustomerWindow.window.close();
+              CustomerWindow.window.close();
        }
+    },
+
+    update: function () {
+        if (CustomerWindow.validate()) {
+            updateCustomer(CustomerWindow.getData(), function (success) {
+                if (success) refreshSelectedNode(CustomerWindow.getData());
+            });
+            CustomerWindow.window.close();
+        }
     },
 
     close: function () {
@@ -136,6 +144,13 @@ CustomerWindow = {
             result[addressBlockFields[i].name] = CustomerWindow.addressBlock.getValue(addressBlockFields[i].name);
         }
         return result;
+    },
+
+    setData: function (customer) {
+        console.log(customer);
+        CustomerWindow.data = customer;
+        CustomerWindow.titleBlock.setValues(this.data);
+        CustomerWindow.addressBlock.setValues(this.data);
     },
 
     validate: function () {

@@ -34,7 +34,7 @@ function createNavTreeToolbar() {
                 title:"Добавить",
                 icon: imgDir+"/ic_add.png",
                 showFocused: false,
-                click: addButtonClick
+                click: navTreeAddButtonClick
             }),
             ToolStripButton.create({
                 ID: "btnDelete",
@@ -43,7 +43,7 @@ function createNavTreeToolbar() {
                 title:"Удалить",
                 icon: imgDir+"/ic_delete.png",
                 showFocused: false,
-                click: deleteButtonClick
+                click: navTreeDeleteButtonClick
             }),
             ToolStripButton.create({
                 ID: "btnEdit",
@@ -51,7 +51,8 @@ function createNavTreeToolbar() {
                 showDownIcon: false,
                 title:"Изменить",
                 icon: imgDir+"/ic_edit.png",
-                showFocused: false
+                showFocused: false,
+                click: navTreeEditButtonClick
             })
         ]
     }));
@@ -73,8 +74,12 @@ function openFilteredNode(node, data) {
 
 function onNavTreeOpenFolder(node) {
         switch (node.type) {
-            case  "contacts":
+            case  "contactsFolder":
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
+                    // Add type property for each objects in array
+                    contacts.forEach(function (customer) {
+                        customer.type="contact";
+                    });
                     if (!navTreeIsFiltered()) {
                         navTreeData.unloadChildren(node);
                         navTreeData.addList(contacts, node);
@@ -87,13 +92,14 @@ function onNavTreeOpenFolder(node) {
     navTree.getData().openFolder(node);
 }
 
-function refreshSelectedNode() {
-    navTreeSelectedNode.title = customerCard.data.title;
+function refreshSelectedNode(data) {
+    navTreeSelectedNode.title = data.title;
     navTree.refreshRow(navTree.getRowNum(navTreeSelectedNode));
 }
 
 function onNodeClick(viewer, node, recordNum) {
     navTreeSelectedNode = node;
+    if (!browserFrame.isVisible()) browserFrame.show();
     if (node.type == "customer") {
         getCustomerById(node.id, function (customer) {
             customerCard.setData(customer);
@@ -115,11 +121,11 @@ function loadNavTreeData() {
                 children: [
                     {
                         id: "contacts_" + customers[i].id, parentId: customers[i].id,
-                        title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contacts", search: false
+                        title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false
                     },
                     {
                         id: "contracts_" + customers[i].id, parentId: customers[i].id,
-                        title: "Контракты", name: "Контракты", isFolder: true, type: "contracts", search: false
+                        title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false
                     }
                 ]
             };
@@ -209,20 +215,47 @@ function navTreeIsFiltered() {
 }
 
 
-function addButtonClick() {
-    console.log("Add button clicked");
-
-    var customerWindow =  CustomerWindow.create(TRANSACTION_INSERT);
-
+function navTreeAddButtonClick() {
+    CustomerWindow.create(TRANSACTION_INSERT);
 }
 
-function deleteButtonClick() {
+function navTreeDeleteButtonClick() {
     isc.ask("Вы хотите удалить: "+navTreeSelectedNode.title,
         {
             yesClick: function() {
                 deleteCustomer(navTreeSelectedNode.id, function (success) {
-                    if (success) console.log("Success deleting: "+navTreeSelectedNode.id);
+                    if (success) {
+                        navTreeData.remove(navTreeSelectedNode);
+                        navTreeCache.removeData(navTreeSelectedNode);
+                        browserFrame.hide();
+                        console.log("Success deleting: "+navTreeSelectedNode.id);
+                    }
                 });
                 return this.Super('yesClick', arguments);}}
     );
 }
+
+function navTreeEditButtonClick() {
+   switch (navTreeSelectedNode.type) {
+       case "customer":
+           var customerWindow = CustomerWindow.create(TRANSACTION_UPDATE);
+           getCustomerById(navTreeSelectedNode.id, function (customer) {
+               customerWindow.setData(customer);
+           });
+           customerWindow.setData("Anna");
+           break;
+   }
+
+}
+
+function navTreeAddCustomerNode(node) {
+    if (navTreeIsFiltered()) clearFilterNavTree();
+    navTreeData.add(node, navTreeData.root);
+    navTree.sort("title");
+    navTree.deselectAllRecords();
+    navTree.selectRecord(node);
+    navTree.scrollToRow(navTree.getFocusRow());
+    onNodeClick(null, node, null);
+    navTreeCache.addData(node);
+}
+
