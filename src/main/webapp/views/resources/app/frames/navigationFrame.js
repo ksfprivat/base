@@ -95,6 +95,7 @@ function onNavTreeOpenFolder(node) {
 function refreshSelectedNode(data) {
     navTreeSelectedNode.title = data.title;
     navTree.refreshRow(navTree.getRowNum(navTreeSelectedNode));
+    onNodeClick(null, navTreeSelectedNode, null);
 }
 
 function onNodeClick(viewer, node, recordNum) {
