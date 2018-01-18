@@ -11,11 +11,13 @@ function createBrowserFrame() {
         padding:8,
         margin: 8,
         border:0,
+        autoDraw: false,
         overflow:"auto",
         styleName: "browserArea",
         members: [
             customerCard.content, separator
         ]
     });
+    browserFrame.hide();
     return browserFrame;
 }
