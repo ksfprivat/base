@@ -168,6 +168,31 @@ div.dummy {
     border-radius: 3px;
 }
 
+
+.cardBoxToolButton,
+.cardBoxToolButtonSelected,
+.cardBoxToolButtonDisabled,
+.cardBoxToolButtonSelectedDisabled {
+    color: #2962ff;
+    background-color: white;
+    width: auto;
+}
+
+.cardBoxToolButtonOver,
+.cardBoxToolButtonSelectedOver,
+.cardBoxToolButtonSelected,
+.cardBoxToolButtonSelectedOver,
+.cardBoxToolButtonSelectedDisabled {
+    color: #2962ff;
+    background-color: #EEEEEE;
+    border-radius: 3px;
+}
+
+.cardBoxToolButtonDown,
+.cardBoxToolButtonSelectedDown {
+    color: #2962ff;
+}
+
 .browserArea {
     background-color: #EEEEEE;
     display: block;

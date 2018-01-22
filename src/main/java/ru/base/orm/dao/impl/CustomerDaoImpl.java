@@ -67,8 +67,8 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public void deleteContact(Contact contact) {
-        sessionFactory.getCurrentSession().delete(contact);
+    public void deleteContact(int contactId) {
+        sessionFactory.getCurrentSession().delete(sessionFactory.getCurrentSession().get(Contact.class, contactId));
     }
 
     @Override

@@ -13,23 +13,49 @@ ContactsForm ={
         });
 
 
-        this.btnAddConatact = {};
+        this.btnAddConatact =  IButton.create({
+            iconSize: 24,
+            showDownIcon: false,
+            title:"Добавить",
+            icon: imgDir+"/ic_add_blue.png",
+            showFocused: false,
+            baseStyle:"cardBoxToolButton",
+            click: this.addContact
+        });
 
 
-        this.toolBarBlock = VLayout.create({
+        this.btnDelConatact = IButton.create({
+            iconSize: 24,
+            showDownIcon: false,
+            title:"Удалить",
+            icon: imgDir+"/ic_delete_blue.png",
+            showFocused: false,
+            baseStyle:"cardBoxToolButton",
+            click: this.deleteContact
+        });
+
+
+        this.btnEditConatact = IButton.create({
+            iconSize: 24,
+            showDownIcon: false,
+            title:"Изменить",
+            icon: imgDir+"/ic_edit_blue.png",
+            showFocused: false,
+            baseStyle:"cardBoxToolButton",
+            click: this.editContact
+        });
+
+
+        this.toolBarBlock = HLayout.create({
             width: "100%",
+            margin:4,
             height: 32,
             members:[
-                HTMLFlow.create({
-                    contents:
-                    "<input id= "+this.btnAddConatact+" title='Сохранить' type='image' src='"+
-                    imgDir+"/ic_commit.png' class='cardBoxHeaderButton' onclick=''>"+
+                this.btnAddConatact,
+                this.btnDelConatact,
+                this.btnEditConatact
+            ]});
 
-                    "<input id= "+this.btnAddConatact+" title='Сохранить' type='image' src='"+
-                    imgDir+"/ic_commit.png' class='cardBoxHeaderButton' onclick=''>"
-                })
-            ]
-        });
         this.contactsGrid = ListGrid.create({
             width: "100%",
             height: "100%",
@@ -134,6 +160,30 @@ ContactsForm ={
     setChangeBlockState: function (state) {
         $("#contactsCardBoxCommitChangesButton").attr("style", "visibility:" + state);
         $("#contactsCardBoxRollbackChangesButton").attr("style", "visibility:" + state);
+    },
+
+    addContact: function () {
+       console.log("ADD CONTACT");
+       ContactWindow.create(TRANSACTION_INSERT);
+    },
+
+    deleteContact: function () {
+        console.log(contactsCard.contactsGrid.getSelectedRecord());
+        isc.ask("Вы хотите удалить: "+navTreeSelectedNode.title,
+            {
+                yesClick: function() {
+                    deleteContact(contactsCard.contactsGrid.getSelectedRecord().id, function (success) {
+                        if (success) {
+                            contactsCard.contactsGrid.removeSelectedData();
+                        }
+                    });
+                    return this.Super('yesClick', arguments);}}
+        );
+    },
+
+    editContact: function () {
+        console.log("EDIT CONTACT");
     }
+
 
 };

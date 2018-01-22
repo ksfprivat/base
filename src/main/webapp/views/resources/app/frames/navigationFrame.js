@@ -105,11 +105,10 @@ function onNodeClick(viewer, node, recordNum) {
         getCustomerById(node.id, function (customer) {
             customerCard.setData(customer);
             getContactsByCustomerId(customer.id, function(contacts){
+                contactsCard.customerId = customer.id;
                 contactsCard.setData(contacts);
             })
         });
-
-
     }
 }
 

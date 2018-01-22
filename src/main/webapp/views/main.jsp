@@ -32,6 +32,7 @@
 	<script src="<c:url value="resources/app/forms/customerForm.js"/>"></script>
 	<script src="<c:url value="resources/app/forms/contactsForm.js"/>"></script>
 	<script src="<c:url value="resources/app/windows/customerWindow.js"/>"></script>
+	<script src="<c:url value="resources/app/windows/contactWindow.js"/>"></script>
 
 	<script src="<c:url value="resources/app/frames/navContactsGrid.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>

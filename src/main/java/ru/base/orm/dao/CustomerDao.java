@@ -27,7 +27,7 @@ public interface CustomerDao {
 
     void updateContact(Contact contact);
 
-    void deleteContact(Contact contact);
+    void deleteContact(int contactId);
 
     void insertContract(Contract contract);
 

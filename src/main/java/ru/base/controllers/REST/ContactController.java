@@ -58,10 +58,16 @@ public class ContactController {
    }
 
 
-   @RequestMapping(value = "updateContact", method = RequestMethod.GET)
+    @RequestMapping(value = "updateContact", method = RequestMethod.GET)
     @ResponseBody
     void updateContact(Contact contact) {
         contact.setCustomer(customerService.getCustomerById(contact.getCustomerId()));
         customerService.updateContact(contact);
+    }
+
+    @RequestMapping(value = "deleteContact", method = RequestMethod.GET)
+    @ResponseBody
+    void deleteContact(@RequestParam(value = "contactId") int contactId) {
+       customerService.deleteContact(contactId);
     }
 }

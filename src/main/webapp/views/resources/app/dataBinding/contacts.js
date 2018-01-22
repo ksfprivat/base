@@ -56,3 +56,22 @@ function updateContact(contact, callback) {
         }
     });
 }
+
+function deleteContact(contactId, callback) {
+    var result;
+    $.ajax({
+        type: "GET",
+        url: "deleteContact",
+        data: 'contactId='+contactId,
+        success: function () {
+            console.log("Success: Delete contact:" + contactId);
+            result = true;
+            if (typeof callback === "function") callback(result);
+        },
+        error: function (jqXHR, status, error) {
+            alert("Error:" + jqXHR.status + "\n\n" + jqXHR.responseText + "\n\n" + error);
+            result = false;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
