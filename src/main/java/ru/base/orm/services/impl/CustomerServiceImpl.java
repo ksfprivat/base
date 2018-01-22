@@ -61,6 +61,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
+    public void updateContact(Contact contact) {
+        customerDAO.updateContact(contact);
+    }
+
+    @Override
+    @Transactional
     public void deleteContact(Contact contact) {
         customerDAO.deleteContact(contact);
     }

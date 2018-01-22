@@ -23,6 +23,8 @@ public interface CustomerService {
 
     void insertContact(Contact contact);
 
+    void updateContact(Contact contact);
+
     void deleteContact(Contact contact);
 
     void insertContract(Contract contract);

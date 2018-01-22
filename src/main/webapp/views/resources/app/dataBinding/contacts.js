@@ -11,6 +11,19 @@ function getContactNodesByCustomerId(customerId, callback) {
     });
 }
 
+function getContactsByCustomerId(customerId, callback) {
+    var result;
+    $.ajax({
+        type: 'POST',
+        url: 'getContactsByCustomerId',
+        data: 'id='+customerId,
+        success: function (data) {
+            result = data;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+
 function getAllContactsNodes(callback) {
     var result;
     $.ajax({
@@ -19,6 +32,27 @@ function getAllContactsNodes(callback) {
         success: function(data) {
             result = data;
             if(typeof callback === "function") callback(result);
+        }
+    });
+}
+
+
+function updateContact(contact, callback) {
+    var result;
+
+    $.ajax({
+        type: "GET",
+        url: "updateContact",
+        data: contact,
+        success: function () {
+            console.log("Success: Update contact:" + contact.name);
+            result = true;
+            if (typeof callback === "function") callback(result);
+        },
+        error: function (jqXHR, status, error) {
+            alert("Error:" + jqXHR.status + "\n\n" + jqXHR.responseText + "\n\n" + error);
+            result = false;
+            if (typeof callback === "function") callback(result);
         }
     });
 }

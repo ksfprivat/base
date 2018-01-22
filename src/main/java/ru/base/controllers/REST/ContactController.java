@@ -56,4 +56,12 @@ public class ContactController {
 
       return contactListItems;
    }
+
+
+   @RequestMapping(value = "updateContact", method = RequestMethod.GET)
+    @ResponseBody
+    void updateContact(Contact contact) {
+        contact.setCustomer(customerService.getCustomerById(contact.getCustomerId()));
+        customerService.updateContact(contact);
+    }
 }

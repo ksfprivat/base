@@ -62,6 +62,11 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    public void updateContact(Contact contact) {
+        sessionFactory.getCurrentSession().update(contact);
+    }
+
+    @Override
     public void deleteContact(Contact contact) {
         sessionFactory.getCurrentSession().delete(contact);
     }

@@ -6815,7 +6815,8 @@ select[disabled] option {
 .cellDark,
 .recordSummaryCell,
 .recordSummaryCellDark {
-  background-color: #fafafa;
+  /*background-color: #fafafa;*/
+    background-color: #F5F5F5;
 }
 
 .gridSummaryCell,

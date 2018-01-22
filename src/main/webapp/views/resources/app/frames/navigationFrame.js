@@ -104,7 +104,12 @@ function onNodeClick(viewer, node, recordNum) {
     if (node.type == "customer") {
         getCustomerById(node.id, function (customer) {
             customerCard.setData(customer);
+            getContactsByCustomerId(customer.id, function(contacts){
+                contactsCard.setData(contacts);
+            })
         });
+
+
     }
 }
 

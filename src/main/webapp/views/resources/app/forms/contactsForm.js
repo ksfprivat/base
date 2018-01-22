@@ -1,16 +1,8 @@
-var testData = [
-    {id:"1", name:"Швондер Аркдий Мамонтович", position:"специалист по ЗИ", phone:"(343) 345-75-87", mobile:"922-218-44-56", email:"shvonderAM@yandex.ru", fax:"(343) 345-67-89"},
-    {id:"2", name:"Марвихер Каркан ремингтонович", position:"дректор по режиму", phone:"(343) 345-75-87", mobile:"922-218-44-56", email:"marviherCarckane@mail.ru", fax:"(343) 345-67-89"},
-    {id:"3", name:"Беленгауз Акакий Муромец", position:"осинизатор 1 категории", phone:"(343) 345-75-87", mobile:"922-218-44-56", email:"shitcoinMiner@gmail.com", fax:"(343) 345-67-89"}
-];
-
-
-
 ContactsForm ={
     create: function () {
         this.expanded = true;
         this.changed = false;
-        this.data = null;
+        this.changeCache = [];
         this.header = HTMLFlow.create({
             contents: "<table class='cardBoxTitle'><tr>" +
             "<td><input id='contactsCardExpandButton' title='Свернуть' type='image' src='" + imgDir + "/ic_expand.png' class='cardBoxHeaderButton' onclick='ContactsForm.cardExpand()'></td>" +
@@ -21,17 +13,26 @@ ContactsForm ={
         });
 
 
-        this.toolBarBlock = HLayout.create({
+        this.btnAddConatact = {};
+
+
+        this.toolBarBlock = VLayout.create({
             width: "100%",
             height: 32,
             members:[
-                Button.create({title:"Hello !"})
+                HTMLFlow.create({
+                    contents:
+                    "<input id= "+this.btnAddConatact+" title='Сохранить' type='image' src='"+
+                    imgDir+"/ic_commit.png' class='cardBoxHeaderButton' onclick=''>"+
+
+                    "<input id= "+this.btnAddConatact+" title='Сохранить' type='image' src='"+
+                    imgDir+"/ic_commit.png' class='cardBoxHeaderButton' onclick=''>"
+                })
             ]
         });
         this.contactsGrid = ListGrid.create({
             width: "100%",
             height: "100%",
-            border:0,
             padding: 6,
             margin: 8,
             alternateRecordStyles: true,
@@ -43,15 +44,17 @@ ContactsForm ={
             sortField: 1,
             fields: [
                 {name: "id"},
-                {name: "name", title:"Имя"},
+                {name: "name", title:"Имя", width: 250},
                 {name: "position", title:"Должность"},
                 {name: "phone", title:"Телефон"},
                 {name: "mobile", title:"Мобильный"},
                 {name: "email", title:"E-mail"},
                 {name: "fax", title:"Факс"}
-            ]});
+            ],
+            cellChanged: this.contactsChanged
+        });
+
         this.contactsGrid .hideFields(["id"]);
-        this.contactsGrid.setData(testData);
 
         this.content = VLayout.create({
             width: "100%",
@@ -60,7 +63,7 @@ ContactsForm ={
             autoDraw: false,
             members: [
                 this.header,
-           //     this.toolBarBlock,
+                this.toolBarBlock,
                 this.contactsGrid
             ]
         });
@@ -86,11 +89,51 @@ ContactsForm ={
     },
 
     commitChanges: function () {
+        for (var i = 0; i < contactsCard.changeCache.length; i++) {
 
+            var contact = {};
+
+            contact.id = contactsCard.changeCache[i].id;
+            contact.name = contactsCard.changeCache[i].name;
+            contact.position = contactsCard.changeCache[i].position;
+            contact.phone = contactsCard.changeCache[i].phone;
+            contact.mobile = contactsCard.changeCache[i].mobile;
+            contact.email = contactsCard.changeCache[i].email;
+            contact.fax = contactsCard.changeCache[i].fax;
+            contact.customerId = contactsCard.changeCache[i].customerId;
+
+            updateContact(contact, function(success) {
+
+            });
+        }
+
+        contactsCard.changeCache = [];
+        contactsCard.setChangeBlockState("hidden");
     },
 
-    rollbackChanges: function () {
 
+    rollbackChanges: function () {
+        getContactsByCustomerId(contactsCard.changeCache[0].customerId, function(contacts){
+            contactsCard.setData(contacts);
+        });
+        contactsCard.setChangeBlockState("hidden");
+    },
+
+    contactsChanged:function(record, newValue, oldValue, rowNum, colNum, grid){
+        if (!contactsCard.changeCache.includes(record))
+            contactsCard.changeCache.push(record);
+        contactsCard.setChangeBlockState("visible");
+    },
+
+    setData: function (contacts) {
+        contactsCard.changeCache = [];
+        contactsCard.contactsGrid.setData(contacts);
+    },
+
+
+    setChangeBlockState: function (state) {
+        $("#contactsCardBoxCommitChangesButton").attr("style", "visibility:" + state);
+        $("#contactsCardBoxRollbackChangesButton").attr("style", "visibility:" + state);
     }
 
 };

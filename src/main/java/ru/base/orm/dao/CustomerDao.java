@@ -25,6 +25,8 @@ public interface CustomerDao {
 
     void insertContact(Contact contact);
 
+    void updateContact(Contact contact);
+
     void deleteContact(Contact contact);
 
     void insertContract(Contract contract);
@@ -36,4 +38,5 @@ public interface CustomerDao {
     List<Contact> getContactsById(int customerId);
 
     List<Contract> getContractsById(int customerId);
+
 }
