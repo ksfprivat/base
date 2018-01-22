@@ -355,7 +355,7 @@ some LG header-titles to be vertically offset from other headers */
 .headerSpanButtonDown,
 .headerSpanButtonDisabled {
   color: white;
-  font-weight: bold;
+  /*font-weight: bold;*/
   font-size: 12px;
   background-color: #47a7e3;
   padding: 0px 0px 0px 3px;
@@ -385,7 +385,7 @@ some LG header-titles to be vertically offset from other headers */
 .spannedHeaderButtonDown,
 .spannedHeaderButtonDisabled {
   color: white;
-  font-weight: bold;
+  /*font-weight: bold;*/
   font-size: 12px;
   background-color: #47a7e3;
   padding: 0px 0px 0px 3px;
@@ -6603,7 +6603,7 @@ select[disabled] option {
 .sorterButton {
   background-color: #47a7e3;
   color: white;
-  font-weight: bold;
+  /*font-weight: bold;*/
   font-size: 12px;
   background-color: #47a7e3;
   padding: 0px 0px 0px 3px;
@@ -6615,7 +6615,7 @@ select[disabled] option {
 .headerButtonSelected,
 .sorterButtonSelected {
   color: white;
-  font-weight: bold;
+  /*font-weight: bold;*/
   background-color: #157fcc;
   font-size: 12px;
   padding: 0px 0px 0px 3px;
@@ -6657,7 +6657,7 @@ select[disabled] option {
 .sorterButtonOver,
 .sorterButtonDown {
   color: white;
-  font-weight: bold;
+  /*font-weight: bold;*/
   background-color: #67bff6;
   font-size: 12px;
   padding: 0px 0px 0px 3px;
@@ -6673,7 +6673,7 @@ select[disabled] option {
 .sorterButtonSelectedDown {
   color: white;
   background-color: #157fcc;
-  font-weight: bold;
+  /*font-weight: bold;*/
   font-size: 12px;
   padding: 0px 0px 0px 3px;
   font-family: calibri;
