@@ -2,7 +2,7 @@ ContactWindow = {
 
     create: function (transactionType) {
         this.transactionType = transactionType;
-        this.customerId = null;
+        // this.customerId = customerId;
         this.title = "Новый контакт";
         if (transactionType == TRANSACTION_UPDATE) this.title = "Реактировать контакт";
 
@@ -25,7 +25,7 @@ ContactWindow = {
             autoDraw: false,
             fields: [
                 {name: "name", title: "Имя", type: "text", width: "100%"},
-                {name: "position", title: "Должность", type: "text", width: "100%"},
+                {name: "position", title: "Должность", type: "text", width: "100%"}
             ]
         });
 
@@ -40,7 +40,7 @@ ContactWindow = {
                 {name: "phone", title: "Телефон", type: "text"},
                 {name: "mobile", title: "Мобильный", type: "text"},
                 {name: "email", title: "E-mail", type: "text"},
-                {name: "fax", title: "Факс", type: "text"},
+                {name: "fax", title: "Факс", type: "text"}
             ]
         });
 
@@ -90,14 +90,36 @@ ContactWindow = {
 
     insert: function () {
         if (ContactWindow.validate()) {
-            console.log(ContactWindow.getData());
-            ContactWindow.close();
+            insertContact(ContactWindow.getData(), function (success) {
+                if (success) {
+                    contactsCard.contactsGrid.addData(ContactWindow.getData());
+                    ContactWindow.close();
+                }
+            });
         }
     },
 
     update: function () {
-        console.log("Update contact");
-        ContactWindow.close();
+        if (ContactWindow.validate()) {
+            // Prepare contact entity for transfer into REST controller (remove "customer" property)
+            var contact = ContactWindow.getData();
+            delete contact["customer"];
+            // Update record in contactsGrid of contactsCard
+            var currentRecord  = contactsCard.contactsGrid.getSelectedRecord();
+            currentRecord.name = ContactWindow.nameBlock.getValue("name");
+            currentRecord.postion = ContactWindow.nameBlock.getValue("position");
+            currentRecord.phone = ContactWindow.contactDataBlock.getValue("phone");
+            currentRecord.mobile = ContactWindow.contactDataBlock.getValue("mobile");
+            currentRecord.email = ContactWindow.contactDataBlock.getValue("email");
+            currentRecord.fax = ContactWindow.contactDataBlock.getValue("fax");
+
+            updateContact(ContactWindow.getData(), function (success) {
+                if (success) {
+                    contactsCard.contactsGrid.refreshRow(contactsCard.contactsGrid.getRowNum(currentRecord));
+                    ContactWindow.close();
+                }
+            });
+        }
     },
 
 
@@ -118,6 +140,12 @@ ContactWindow = {
         }
         result.customerId = ContactWindow.customerId;
         return result;
+    },
+
+    setData: function (contact, customerId) {
+      ContactWindow.customerId = customerId;
+      ContactWindow.nameBlock.setValues(contact);
+      ContactWindow.contactDataBlock.setValues(contact);
     },
 
     close: function () {

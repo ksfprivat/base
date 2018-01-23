@@ -3,6 +3,7 @@ ContactsForm ={
         this.expanded = true;
         this.changed = false;
         this.changeCache = [];
+        this.customerId = null;
         this.header = HTMLFlow.create({
             contents: "<table class='cardBoxTitle'><tr>" +
             "<td><input id='contactsCardExpandButton' title='Свернуть' type='image' src='" + imgDir + "/ic_expand.png' class='cardBoxHeaderButton' onclick='ContactsForm.cardExpand()'></td>" +
@@ -11,7 +12,6 @@ ContactsForm ={
             "<td><input id='contactsCardBoxRollbackChangesButton' title='Отменить' type='image' src='" + imgDir + "/ic_rollback.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='ContactsForm.rollbackChanges()'></td>" +
             "</tr></table>"
         });
-
 
         this.btnAddConatact =  IButton.create({
             iconSize: 24,
@@ -80,7 +80,7 @@ ContactsForm ={
             cellChanged: this.contactsChanged
         });
 
-        this.contactsGrid .hideFields(["id"]);
+        this.contactsGrid.hideFields(["id"]);
 
         this.content = VLayout.create({
             width: "100%",
@@ -115,47 +115,44 @@ ContactsForm ={
     },
 
     commitChanges: function () {
-        for (var i = 0; i < contactsCard.changeCache.length; i++) {
+        for (var i = 0; i < ContactsForm.changeCache.length; i++) {
 
             var contact = {};
 
-            contact.id = contactsCard.changeCache[i].id;
-            contact.name = contactsCard.changeCache[i].name;
-            contact.position = contactsCard.changeCache[i].position;
-            contact.phone = contactsCard.changeCache[i].phone;
-            contact.mobile = contactsCard.changeCache[i].mobile;
-            contact.email = contactsCard.changeCache[i].email;
-            contact.fax = contactsCard.changeCache[i].fax;
-            contact.customerId = contactsCard.changeCache[i].customerId;
+            contact.id = ContactsForm.changeCache[i].id;
+            contact.name = ContactsForm.changeCache[i].name;
+            contact.position = ContactsForm.changeCache[i].position;
+            contact.phone = ContactsForm.changeCache[i].phone;
+            contact.mobile = ContactsForm.changeCache[i].mobile;
+            contact.email = ContactsForm.changeCache[i].email;
+            contact.fax = ContactsForm.changeCache[i].fax;
+            contact.customerId = ContactsForm.changeCache[i].customerId;
 
             updateContact(contact, function(success) {
-
             });
         }
-
-        contactsCard.changeCache = [];
-        contactsCard.setChangeBlockState("hidden");
+        ContactsForm.changeCache = [];
+        ContactsForm.setChangeBlockState("hidden");
     },
 
-
     rollbackChanges: function () {
-        getContactsByCustomerId(contactsCard.changeCache[0].customerId, function(contacts){
-            contactsCard.setData(contacts);
+        getContactsByCustomerId(ContactsForm.changeCache[0].customerId, function(contacts){
+            ContactsForm.setData(contacts);
         });
-        contactsCard.setChangeBlockState("hidden");
+        ContactsForm.setChangeBlockState("hidden");
     },
 
     contactsChanged:function(record, newValue, oldValue, rowNum, colNum, grid){
-        if (!contactsCard.changeCache.includes(record))
-            contactsCard.changeCache.push(record);
-        contactsCard.setChangeBlockState("visible");
+        if (!ContactsForm.changeCache.includes(record))
+            ContactsForm.changeCache.push(record);
+        ContactsForm.setChangeBlockState("visible");
     },
 
-    setData: function (contacts) {
-        contactsCard.changeCache = [];
-        contactsCard.contactsGrid.setData(contacts);
+    setData: function (contacts, customerId) {
+        ContactsForm.changeCache = [];
+        ContactsForm.customerId = customerId;
+        ContactsForm.contactsGrid.setData(contacts);
     },
-
 
     setChangeBlockState: function (state) {
         $("#contactsCardBoxCommitChangesButton").attr("style", "visibility:" + state);
@@ -163,18 +160,17 @@ ContactsForm ={
     },
 
     addContact: function () {
-       console.log("ADD CONTACT");
-       ContactWindow.create(TRANSACTION_INSERT);
+       var contactWindow = ContactWindow.create(TRANSACTION_INSERT);
+       contactWindow.setData({}, ContactsForm.customerId )
     },
 
     deleteContact: function () {
-        console.log(contactsCard.contactsGrid.getSelectedRecord());
-        isc.ask("Вы хотите удалить: "+navTreeSelectedNode.title,
+        isc.ask("Вы хотите удалить: "+ContactsForm.contactsGrid.getSelectedRecord().name,
             {
                 yesClick: function() {
-                    deleteContact(contactsCard.contactsGrid.getSelectedRecord().id, function (success) {
+                    deleteContact(ContactsForm.contactsGrid.getSelectedRecord().id, function (success) {
                         if (success) {
-                            contactsCard.contactsGrid.removeSelectedData();
+                            ContactsForm.contactsGrid.removeSelectedData();
                         }
                     });
                     return this.Super('yesClick', arguments);}}
@@ -182,8 +178,7 @@ ContactsForm ={
     },
 
     editContact: function () {
-        console.log("EDIT CONTACT");
+        var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
+        contactWindow.setData(ContactsForm.contactsGrid.getSelectedRecord(), ContactsForm.customerId )
     }
-
-
 };

@@ -39,7 +39,6 @@ function getAllContactsNodes(callback) {
 
 function updateContact(contact, callback) {
     var result;
-
     $.ajax({
         type: "GET",
         url: "updateContact",
@@ -65,6 +64,25 @@ function deleteContact(contactId, callback) {
         data: 'contactId='+contactId,
         success: function () {
             console.log("Success: Delete contact:" + contactId);
+            result = true;
+            if (typeof callback === "function") callback(result);
+        },
+        error: function (jqXHR, status, error) {
+            alert("Error:" + jqXHR.status + "\n\n" + jqXHR.responseText + "\n\n" + error);
+            result = false;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+
+function insertContact(contact, callback) {
+    var result;
+    $.ajax({
+        type: "GET",
+        url: "insertContact",
+        data: contact,
+        success: function () {
+            console.log("Success: Insert contact:" + contact.name);
             result = true;
             if (typeof callback === "function") callback(result);
         },

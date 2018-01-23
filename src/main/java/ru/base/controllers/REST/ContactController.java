@@ -70,4 +70,12 @@ public class ContactController {
     void deleteContact(@RequestParam(value = "contactId") int contactId) {
        customerService.deleteContact(contactId);
     }
+
+
+    @RequestMapping(value = "insertContact", method = RequestMethod.GET)
+    @ResponseBody
+    void insertContact(Contact contact) {
+       contact.setCustomer(customerService.getCustomerById(contact.getCustomerId()));
+       customerService.insertContact(contact);
+    }
 }
