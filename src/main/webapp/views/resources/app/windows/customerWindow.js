@@ -147,7 +147,7 @@ CustomerWindow = {
     },
 
     setData: function (customer) {
-        console.log(customer);
+
         CustomerWindow.data = customer;
         CustomerWindow.titleBlock.setValues(this.data);
         CustomerWindow.addressBlock.setValues(this.data);
@@ -155,7 +155,6 @@ CustomerWindow = {
 
     validate: function () {
         if (CustomerWindow.titleBlock.getValue("title") == undefined) {
-            console.log(CustomerWindow.titleBlock.getValue("title"));
             isc.warn("Необходимо ввести наименование организаци !");
             return false
         }
