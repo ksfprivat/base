@@ -25,3 +25,13 @@ function createBrowserFrame() {
     });
     return browserFrame;
 }
+
+function refreshBrowserFrame(customerId) {
+    console.log("REFRESH BROWSER FRAME !");
+    getCustomerById(customerId, function (customer) {
+        customerCard.setData(customer);
+        getContactsByCustomerId(customer.id, function(contacts){
+            contactsCard.setData(contacts, customer.id);
+        });
+    });
+}

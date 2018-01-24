@@ -102,7 +102,7 @@ CustomerForm = {
         CustomerForm.setChangeBlockState("hidden");
         CustomerForm.data = CustomerForm.getData();
         updateCustomer(CustomerForm.data, function (success) {
-            if (success) refreshSelectedNode(CustomerForm.data);
+            if (success) refreshCustomerNode(CustomerForm.data);
         })
     },
 

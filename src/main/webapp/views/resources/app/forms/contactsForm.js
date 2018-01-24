@@ -129,7 +129,9 @@ ContactsForm ={
             contact.customerId = ContactsForm.changeCache[i].customerId;
 
             updateContact(contact, function(success) {
+               // if (success) changeNodeTitle(contact.id, contact.name);
             });
+            changeNodeTitle(contact.id, contact.name);
         }
         ContactsForm.changeCache = [];
         ContactsForm.setChangeBlockState("hidden");
@@ -165,20 +167,26 @@ ContactsForm ={
     },
 
     deleteContact: function () {
-        isc.ask("Вы хотите удалить: "+ContactsForm.contactsGrid.getSelectedRecord().name,
-            {
-                yesClick: function() {
-                    deleteContact(ContactsForm.contactsGrid.getSelectedRecord().id, function (success) {
-                        if (success) {
-                            ContactsForm.contactsGrid.removeSelectedData();
-                        }
-                    });
-                    return this.Super('yesClick', arguments);}}
-        );
+        var record = ContactsForm.contactsGrid.getSelectedRecord();
+        if (record != null)
+            isc.ask("Вы хотите удалить: "+record.name,
+                {
+                    yesClick: function() {
+                        deleteContact(record.id, function (success) {
+                            if (success) {
+                                ContactsForm.contactsGrid.removeSelectedData();
+                                deleteContactNode(record.id)
+                            }
+                        });
+                        return this.Super('yesClick', arguments);}}
+            );
     },
 
     editContact: function () {
-        var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
-        contactWindow.setData(ContactsForm.contactsGrid.getSelectedRecord(), ContactsForm.customerId )
+        var record = ContactsForm.contactsGrid.getSelectedRecord();
+        if (record != null) {
+            var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
+            contactWindow.setData(record, ContactsForm.customerId)
+        }
     }
 };

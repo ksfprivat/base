@@ -108,11 +108,11 @@ CustomerWindow = {
                       type: "customer",
                       children: [
                           {
-                              id: "contacts_" + newCustomerId, parentId: newCustomerId,
+                              id: "contacts_" + newCustomerId, parentId: newCustomerId, customerID: newCustomerId,
                               title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false
                           },
                           {
-                              id: "contracts_" + newCustomerId, parentId: newCustomerId,
+                              id: "contracts_" + newCustomerId, parentId: newCustomerId, customerID: newCustomerId,
                               title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false
                           }
                       ]
@@ -126,7 +126,7 @@ CustomerWindow = {
     update: function () {
         if (CustomerWindow.validate()) {
             updateCustomer(CustomerWindow.getData(), function (success) {
-                if (success) refreshSelectedNode(CustomerWindow.getData());
+                if (success) refreshCustomerNode(CustomerWindow.getData());
             });
             CustomerWindow.window.close();
         }

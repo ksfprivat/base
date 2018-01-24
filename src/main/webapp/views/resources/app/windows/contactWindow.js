@@ -89,10 +89,12 @@ ContactWindow = {
     },
 
     insert: function () {
+        var contact = ContactWindow.getData();
         if (ContactWindow.validate()) {
-            insertContact(ContactWindow.getData(), function (success) {
+            insertContact(contact, function (success) {
                 if (success) {
-                    contactsCard.contactsGrid.addData(ContactWindow.getData());
+                    contactsCard.contactsGrid.addData(contact);
+                    addContactNode(contact.customerId, contact);
                     ContactWindow.close();
                 }
             });
@@ -112,10 +114,10 @@ ContactWindow = {
             currentRecord.mobile = ContactWindow.contactDataBlock.getValue("mobile");
             currentRecord.email = ContactWindow.contactDataBlock.getValue("email");
             currentRecord.fax = ContactWindow.contactDataBlock.getValue("fax");
-
             updateContact(ContactWindow.getData(), function (success) {
                 if (success) {
                     contactsCard.contactsGrid.refreshRow(contactsCard.contactsGrid.getRowNum(currentRecord));
+                    changeNodeTitle(currentRecord.id, currentRecord.name);
                     ContactWindow.close();
                 }
             });

@@ -4,6 +4,7 @@ var  navTreeCache;
 var  navTreeTabSet;
 var  navTreeSelectedNode;
 var  navContactsGrid;
+var  navTreeCurrentCustomerId;
 
 function createNavigationFrame() {
     return (
@@ -77,8 +78,9 @@ function onNavTreeOpenFolder(node) {
             case  "contactsFolder":
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
                     // Add type property for each objects in array
-                    contacts.forEach(function (customer) {
-                        customer.type="contact";
+                    contacts.forEach(function (contact) {
+                        contact.type="contact";
+                        contact.customerId = node.parentId;
                     });
                     if (!navTreeIsFiltered()) {
                         navTreeData.unloadChildren(node);
@@ -92,22 +94,67 @@ function onNavTreeOpenFolder(node) {
     navTree.getData().openFolder(node);
 }
 
-function refreshSelectedNode(data) {
-    navTreeSelectedNode.title = data.title;
-    navTree.refreshRow(navTree.getRowNum(navTreeSelectedNode));
-    onNodeClick(null, navTreeSelectedNode, null);
+
+function addContactNode(customerId, contact) {
+    var folder = navTreeData.findById("contacts_"+customerId);
+
+    if (typeof folder != "undefined") {
+        var node={
+            id: contact.id,
+            title: contact.name,
+            name: contact.name,
+            type :"contact"
+        };
+        navTreeData.add(node, folder);
+    }
+}
+
+function deleteContactNode(id) {
+    var node =  navTreeData.findById(id);
+
+    if (typeof node != "undefined") {
+        navTreeData.remove(node);
+    }
+}
+
+
+
+function changeNodeTitle(id, title) {
+    var node = navTreeData.findById(id);
+    if (typeof node != "undefined") {
+         if (navTree.getRowNum(node) > 0) {
+            node.title = title;
+            navTree.refreshRow(navTree.getRowNum(node));
+         }
+    }
+}
+
+
+function refreshCustomerNode(data) {
+    if (navTreeSelectedNode.type == "customer") {
+        navTreeSelectedNode.title = data.title;
+        navTree.refreshRow(navTree.getRowNum(navTreeSelectedNode));
+    } else {
+        var customerNode = navTreeData.findById(navTreeSelectedNode.customerId);
+        customerNode.title = data.title;
+        navTree.refreshRow(navTree.getRowNum(customerNode));
+    }
 }
 
 function onNodeClick(viewer, node, recordNum) {
     navTreeSelectedNode = node;
     if (!browserFrame.isVisible()) browserFrame.show();
     if (node.type == "customer") {
-        getCustomerById(node.id, function (customer) {
-            customerCard.setData(customer);
-            getContactsByCustomerId(customer.id, function(contacts){
-                contactsCard.setData(contacts, customer.id);
-            })
-        });
+        if (navTreeCurrentCustomerId != node.id) {
+            refreshBrowserFrame(node.id);
+            navTreeCurrentCustomerId = node.id;
+        }
+    } else {
+        if (navTreeCurrentCustomerId != node.customerId) {
+            refreshBrowserFrame(node.customerId);
+            navTreeCurrentCustomerId = node.customerId;
+            var customer = navTreeData.findById(node.customerId);
+        }
     }
 }
 
@@ -124,11 +171,11 @@ function loadNavTreeData() {
                 type: "customer",
                 children: [
                     {
-                        id: "contacts_" + customers[i].id, parentId: customers[i].id,
+                        id: "contacts_" + customers[i].id, parentId: customers[i].id, customerId: customers[i].id,
                         title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false
                     },
                     {
-                        id: "contracts_" + customers[i].id, parentId: customers[i].id,
+                        id: "contracts_" + customers[i].id, parentId: customers[i].id, customerId: customers[i].id,
                         title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false
                     }
                 ]
