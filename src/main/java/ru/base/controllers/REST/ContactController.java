@@ -74,8 +74,8 @@ public class ContactController {
 
     @RequestMapping(value = "insertContact", method = RequestMethod.GET)
     @ResponseBody
-    void insertContact(Contact contact) {
+    Integer insertContact(Contact contact) {
        contact.setCustomer(customerService.getCustomerById(contact.getCustomerId()));
-       customerService.insertContact(contact);
+        return customerService.insertContact(contact);
     }
 }

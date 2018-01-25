@@ -57,8 +57,8 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public void insertContact(Contact contact) {
-        sessionFactory.getCurrentSession().save(contact);
+    public Integer insertContact(Contact contact) {
+        return (Integer) sessionFactory.getCurrentSession().save(contact);
     }
 
     @Override

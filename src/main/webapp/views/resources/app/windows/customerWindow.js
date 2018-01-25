@@ -108,11 +108,11 @@ CustomerWindow = {
                       type: "customer",
                       children: [
                           {
-                              id: "contacts_" + newCustomerId, parentId: newCustomerId, customerID: newCustomerId,
+                              id: "contacts_" + newCustomerId, parentId: newCustomerId, customerId: newCustomerId,
                               title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false
                           },
                           {
-                              id: "contracts_" + newCustomerId, parentId: newCustomerId, customerID: newCustomerId,
+                              id: "contracts_" + newCustomerId, parentId: newCustomerId, customerId: newCustomerId,
                               title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false
                           }
                       ]

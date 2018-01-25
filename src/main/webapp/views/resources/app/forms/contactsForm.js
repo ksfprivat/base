@@ -67,7 +67,6 @@ ContactsForm ={
             showSortNumerals: false,
             canEdit:true,
             autoDraw: false,
-            sortField: 1,
             fields: [
                 {name: "id"},
                 {name: "name", title:"Имя", width: 250},
@@ -77,6 +76,7 @@ ContactsForm ={
                 {name: "email", title:"E-mail"},
                 {name: "fax", title:"Факс"}
             ],
+            sortField: "name",
             cellChanged: this.contactsChanged
         });
 
@@ -168,6 +168,7 @@ ContactsForm ={
 
     deleteContact: function () {
         var record = ContactsForm.contactsGrid.getSelectedRecord();
+        console.log(record);
         if (record != null)
             isc.ask("Вы хотите удалить: "+record.name,
                 {

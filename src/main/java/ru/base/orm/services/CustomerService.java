@@ -21,7 +21,7 @@ public interface CustomerService {
 
     void  deleteCustomer(int customerId);
 
-    void insertContact(Contact contact);
+    Integer insertContact(Contact contact);
 
     void updateContact(Contact contact);
 

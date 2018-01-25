@@ -55,8 +55,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public void insertContact(Contact contact) {
-        customerDAO.insertContact(contact);
+    public Integer insertContact(Contact contact) {
+        return customerDAO.insertContact(contact);
     }
 
     @Override

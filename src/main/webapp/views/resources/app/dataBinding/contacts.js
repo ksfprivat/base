@@ -81,9 +81,9 @@ function insertContact(contact, callback) {
         type: "GET",
         url: "insertContact",
         data: contact,
-        success: function () {
+        success: function (data) {
             console.log("Success: Insert contact:" + contact.name);
-            result = true;
+            result = data;
             if (typeof callback === "function") callback(result);
         },
         error: function (jqXHR, status, error) {

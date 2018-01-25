@@ -101,6 +101,7 @@ function addContactNode(customerId, contact) {
     if (typeof folder != "undefined") {
         var node={
             id: contact.id,
+            customerId: customerId,
             title: contact.name,
             name: contact.name,
             type :"contact"
@@ -143,6 +144,7 @@ function refreshCustomerNode(data) {
 
 function onNodeClick(viewer, node, recordNum) {
     navTreeSelectedNode = node;
+    console.log(node);
     if (!browserFrame.isVisible()) browserFrame.show();
     if (node.type == "customer") {
         if (navTreeCurrentCustomerId != node.id) {
@@ -214,6 +216,7 @@ function createNavTree() {
         showLoadingIcons:false,
         showHeader: false,
         loadDataOnDemand: false,
+        sortField: "title",
         nodeClick: onNodeClick,
         openFolder: onNavTreeOpenFolder
     });
@@ -301,7 +304,6 @@ function navTreeEditButtonClick() {
 function navTreeAddCustomerNode(node) {
     if (navTreeIsFiltered()) clearFilterNavTree();
     navTreeData.add(node, navTreeData.root);
-    navTree.sort("title");
     navTree.deselectAllRecords();
     navTree.selectRecord(node);
     navTree.scrollToRow(navTree.getFocusRow());

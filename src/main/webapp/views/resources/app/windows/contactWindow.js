@@ -91,12 +91,11 @@ ContactWindow = {
     insert: function () {
         var contact = ContactWindow.getData();
         if (ContactWindow.validate()) {
-            insertContact(contact, function (success) {
-                if (success) {
+            insertContact(contact, function (newContactId) {
+                    contact.id = newContactId;
                     contactsCard.contactsGrid.addData(contact);
                     addContactNode(contact.customerId, contact);
                     ContactWindow.close();
-                }
             });
         }
     },
