@@ -1,3 +1,16 @@
+function getContactById(contactId, callback) {
+    var result;
+    $.ajax({
+        type: 'GET',
+        url: 'getContactById',
+        data: 'id='+contactId,
+        success: function (data) {
+            result = data;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+
 function getContactNodesByCustomerId(customerId, callback) {
     var result;
     $.ajax({

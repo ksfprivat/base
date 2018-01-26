@@ -118,8 +118,6 @@ function deleteContactNode(id) {
     }
 }
 
-
-
 function changeNodeTitle(id, title) {
     var node = navTreeData.findById(id);
     if (typeof node != "undefined") {
@@ -144,7 +142,6 @@ function refreshCustomerNode(data) {
 
 function onNodeClick(viewer, node, recordNum) {
     navTreeSelectedNode = node;
-    console.log(node);
     if (!browserFrame.isVisible()) browserFrame.show();
     if (node.type == "customer") {
         if (navTreeCurrentCustomerId != node.id) {
@@ -270,31 +267,73 @@ function navTreeIsFiltered() {
 
 
 function navTreeAddButtonClick() {
-    CustomerWindow.create(TRANSACTION_INSERT);
+    switch (navTreeSelectedNode.type) {
+        case "customer":
+            CustomerWindow.create(TRANSACTION_INSERT);
+            break;
+        case "contactsFolder":
+        case "contact":
+            var contactWindow = ContactWindow.create(TRANSACTION_INSERT);
+            contactWindow.setData({}, navTreeSelectedNode.customerId);
+            break;
+    }
+
 }
 
 function navTreeDeleteButtonClick() {
+    if (navTreeSelectedNode.type.includes("Folder")){
+        isc.warn("Невозможно удалить базовый каталог");
+        return;
+    }
+
     isc.ask("Вы хотите удалить: "+navTreeSelectedNode.title,
         {
             yesClick: function() {
-                deleteCustomer(navTreeSelectedNode.id, function (success) {
-                    if (success) {
-                        navTreeData.remove(navTreeSelectedNode);
-                        navTreeCache.removeData(navTreeSelectedNode);
-                        browserFrame.hide();
-                        console.log("Success deleting: "+navTreeSelectedNode.id);
-                    }
-                });
-                return this.Super('yesClick', arguments);}}
+                switch (navTreeSelectedNode.type) {
+                    case "customer":
+                        deleteCustomer(navTreeSelectedNode.id, function (success) {
+                            if (success) {
+                                navTreeData.remove(navTreeSelectedNode);
+                                navTreeCache.removeData(navTreeSelectedNode);
+                                browserFrame.hide();
+                            }
+                        });
+                        break;
+
+                    case "contact":
+                        deleteContact(navTreeSelectedNode.id, function (success) {
+                            if (success) {
+                                var record  = ContactsForm.getRecordById(navTreeSelectedNode.id);
+                                deleteContactNode(navTreeSelectedNode.id);
+                                if (!!record)
+                                    ContactsForm.contactsGrid.removeData(record);
+                            }
+                        });
+                        break;
+                }
+                return this.Super('yesClick', arguments);}
+        }
     );
 }
 
 function navTreeEditButtonClick() {
+    if (navTreeSelectedNode.type.includes("Folder")){
+        isc.warn("Невозможно редактировать базовый каталог");
+        return;
+    }
+
    switch (navTreeSelectedNode.type) {
        case "customer":
            var customerWindow = CustomerWindow.create(TRANSACTION_UPDATE);
            getCustomerById(navTreeSelectedNode.id, function (customer) {
                customerWindow.setData(customer);
+           });
+           break;
+       case "contact":
+           var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
+           getContactById(navTreeSelectedNode.id, function (contact) {
+              // console.log(contact);
+               contactWindow.setData(contact, navTreeSelectedNode.customerId);
            });
            break;
    }

@@ -21,6 +21,13 @@ public class ContactController {
    @Autowired
    private CustomerService customerService;
 
+
+    @RequestMapping(value = "getContactById", method = RequestMethod.GET)
+    @ResponseBody
+    public Contact getCustomerById(@RequestParam(value = "id") int id) {
+        return customerService.getContactById(id);
+    }
+
    @RequestMapping(value = "getContactsByCustomerId", method = RequestMethod.POST)
    @ResponseBody
    public List<Contact> getContactsByCustomerId(@RequestParam(value = "id") int customerId) {

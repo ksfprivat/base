@@ -5,10 +5,12 @@ CustomerWindow = {
 
     create: function (transactionType) {
         this.transactionType = transactionType;
+        this.title = "Новая организация";
+        if (transactionType == TRANSACTION_UPDATE) this.title = "Организация";
         this.header = HTMLFlow.create({
             width: "100%",
             contents: "<table class='cardBoxTitle'><tr>" +
-            "<td width='100%'>Новая организация</td>" +
+            "<td width='100%'>"+this.title+"</td>" +
             "<td><input id='cardBoxCommitChangesButton' title='Закрыть' type='image' src='"+imgDir +"/ic_close.png' class='cardBoxHeaderButton' onclick=CustomerWindow.close()></td>" +
             "</tr></table>"
         });

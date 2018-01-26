@@ -4,7 +4,7 @@ ContactWindow = {
         this.transactionType = transactionType;
         // this.customerId = customerId;
         this.title = "Новый контакт";
-        if (transactionType == TRANSACTION_UPDATE) this.title = "Реактировать контакт";
+        if (transactionType == TRANSACTION_UPDATE) this.title = "Контакт";
 
         this.header = HTMLFlow.create({
             width: "100%",
@@ -102,23 +102,25 @@ ContactWindow = {
 
     update: function () {
         if (ContactWindow.validate()) {
-            // Prepare contact entity for transfer into REST controller (remove "customer" property)
             var contact = ContactWindow.getData();
+            // Prepare contact entity for transfer into REST controller (remove "customer" property)
             delete contact["customer"];
+
             // Update record in contactsGrid of contactsCard
-            var currentRecord  = contactsCard.contactsGrid.getSelectedRecord();
-            currentRecord.name = ContactWindow.nameBlock.getValue("name");
-            currentRecord.postion = ContactWindow.nameBlock.getValue("position");
-            currentRecord.phone = ContactWindow.contactDataBlock.getValue("phone");
-            currentRecord.mobile = ContactWindow.contactDataBlock.getValue("mobile");
-            currentRecord.email = ContactWindow.contactDataBlock.getValue("email");
-            currentRecord.fax = ContactWindow.contactDataBlock.getValue("fax");
+            var currentRecord  = ContactsForm.getRecordById(contact.id);
+            currentRecord.name = contact.name;
+            currentRecord.position = contact.position;
+            currentRecord.phone = contact.phone;
+            currentRecord.mobile = contact.mobile;
+            currentRecord.email = contact.email;
+            currentRecord.fax = contact.fax;
+
             updateContact(ContactWindow.getData(), function (success) {
                 if (success) {
                     contactsCard.contactsGrid.refreshRow(contactsCard.contactsGrid.getRowNum(currentRecord));
-                    changeNodeTitle(currentRecord.id, currentRecord.name);
+                    changeNodeTitle(contact.id, contact.name);
                     ContactWindow.close();
-                }
+                    }
             });
         }
     },

@@ -68,7 +68,7 @@ ContactsForm ={
             canEdit:true,
             autoDraw: false,
             fields: [
-                {name: "id"},
+                {name: "id",  primaryKey: true},
                 {name: "name", title:"Имя", width: 250},
                 {name: "position", title:"Должность"},
                 {name: "phone", title:"Телефон"},
@@ -189,5 +189,13 @@ ContactsForm ={
             var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
             contactWindow.setData(record, ContactsForm.customerId)
         }
+    },
+
+    getRecordById: function (id) {
+        var records = ContactsForm.contactsGrid.data;
+        for (var i = 0; i < records.length; i++) {
+            if (records[i].id == id) return records[i];
+        }
+        return false;
     }
 };
