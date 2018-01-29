@@ -31,6 +31,10 @@ function refreshBrowserFrame(customerId) {
         customerCard.setData(customer);
         getContactsByCustomerId(customer.id, function(contacts){
             contactsCard.setData(contacts, customer.id);
+            //var record = ContactsForm.getRecordById(navTreeSelectedNode.id);
+            //ContactsForm.contactsGrid.deselectAllRecords();
+            //ContactsForm.contactsGrid.selectRecord(record);
+            ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
         });
     });
 

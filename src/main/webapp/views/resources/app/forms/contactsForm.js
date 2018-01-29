@@ -76,7 +76,7 @@ ContactsForm ={
                 {name: "email", title:"E-mail"},
                 {name: "fax", title:"Факс"}
             ],
-            sortField: "name",
+            sortField: 1,
             cellChanged: this.contactsChanged
         });
 
@@ -168,7 +168,6 @@ ContactsForm ={
 
     deleteContact: function () {
         var record = ContactsForm.contactsGrid.getSelectedRecord();
-        console.log(record);
         if (record != null)
             isc.ask("Вы хотите удалить: "+record.name,
                 {
@@ -197,5 +196,15 @@ ContactsForm ={
             if (records[i].id == id) return records[i];
         }
         return false;
+    },
+
+    setCurrentRecord: function(record) {
+        ContactsForm.contactsGrid.deselectAllRecords();
+        ContactsForm.contactsGrid.selectRecord(record);
+        // Unknown exception for the first time click on contact node
+        try {
+            ContactsForm.contactsGrid.scrollToRow(ContactsForm.contactsGrid.getFocusRow());
+        } catch (e) {
+        }
     }
 };

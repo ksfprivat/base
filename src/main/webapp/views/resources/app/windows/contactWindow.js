@@ -2,7 +2,6 @@ ContactWindow = {
 
     create: function (transactionType) {
         this.transactionType = transactionType;
-        // this.customerId = customerId;
         this.title = "Новый контакт";
         if (transactionType == TRANSACTION_UPDATE) this.title = "Контакт";
 

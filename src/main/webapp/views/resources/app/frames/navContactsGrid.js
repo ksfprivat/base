@@ -10,18 +10,19 @@ var NavContactsGrid =  {
             alternateFieldStyles: true,
             showHeader: false,
             autoDraw: false,
-            sortField: 1,
+            sortField: "title",
             fields: [
                 {name: "id"},
                 {name: "title", title:"Контакты"}
             ]});
+
         this.init();
         return Object.create(this);
     },
 
     init: function () {
        var listGrid = this.listGrid;
-        getNavContactsGridData(function (contacts) {
+        getAllContactsNodes(function (contacts)  {
             this.dataSource = DataSource.create({
                 fields: [
                     {name: "id", primaryKey: true},
@@ -30,15 +31,18 @@ var NavContactsGrid =  {
                 clientOnly: true
             });
 
-            for (var i = 0; i < contacts.length; i++) {
-                var row =
+             var cache = {};
+             for (var i = 0; i < contacts.length; i++) {
+                var title =
                     "<table class='listItem'><tr>"+
                         "<td><img src='"+imgDir+"/ic_contact.png'></td>"+
                         "<td width='100%'>"+contacts[i].title+"" +
                         "<br><small style='color: #0D47A1'>"+contacts[i].customerTitle+"<small/></td>"+
                     "</tr></table>";
-                this.dataSource.addData({id:contacts[i].id, title: row});
 
+                //console.log(contacts[i]);
+                cache[i] = {id:contacts[i].id, title: title, customerId: contacts[i].customerId};
+                this.dataSource.addData(cache[i]);
             }
             listGrid.setDataSource(this.dataSource);
             listGrid.hideFields(["id"]);
@@ -55,11 +59,6 @@ var NavContactsGrid =  {
     }
 };
 
-function getNavContactsGridData(callback) {
-    getAllContactsNodes(function (contacts) {
-        callback(contacts);
-    });
-}
 
 
 

@@ -154,9 +154,7 @@ function onNodeClick(viewer, node, recordNum) {
 
         switch (navTreeSelectedNode.type) {
             case "contact":
-                var record = ContactsForm.getRecordById(navTreeSelectedNode.id);
-                ContactsForm.contactsGrid.deselectAllRecords();
-                ContactsForm.contactsGrid.selectRecord(record);
+                ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
                 break;
         }
     }
@@ -223,7 +221,7 @@ function createNavTree() {
         openFolder: onNavTreeOpenFolder
     });
 
-    // navContactsGrid = NavContactsGrid.create();
+    navContactsGrid = NavContactsGrid.create();
 
     navTreeTabSet = TabSet.create({
         width: "100%",
@@ -237,9 +235,10 @@ function createNavTree() {
         paneMargin:0,
             tabs: [
              {title: "ОРГАНИЗАЦИИ", pane: navTree},
-             // {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
+             {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
              {title: "КОНТРАКТЫ", pane: null}]
      });
+
    return navTreeTabSet;
 }
 
@@ -263,7 +262,7 @@ function clearFilterNavTree() {
     $("#searchText").val("");
     $("#navBarSearchTextClearButton").attr("style", "visibility:hidden");
     navTree.setData(navTreeData);
-    //navContactsGrid.clearFilter();
+    navContactsGrid.clearFilter();
 }
 
 function navTreeIsFiltered() {
@@ -337,7 +336,6 @@ function navTreeEditButtonClick() {
        case "contact":
            var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
            getContactById(navTreeSelectedNode.id, function (contact) {
-              // console.log(contact);
                contactWindow.setData(contact, navTreeSelectedNode.customerId);
            });
            break;
