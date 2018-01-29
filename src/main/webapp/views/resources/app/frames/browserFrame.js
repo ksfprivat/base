@@ -31,10 +31,20 @@ function refreshBrowserFrame(customerId) {
         customerCard.setData(customer);
         getContactsByCustomerId(customer.id, function(contacts){
             contactsCard.setData(contacts, customer.id);
-            //var record = ContactsForm.getRecordById(navTreeSelectedNode.id);
-            //ContactsForm.contactsGrid.deselectAllRecords();
-            //ContactsForm.contactsGrid.selectRecord(record);
-            ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
+
+            switch (getNavigationFrameMode()){
+                case VM_CUSTOMERS: // Customers (navTree event initiator)
+                    if (typeof navTreeSelectedNode != "undefined")
+                        if (navTreeSelectedNode.type == "contact")
+                            ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
+                    break;
+
+                case VM_CONTACTS: // Customers (navContactsGrid event initiator)
+                    if (navContactsGrid.currentRecord != null)
+                        ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navContactsGrid.currentRecord.id));
+                    break;
+            }
+
         });
     });
 

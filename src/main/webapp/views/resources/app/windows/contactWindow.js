@@ -118,6 +118,7 @@ ContactWindow = {
                 if (success) {
                     contactsCard.contactsGrid.refreshRow(contactsCard.contactsGrid.getRowNum(currentRecord));
                     changeNodeTitle(contact.id, contact.name);
+                    navContactsGrid.refreshRecord(contact.name);
                     ContactWindow.close();
                     }
             });

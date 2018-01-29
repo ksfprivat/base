@@ -205,6 +205,7 @@ ContactsForm ={
         try {
             ContactsForm.contactsGrid.scrollToRow(ContactsForm.contactsGrid.getFocusRow());
         } catch (e) {
+
         }
     }
 };

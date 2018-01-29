@@ -6,6 +6,11 @@ var  navTreeSelectedNode;
 var  navContactsGrid;
 var  navTreeCurrentCustomerId;
 
+// View modes (Customers/Contacts/Contracts)
+const VM_CUSTOMERS   = 7777;
+const VM_CONTACTS    = 7778;
+
+
 function createNavigationFrame() {
     return (
         VLayout.create({
@@ -20,6 +25,13 @@ function createNavigationFrame() {
             ]
         })
     );
+}
+
+function getNavigationFrameMode() {
+    switch (navTreeTabSet.getSelectedTabNumber()) {
+        case 0: return VM_CUSTOMERS;
+        case 1: return VM_CONTACTS;
+    }
 }
 
 function createNavTreeToolbar() {
@@ -284,12 +296,17 @@ function navTreeAddButtonClick() {
 
 }
 
-function navTreeDeleteButtonClick() {
+
+function deleteNavTreeNode() {
+    if (typeof  navTreeSelectedNode == "undefined") {
+        isc.warn("Необходимо выбрать данные");
+        return;
+    }
+
     if (navTreeSelectedNode.type.includes("Folder")){
         isc.warn("Невозможно удалить базовый каталог");
         return;
     }
-
     isc.ask("Вы хотите удалить: "+navTreeSelectedNode.title,
         {
             yesClick: function() {
@@ -320,27 +337,48 @@ function navTreeDeleteButtonClick() {
     );
 }
 
-function navTreeEditButtonClick() {
+
+function navTreeDeleteButtonClick() {
+    switch (getNavigationFrameMode()) {
+        case VM_CUSTOMERS: deleteNavTreeNode();
+            break;
+        case VM_CONTACTS:
+            navContactsGrid.deleteItem();
+            break;
+    }
+}
+
+
+function editNavTreeNode() {
     if (navTreeSelectedNode.type.includes("Folder")){
         isc.warn("Невозможно редактировать базовый каталог");
         return;
     }
 
-   switch (navTreeSelectedNode.type) {
-       case "customer":
-           var customerWindow = CustomerWindow.create(TRANSACTION_UPDATE);
-           getCustomerById(navTreeSelectedNode.id, function (customer) {
-               customerWindow.setData(customer);
-           });
-           break;
-       case "contact":
-           var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
-           getContactById(navTreeSelectedNode.id, function (contact) {
-               contactWindow.setData(contact, navTreeSelectedNode.customerId);
-           });
-           break;
-   }
+    switch (navTreeSelectedNode.type) {
+        case "customer":
+            var customerWindow = CustomerWindow.create(TRANSACTION_UPDATE);
+            getCustomerById(navTreeSelectedNode.id, function (customer) {
+                customerWindow.setData(customer);
+            });
+            break;
+        case "contact":
+            var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
+            getContactById(navTreeSelectedNode.id, function (contact) {
+                contactWindow.setData(contact, navTreeSelectedNode.customerId);
+            });
+            break;
+    }
+}
 
+function navTreeEditButtonClick() {
+    switch (getNavigationFrameMode()) {
+        case VM_CUSTOMERS: editNavTreeNode();
+            break;
+        case VM_CONTACTS:
+            navContactsGrid.editItem();
+            break;
+    }
 }
 
 function navTreeAddCustomerNode(node) {

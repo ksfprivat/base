@@ -57,7 +57,7 @@ public class ContactController {
       for (Contact contact: contacts) {
           if (!contact.getName().equals(""))
                 contactListItems.add(
-                        new ContactListItem(contact.getId(), contact.getName(),
+                        new ContactListItem(contact.getId(), contact.getCustomerId(), contact.getName(),
                                 contact.getPosition(), contact.getCustomer().getTitle()));
       }
 
