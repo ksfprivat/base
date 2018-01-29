@@ -33,4 +33,5 @@ function refreshBrowserFrame(customerId) {
             contactsCard.setData(contacts, customer.id);
         });
     });
+
 }

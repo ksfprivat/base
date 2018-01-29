@@ -94,7 +94,6 @@ function onNavTreeOpenFolder(node) {
     navTree.getData().openFolder(node);
 }
 
-
 function addContactNode(customerId, contact) {
     var folder = navTreeData.findById("contacts_"+customerId);
 
@@ -128,7 +127,6 @@ function changeNodeTitle(id, title) {
     }
 }
 
-
 function refreshCustomerNode(data) {
     if (navTreeSelectedNode.type == "customer") {
         navTreeSelectedNode.title = data.title;
@@ -152,7 +150,14 @@ function onNodeClick(viewer, node, recordNum) {
         if (navTreeCurrentCustomerId != node.customerId) {
             refreshBrowserFrame(node.customerId);
             navTreeCurrentCustomerId = node.customerId;
-            var customer = navTreeData.findById(node.customerId);
+        }
+
+        switch (navTreeSelectedNode.type) {
+            case "contact":
+                var record = ContactsForm.getRecordById(navTreeSelectedNode.id);
+                ContactsForm.contactsGrid.deselectAllRecords();
+                ContactsForm.contactsGrid.selectRecord(record);
+                break;
         }
     }
 }
