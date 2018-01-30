@@ -29,8 +29,12 @@ function createNavigationFrame() {
 
 function getNavigationFrameMode() {
     switch (navTreeTabSet.getSelectedTabNumber()) {
-        case 0: return VM_CUSTOMERS;
-        case 1: return VM_CONTACTS;
+        case 0:
+            return VM_CUSTOMERS;
+            break;
+        case 1:
+            return VM_CONTACTS;
+            break;
     }
 }
 

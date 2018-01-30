@@ -77,6 +77,7 @@ ContactsForm ={
                 {name: "fax", title:"Факс"}
             ],
             sortField: 1,
+            rowClick: this.rowClick,
             cellChanged: this.contactsChanged
         });
 
@@ -175,7 +176,8 @@ ContactsForm ={
                         deleteContact(record.id, function (success) {
                             if (success) {
                                 ContactsForm.contactsGrid.removeSelectedData();
-                                deleteContactNode(record.id)
+                                deleteContactNode(record.id);
+
                             }
                         });
                         return this.Super('yesClick', arguments);}}
@@ -205,6 +207,17 @@ ContactsForm ={
         try {
             ContactsForm.contactsGrid.scrollToRow(ContactsForm.contactsGrid.getFocusRow());
         } catch (e) {
+
+        }
+    },
+
+    rowClick: function (record, recordNum, fieldNum) {
+        if (getNavigationFrameMode() == VM_CONTACTS) {
+            var navContactsGridItem = navContactsGrid.getItemById(record.id);
+            navContactsGrid.listGrid.deselectAllRecords();
+            navContactsGrid.listGrid.selectRecord(navContactsGridItem);
+            var index =  navContactsGrid.listGrid.getRecordIndex(navContactsGridItem);
+            navContactsGrid.listGrid.scrollToRow(index);
 
         }
     }

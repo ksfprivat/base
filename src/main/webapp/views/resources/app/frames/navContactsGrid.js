@@ -7,11 +7,15 @@ NavContactsGrid =  {
             width: "100%",
             height: "100%",
             border:0,
+            cellHeight: 44,
             alternateRecordStyles: true,
             alternateFieldStyles: true,
+            showEmptyMessage: false,
             showHeader: false,
             autoDraw: false,
             sortField: "title",
+            loadDataOnDemand: false,
+            virtualScrolling: false,
             autoFetchData:true,
             fields: [
                 {name: "id"},
@@ -32,11 +36,13 @@ NavContactsGrid =  {
                     {name: "id", primaryKey: true},
                     {name: "title", title:"Контакты"}
                 ],
+                cacheAllData:true,
+                autoCacheAllData: true,
                 clientOnly: true
             });
 
              for (var i = 0; i < contacts.length; i++) {
-                var title =
+                var title = //contacts[i].title;
                     "<table class='listItem'><tr>"+
                         "<td><img src='"+imgDir+"/ic_contact.png'></td>"+
                         "<td width='100%'>"+contacts[i].title+"" +
@@ -68,6 +74,14 @@ NavContactsGrid =  {
           ContactsForm.setCurrentRecord(ContactsForm.getRecordById(record.id));
     },
 
+    getItemById: function (id) {
+        console.log(id);
+        var data = NavContactsGrid.listGrid.dataSource.cacheData;
+        var record = $.grep(data, function(e) { return e.id == id })[0];
+      //  console.log(record);
+        return record;
+    },
+
     deleteItem: function() {
          if (NavContactsGrid.currentRecord != null) {
               isc.ask("Вы хотите удалить: "+NavContactsGrid.currentRecord.title,
@@ -88,6 +102,13 @@ NavContactsGrid =  {
          }
     },
 
+
+
+    deleteItemById: function (id) {
+
+
+    },
+
     editItem: function () {
          if (NavContactsGrid.currentRecord != null) {
              var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
@@ -98,7 +119,7 @@ NavContactsGrid =  {
 
     },
 
-    refreshRecord: function (title) {
+    refreshRecord: function (title, customerTitle) {
         if (NavContactsGrid.currentRecord != null) {
             NavContactsGrid.currentRecord.title =
                 "<table class='listItem'><tr>"+
