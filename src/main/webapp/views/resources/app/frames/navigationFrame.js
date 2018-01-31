@@ -12,8 +12,7 @@ const VM_CONTACTS    = 7778;
 
 
 function createNavigationFrame() {
-    navTreeSelectedNode = {type: "customer"};
-    return (
+     return (
         VLayout.create({
             width: 334,
             height: "100%",
@@ -210,8 +209,11 @@ function loadNavTreeData() {
             cacheData: nodes
         });
         navTree.setData(navTreeData);
-        navTree.selectRecord(0);
-        onNodeClick(null, navTreeData.root.children[0], null);
+
+        // Set first node
+        // navTree.selectRecord(0);
+        // onNodeClick(null, navTreeData.root.children[0], null);
+        navTreeSelectedNode = navTreeData.root.children[0];
     });
 }
 
@@ -301,7 +303,6 @@ function navTreeAddButtonClick() {
     }
 
 }
-
 
 function deleteNavTreeNode() {
     if (typeof  navTreeSelectedNode == "undefined") {
