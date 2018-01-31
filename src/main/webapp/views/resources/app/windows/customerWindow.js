@@ -128,7 +128,9 @@ CustomerWindow = {
     update: function () {
         if (CustomerWindow.validate()) {
             updateCustomer(CustomerWindow.getData(), function (success) {
-                if (success) refreshCustomerNode(CustomerWindow.getData());
+                if (success) {
+                    refreshCustomerNode(CustomerWindow.getData());
+                }
             });
             CustomerWindow.window.close();
         }

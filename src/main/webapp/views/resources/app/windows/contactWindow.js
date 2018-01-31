@@ -13,7 +13,6 @@ ContactWindow = {
             "</tr></table>"
         });
 
-
         this.nameBlock = DynamicForm.create({
             width: "100%",
             titleOrientation: "top",
@@ -102,6 +101,7 @@ ContactWindow = {
     update: function () {
         if (ContactWindow.validate()) {
             var contact = ContactWindow.getData();
+            var customerTitle = contact.customer.title;
             // Prepare contact entity for transfer into REST controller (remove "customer" property)
             delete contact["customer"];
 
@@ -118,7 +118,7 @@ ContactWindow = {
                 if (success) {
                     contactsCard.contactsGrid.refreshRow(contactsCard.contactsGrid.getRowNum(currentRecord));
                     changeNodeTitle(contact.id, contact.name);
-                    navContactsGrid.refreshRecord(contact.name);
+                    navContactsGrid.updateItem(contact.id, contact.name, customerTitle);
                     ContactWindow.close();
                     }
             });

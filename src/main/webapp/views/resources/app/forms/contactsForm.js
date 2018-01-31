@@ -77,7 +77,7 @@ ContactsForm ={
                 {name: "fax", title:"Факс"}
             ],
             sortField: 1,
-            rowClick: this.rowClick,
+         //   rowClick: this.rowClick,
             cellChanged: this.contactsChanged
         });
 
@@ -133,6 +133,7 @@ ContactsForm ={
                // if (success) changeNodeTitle(contact.id, contact.name);
             });
             changeNodeTitle(contact.id, contact.name);
+            navContactsGrid.updateItem(contact.id, contact.name, customerCard.getData().title);
         }
         ContactsForm.changeCache = [];
         ContactsForm.setChangeBlockState("hidden");
@@ -177,7 +178,7 @@ ContactsForm ={
                             if (success) {
                                 ContactsForm.contactsGrid.removeSelectedData();
                                 deleteContactNode(record.id);
-
+                                navContactsGrid.deleteItemById(record.id);
                             }
                         });
                         return this.Super('yesClick', arguments);}}
@@ -212,13 +213,18 @@ ContactsForm ={
     },
 
     rowClick: function (record, recordNum, fieldNum) {
-        if (getNavigationFrameMode() == VM_CONTACTS) {
-            var navContactsGridItem = navContactsGrid.getItemById(record.id);
-            navContactsGrid.listGrid.deselectAllRecords();
-            navContactsGrid.listGrid.selectRecord(navContactsGridItem);
-            var index =  navContactsGrid.listGrid.getRecordIndex(navContactsGridItem);
-            navContactsGrid.listGrid.scrollToRow(index);
+        // ==================================================================================================
+        // WARNING ! This is experimental feature
+        // Change navContactsGrid.listGrid record when select contactsGrid in contactsForm
+        // Required navContactsGrid.listGrid.showAllRecords: true. ! NO USE because this decrease performance
+        // ==================================================================================================
 
-        }
+        // if (getNavigationFrameMode() == VM_CONTACTS) {
+        //     var navContactsGridItem = navContactsGrid.getItemById(record.id);
+        //     navContactsGrid.listGrid.deselectAllRecords();
+        //     navContactsGrid.listGrid.selectRecord(navContactsGridItem);
+        //     var index =  navContactsGrid.listGrid.getRecordIndex(navContactsGridItem);
+        //     navContactsGrid.listGrid.scrollToRow(index);
+        // }
     }
 };

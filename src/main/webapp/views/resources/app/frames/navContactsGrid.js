@@ -10,13 +10,13 @@ NavContactsGrid =  {
             cellHeight: 44,
             alternateRecordStyles: true,
             alternateFieldStyles: true,
-            showEmptyMessage: false,
             showHeader: false,
             autoDraw: false,
             sortField: "title",
-            loadDataOnDemand: false,
             virtualScrolling: false,
             autoFetchData:true,
+            // decrease in performance if showAllRecords:true
+            // showAllRecords:true,
             fields: [
                 {name: "id"},
                 {name: "title", title:"Контакты"}
@@ -75,12 +75,17 @@ NavContactsGrid =  {
     },
 
     getItemById: function (id) {
-        console.log(id);
-        var data = NavContactsGrid.listGrid.dataSource.cacheData;
-        var record = $.grep(data, function(e) { return e.id == id })[0];
-      //  console.log(record);
-        return record;
+         return $.grep(NavContactsGrid.listGrid.dataSource.cacheData, function(item) { return item.id == id })[0];
     },
+
+    getItemsByCustomerId: function(customerId) {
+
+    },
+
+    insertItem: function(title, customerTitle) {
+         console.log(title+" "+customerTitle);
+    },
+
 
     deleteItem: function() {
          if (NavContactsGrid.currentRecord != null) {
@@ -103,10 +108,10 @@ NavContactsGrid =  {
     },
 
 
-
     deleteItemById: function (id) {
-
-
+        var record = NavContactsGrid.getItemById(id);
+        if (typeof record != "undefined")
+            NavContactsGrid.listGrid.dataSource.removeData(record);
     },
 
     editItem: function () {
@@ -119,19 +124,21 @@ NavContactsGrid =  {
 
     },
 
-    refreshRecord: function (title, customerTitle) {
-        if (NavContactsGrid.currentRecord != null) {
-            NavContactsGrid.currentRecord.title =
-                "<table class='listItem'><tr>"+
-                "<td><img src='"+imgDir+"/ic_contact.png'></td>"+
-                "<td width='100%'>"+title+"" +
-                "<br><small style='color: #0D47A1'>"+NavContactsGrid.currentRecord.customerTitle+"<small/></td>"+
-                "</tr></table>";
+    updateItem: function (id, title, customerTitle) {
+         var record = NavContactsGrid.getItemById(id);
+         if (typeof record != "undefined") {
+             record.title =
+                 "<table class='listItem'><tr>"+
+                 "<td><img src='"+imgDir+"/ic_contact.png'></td>"+
+                 "<td width='100%'>"+title+"" +
+                 "<br><small style='color: #0D47A1'>"+customerTitle+"<small/></td>"+
+                 "</tr></table>";
 
-            NavContactsGrid.listGrid.refreshRow(NavContactsGrid.listGrid.getRowNum(NavContactsGrid.currentRecord));
-
-        }
+             NavContactsGrid.listGrid.dataSource.updateData(record);
+             NavContactsGrid.listGrid.refreshRow(NavContactsGrid.listGrid.getRowNum(record))
+         }
     }
+
 
 };
 

@@ -12,6 +12,7 @@ const VM_CONTACTS    = 7778;
 
 
 function createNavigationFrame() {
+    navTreeSelectedNode = {type: "customer"};
     return (
         VLayout.create({
             width: 334,
@@ -29,11 +30,9 @@ function createNavigationFrame() {
 
 function getNavigationFrameMode() {
     switch (navTreeTabSet.getSelectedTabNumber()) {
-        case 0:
-            return VM_CUSTOMERS;
+        case 0: return VM_CUSTOMERS;
             break;
-        case 1:
-            return VM_CONTACTS;
+        case 1: return VM_CONTACTS;
             break;
     }
 }
@@ -211,6 +210,8 @@ function loadNavTreeData() {
             cacheData: nodes
         });
         navTree.setData(navTreeData);
+        navTree.selectRecord(0);
+        onNodeClick(null, navTreeData.root.children[0], null);
     });
 }
 
@@ -287,6 +288,7 @@ function navTreeIsFiltered() {
 
 
 function navTreeAddButtonClick() {
+
     switch (navTreeSelectedNode.type) {
         case "customer":
             CustomerWindow.create(TRANSACTION_INSERT);
