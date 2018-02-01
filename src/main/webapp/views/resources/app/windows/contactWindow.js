@@ -1,6 +1,6 @@
 ContactWindow = {
 
-    create: function (transactionType) {
+    create: function (transactionType, customerTitle) {
         this.transactionType = transactionType;
         this.title = "Новый контакт";
         if (transactionType == TRANSACTION_UPDATE) this.title = "Контакт";
@@ -11,6 +11,11 @@ ContactWindow = {
             "<td width='100%'>"+this.title+"</td>" +
             "<td><input title='Закрыть' type='image' src='"+imgDir +"/ic_close.png' class='cardBoxHeaderButton' onclick=ContactWindow.close()></td>" +
             "</tr></table>"
+        });
+
+        this.customerTitleBlock = HTMLFlow.create({
+            width: "100%",
+            contents: "<div class='cardBoxSectionTitle'>" + customerTitle + "</div><div class='cardBoxSeparator'/>"
         });
 
         this.nameBlock = DynamicForm.create({
@@ -67,6 +72,7 @@ ContactWindow = {
             canDragReposition: false,
             items: [
                 this.header,
+                this.customerTitleBlock,
                 this.nameBlock,
                 this.contactDataBlock,
                 this.controlsBlock
@@ -93,8 +99,9 @@ ContactWindow = {
                     contact.id = newContactId;
                     contactsCard.contactsGrid.addData(contact);
                     addContactNode(contact.customerId, contact);
-                    ContactWindow.close();
+                    navContactsGrid.insertItem(contact, customerCard.getData().title);
             });
+            ContactWindow.close();
         }
     },
 
@@ -119,9 +126,9 @@ ContactWindow = {
                     contactsCard.contactsGrid.refreshRow(contactsCard.contactsGrid.getRowNum(currentRecord));
                     changeNodeTitle(contact.id, contact.name);
                     navContactsGrid.updateItem(contact.id, contact.name, customerTitle);
-                    ContactWindow.close();
-                    }
+                }
             });
+            ContactWindow.close();
         }
     },
 

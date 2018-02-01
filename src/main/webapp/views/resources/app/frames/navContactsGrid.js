@@ -2,7 +2,6 @@
 NavContactsGrid =  {
 
      create: function () {
-        this.currenRecord = null;
         this.listGrid = ListGrid.create({
             width: "100%",
             height: "100%",
@@ -12,14 +11,19 @@ NavContactsGrid =  {
             alternateFieldStyles: true,
             showHeader: false,
             autoDraw: false,
-            sortField: "title",
+            sortField: "name",
             virtualScrolling: false,
             autoFetchData:true,
-            // decrease in performance if showAllRecords:true
-            // showAllRecords:true,
+            //===============================================================================================
+            // WARNING ! Experimental feature. Not use because decrease in performance if showAllRecords:true
+            //===============================================================================================
+            //showAllRecords:true,
+            dataPageSize: 10000,
+            //===============================================================================================
             fields: [
                 {name: "id"},
-                {name: "title", title:"Контакты"}
+                {name: "title", title:"Контакты"},
+                {name: "name"}
             ],
             rowClick: NavContactsGrid.onRowClick
         });
@@ -31,10 +35,11 @@ NavContactsGrid =  {
     init: function () {
        var listGrid = this.listGrid;
         getAllContactsNodes(function (contacts)  {
-            this.dataSource = DataSource.create({
+            var dataSource = DataSource.create({
                 fields: [
                     {name: "id", primaryKey: true},
-                    {name: "title", title:"Контакты"}
+                    {name: "title", title:"Контакты"},
+                    {name: "name"}
                 ],
                 cacheAllData:true,
                 autoCacheAllData: true,
@@ -42,17 +47,13 @@ NavContactsGrid =  {
             });
 
              for (var i = 0; i < contacts.length; i++) {
-                var title = //contacts[i].title;
-                    "<table class='listItem'><tr>"+
-                        "<td><img src='"+imgDir+"/ic_contact.png'></td>"+
-                        "<td width='100%'>"+contacts[i].title+"" +
-                        "<br><small style='color: #0D47A1'>"+contacts[i].customerTitle+"<small/></td>"+
-                    "</tr></table>";
+                var title = NavContactsGrid.createItemBlock(contacts[i].title, contacts[i].customerTitle);
 
-                this.dataSource.addData({id:contacts[i].id, title: title, customerId: contacts[i].customerId, customerTitle: contacts[i].customerTitle});
+                dataSource.addData({id:contacts[i].id, title: title, name: contacts[i].title,
+                                        customerId: contacts[i].customerId, customerTitle: contacts[i].customerTitle});
             }
-            listGrid.setDataSource(this.dataSource);
-            listGrid.hideFields(["id"]);
+            listGrid.setDataSource(dataSource);
+            listGrid.hideFields(["id", "name"]);
         });
     },
 
@@ -82,8 +83,19 @@ NavContactsGrid =  {
 
     },
 
-    insertItem: function(title, customerTitle) {
-         console.log(title+" "+customerTitle);
+    insertItem: function(contact, customerTitle) {
+         var record = {};
+         record.id = contact.id;
+         record.customerId = contact.customerId;
+         record.customerTitle = customerTitle;
+         record.name = contact.name;
+         record.title = NavContactsGrid.createItemBlock(contact.name, customerTitle);
+         NavContactsGrid.listGrid.dataSource.addData(record);
+         NavContactsGrid.listGrid.deselectAllRecords();
+         NavContactsGrid.listGrid.selectRecord(record);
+         NavContactsGrid.listGrid.scrollToRow(record);
+
+    //     NavContactsGrid.listGrid.setSort({"name", });
     },
 
 
@@ -116,7 +128,7 @@ NavContactsGrid =  {
 
     editItem: function () {
          if (NavContactsGrid.currentRecord != null) {
-             var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
+             var contactWindow = ContactWindow.create(TRANSACTION_UPDATE, customerCard.getData().title);
              getContactById(NavContactsGrid.currentRecord.id, function (contact) {
                  contactWindow.setData(contact, NavContactsGrid.currentRecord.customerId);
              });
@@ -127,18 +139,21 @@ NavContactsGrid =  {
     updateItem: function (id, title, customerTitle) {
          var record = NavContactsGrid.getItemById(id);
          if (typeof record != "undefined") {
-             record.title =
-                 "<table class='listItem'><tr>"+
-                 "<td><img src='"+imgDir+"/ic_contact.png'></td>"+
-                 "<td width='100%'>"+title+"" +
-                 "<br><small style='color: #0D47A1'>"+customerTitle+"<small/></td>"+
-                 "</tr></table>";
-
+             record.title = NavContactsGrid.createItemBlock(title, customerTitle);
              NavContactsGrid.listGrid.dataSource.updateData(record);
              NavContactsGrid.listGrid.refreshRow(NavContactsGrid.listGrid.getRowNum(record))
          }
-    }
+    },
 
+    createItemBlock: function(title, customerTitle) {
+        return (
+            "<table class='listItem'><tr>"+
+            "<td><img src='"+imgDir+"/ic_contact.png'></td>"+
+            "<td width='100%'>"+title+"" +
+            "<br><small style='color: #0D47A1'>"+customerTitle+"<small/></td>"+
+            "</tr></table>"
+        );
+    }
 
 };
 

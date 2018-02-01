@@ -77,7 +77,7 @@ ContactsForm ={
                 {name: "fax", title:"Факс"}
             ],
             sortField: 1,
-         //   rowClick: this.rowClick,
+            rowClick: this.rowClick,
             cellChanged: this.contactsChanged
         });
 
@@ -164,7 +164,7 @@ ContactsForm ={
     },
 
     addContact: function () {
-       var contactWindow = ContactWindow.create(TRANSACTION_INSERT);
+       var contactWindow = ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title);
        contactWindow.setData({}, ContactsForm.customerId )
     },
 
@@ -188,7 +188,7 @@ ContactsForm ={
     editContact: function () {
         var record = ContactsForm.contactsGrid.getSelectedRecord();
         if (record != null) {
-            var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
+            var contactWindow = ContactWindow.create(TRANSACTION_UPDATE,customerCard.getData().title);
             contactWindow.setData(record, ContactsForm.customerId)
         }
     },
@@ -219,12 +219,12 @@ ContactsForm ={
         // Required navContactsGrid.listGrid.showAllRecords: true. ! NO USE because this decrease performance
         // ==================================================================================================
 
-        // if (getNavigationFrameMode() == VM_CONTACTS) {
-        //     var navContactsGridItem = navContactsGrid.getItemById(record.id);
-        //     navContactsGrid.listGrid.deselectAllRecords();
-        //     navContactsGrid.listGrid.selectRecord(navContactsGridItem);
-        //     var index =  navContactsGrid.listGrid.getRecordIndex(navContactsGridItem);
-        //     navContactsGrid.listGrid.scrollToRow(index);
-        // }
+         if (getNavigationFrameMode() == VM_CONTACTS) {
+             var navContactsGridItem = navContactsGrid.getItemById(record.id);
+             navContactsGrid.listGrid.deselectAllRecords();
+             navContactsGrid.listGrid.selectRecord(navContactsGridItem);
+             var index =  navContactsGrid.listGrid.getRecordIndex(navContactsGridItem);
+             navContactsGrid.listGrid.scrollToRow(index);
+         }
     }
 };

@@ -261,7 +261,6 @@ function createNavTree() {
    return navTreeTabSet;
 }
 
-
 function setFilterNavTree(filter) {
     switch (navTreeTabSet.getSelectedTabNumber()) {
         case 0: // Companies
@@ -290,18 +289,22 @@ function navTreeIsFiltered() {
 
 
 function navTreeAddButtonClick() {
-
-    switch (navTreeSelectedNode.type) {
-        case "customer":
-            CustomerWindow.create(TRANSACTION_INSERT);
-            break;
-        case "contactsFolder":
-        case "contact":
-            var contactWindow = ContactWindow.create(TRANSACTION_INSERT);
-            contactWindow.setData({}, navTreeSelectedNode.customerId);
-            break;
+    if (getNavigationFrameMode() == VM_CUSTOMERS)
+        switch (navTreeSelectedNode.type) {
+            case "customer":
+                CustomerWindow.create(TRANSACTION_INSERT);
+                break;
+            case "contactsFolder":
+            case "contact":
+                ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title)
+                    .setData({}, navTreeSelectedNode.customerId);
+                break;
     }
 
+    if (getNavigationFrameMode() == VM_CONTACTS) {
+        ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title)
+            .setData({}, ContactsForm.customerId );
+    }
 }
 
 function deleteNavTreeNode() {
@@ -344,7 +347,6 @@ function deleteNavTreeNode() {
     );
 }
 
-
 function navTreeDeleteButtonClick() {
     switch (getNavigationFrameMode()) {
         case VM_CUSTOMERS: deleteNavTreeNode();
@@ -354,7 +356,6 @@ function navTreeDeleteButtonClick() {
             break;
     }
 }
-
 
 function editNavTreeNode() {
     if (navTreeSelectedNode.type.includes("Folder")){
@@ -370,7 +371,7 @@ function editNavTreeNode() {
             });
             break;
         case "contact":
-            var contactWindow = ContactWindow.create(TRANSACTION_UPDATE);
+            var contactWindow = ContactWindow.create(TRANSACTION_UPDATE, customerCard.getData().title);
             getContactById(navTreeSelectedNode.id, function (contact) {
                 contactWindow.setData(contact, navTreeSelectedNode.customerId);
             });
