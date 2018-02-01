@@ -102,7 +102,10 @@ CustomerForm = {
         CustomerForm.setChangeBlockState("hidden");
         CustomerForm.data = CustomerForm.getData();
         updateCustomer(CustomerForm.data, function (success) {
-            if (success) refreshCustomerNode(CustomerForm.data);
+            if (success) {
+                refreshCustomerNode(CustomerForm.data);
+                navContactsGrid.updateCustomerTitles(CustomerForm.data.id, CustomerForm.data.title);
+            }
         })
     },
 

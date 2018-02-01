@@ -80,7 +80,7 @@ NavContactsGrid =  {
     },
 
     getItemsByCustomerId: function(customerId) {
-
+        return $.grep(NavContactsGrid.listGrid.dataSource.cacheData, function(item) { return item.customerId == customerId });
     },
 
     insertItem: function(contact, customerTitle) {
@@ -139,6 +139,15 @@ NavContactsGrid =  {
              NavContactsGrid.listGrid.dataSource.updateData(record);
              NavContactsGrid.listGrid.refreshRow(NavContactsGrid.listGrid.getRowNum(record))
          }
+    },
+
+    updateCustomerTitles: function (customerId, customerTitle) {
+         var items = NavContactsGrid.getItemsByCustomerId(customerId);
+         console.log(items);
+         // for (var i = 0; i < items.length; i++) {
+         //
+         //        NavContactsGrid.updateItem(items[i].id, items[i].title, customerTitle);
+         // }
     },
 
     createItemBlock: function(title, customerTitle) {
