@@ -41,8 +41,8 @@ NavContactsGrid =  {
                     {name: "title", title:"Контакты"},
                     {name: "name"}
                 ],
-                cacheAllData:true,
-                autoCacheAllData: true,
+                // cacheAllData:true,
+                // autoCacheAllData: true,
                 clientOnly: true
             });
 
@@ -84,39 +84,35 @@ NavContactsGrid =  {
     },
 
     insertItem: function(contact, customerTitle) {
-         var record = {};
-         record.id = contact.id;
-         record.customerId = contact.customerId;
-         record.customerTitle = customerTitle;
-         record.name = contact.name;
-         record.title = NavContactsGrid.createItemBlock(contact.name, customerTitle);
-         NavContactsGrid.listGrid.dataSource.addData(record);
-         NavContactsGrid.listGrid.deselectAllRecords();
-         NavContactsGrid.listGrid.selectRecord(record);
-         NavContactsGrid.listGrid.scrollToRow(record);
-
-    //     NavContactsGrid.listGrid.setSort({"name", });
+            var record = {};
+            record.id = contact.id;
+            record.customerId = contact.customerId;
+            record.customerTitle = customerTitle;
+            record.name = contact.name;
+            record.title = NavContactsGrid.createItemBlock(contact.name, customerTitle);
+            navContactsGrid.listGrid.addData(record, function () {
+                contactsCard.setCurrentRecord(contactsCard.getRecordById(record.id));
+                contactsCard.rowClick(contactsCard.getRecordById(record.id), null, null);
+            });
     },
 
-
     deleteItem: function() {
-         if (NavContactsGrid.currentRecord != null) {
-              isc.ask("Вы хотите удалить: "+NavContactsGrid.currentRecord.title,
+         var record = NavContactsGrid.listGrid.getSelectedRecord();
+         if (record != null) {
+              isc.ask("Вы хотите удалить: "+record.title,
                  {
                      yesClick: function() {
-                             deleteContact(NavContactsGrid.currentRecord.id, function (success) {
+                             deleteContact(record.id, function (success) {
                                      if (success) {
-                                         var record  = ContactsForm.getRecordById(NavContactsGrid.currentRecord.id);
-                                         deleteContactNode(NavContactsGrid.currentRecord.id);
-                                         NavContactsGrid.listGrid.removeData(NavContactsGrid.currentRecord);
-                                         if (!!record)
-                                             ContactsForm.contactsGrid.removeData(record);
+                                         deleteContactNode(record.id);
+                                            NavContactsGrid.listGrid.removeData(record);
+                                            ContactsForm.contactsGrid.removeData(ContactsForm.getRecordById(record.id));
                                      }
                                  });
                          return this.Super('yesClick', arguments);}
                  }
              );
-         }
+         } else isc.warn("Необходимо выбрать данные");
     },
 
 

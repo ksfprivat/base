@@ -158,6 +158,12 @@ ContactWindow = {
       ContactWindow.contactDataBlock.setValues(contact);
     },
 
+    clearData: function () {
+        ContactWindow.nameBlock.clearValues();
+        ContactWindow.contactDataBlock.clearValues();
+        ContactWindow.data = null;
+    },
+
     close: function () {
         ContactWindow.window.close();
     }

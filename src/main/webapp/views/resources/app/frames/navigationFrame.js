@@ -302,8 +302,10 @@ function navTreeAddButtonClick() {
     }
 
     if (getNavigationFrameMode() == VM_CONTACTS) {
-        ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title)
-            .setData({}, ContactsForm.customerId );
+        if (customerCard.data != null) {
+            ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title)
+                .setData({}, ContactsForm.customerId );
+        } else isc.warn("Организация не выбрана");
     }
 }
 
@@ -326,6 +328,7 @@ function deleteNavTreeNode() {
                             if (success) {
                                 navTreeData.remove(navTreeSelectedNode);
                                 navTreeCache.removeData(navTreeSelectedNode);
+                                customerCard.clearData();
                                 browserFrame.hide();
                             }
                         });
