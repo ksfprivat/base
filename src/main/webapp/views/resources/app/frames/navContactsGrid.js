@@ -143,11 +143,9 @@ NavContactsGrid =  {
 
     updateCustomerTitles: function (customerId, customerTitle) {
          var items = NavContactsGrid.getItemsByCustomerId(customerId);
-         console.log(items);
-         // for (var i = 0; i < items.length; i++) {
-         //
-         //        NavContactsGrid.updateItem(items[i].id, items[i].title, customerTitle);
-         // }
+         for (var i = 0; i < items.length; i++) {
+            NavContactsGrid.updateItem(items[i].id, items[i].name, customerTitle);
+         }
     },
 
     createItemBlock: function(title, customerTitle) {
