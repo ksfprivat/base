@@ -12,6 +12,7 @@ CustomerForm = {
             showShadow: true,
             imageSize:24,
             shadowDepth: 10,
+            valueIconSize:24,
             data: [
                 {title: "Экспорт в PDF", icon:imgDir+"/ic_export.png", click:CustomerForm.exportToPDF}
             ]

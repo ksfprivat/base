@@ -28,6 +28,7 @@
     <script src="<c:url value="resources/app/header.js" />"></script>
     <script src="<c:url value="resources/app/footer.js" />"></script>
 
+    <script src="<c:url value="resources/app/layout.js" />"></script>
     <%--Data binding    --%>
 	<script src="<c:url value="resources/app/dataBinding/customers.js" />"></script>
     <script src="<c:url value="resources/app/dataBinding/contracts.js" />"></script>
@@ -47,18 +48,18 @@
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
 
 
-	<script src="<c:url value="resources/app/layout.js" />"></script>
 
 
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
-        var splashWindow;
 
 		function initApplication() {
             isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);
-            splashWindow = SplashWindow.create();
-            appLayout = createLayout();
+            SplashWindow.create();
+            createLayout();
+
+
         }
 	</script>
 

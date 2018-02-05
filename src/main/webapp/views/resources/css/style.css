@@ -5,6 +5,11 @@ body {
     background: #EEEEEE;
 }
 
+body:after {
+    content: url("/resources/img/splash.png");
+    display: none;
+}
+
 table#container {
     border: 0;
     padding: 0;
@@ -44,6 +49,9 @@ div.dummy {
     background: #BDBDBD;
 }
 
+.splashBackground {
+    background: #eeeeee;
+}
 
 .logo {
     float: left;

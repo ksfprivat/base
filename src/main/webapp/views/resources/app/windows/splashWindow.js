@@ -11,6 +11,8 @@ SplashWindow = {
             autoSize: true,
             showHeader: false,
             showModalMask: true,
+            modalMaskOpacity:100,
+            modalMaskStyle:"splashBackground",
             canDragReposition: false,
             items: [
                 isc.Img.create({

@@ -1,11 +1,11 @@
 const imgDir = "/resources/img/ui";
-var appLayout;
+var appLqyout;
 
 function createLayout() {
     VLayout.create({
         width: "100%",
         height:"100%",
-        autoDraw:false,
+        autoDraw:true,
         members:[
             createHeader(),
             createMainFrame(),
@@ -32,13 +32,6 @@ function createMainFrame() {
 //     return VLayout.create({height:3});
 // }
 
-function appReady()
-{
-    splashWindow.window.close();
-
-    console.log(appLayout);
-    //appLayout.show();
-}
 
 function createHeader() {
     return HTMLFlow.create({
