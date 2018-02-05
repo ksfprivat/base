@@ -141,6 +141,15 @@ function changeNodeTitle(id, title) {
     }
 }
 
+function selectNode(id) {
+    var node = navTreeData.findById(id);
+    if (typeof node != "undefined") {
+        navTree.selectRecord(parent);
+        navTree.scrollToRow(navTree.getFocusRow());
+    }
+}
+
+
 function refreshCustomerNode(data) {
     if (navTreeSelectedNode.type == "customer") {
         navTreeSelectedNode.title = data.title;
@@ -174,6 +183,26 @@ function onNodeClick(viewer, node, recordNum) {
     }
 }
 
+
+function createBaseFolders(customer) {
+    return(
+        [
+            {
+                id: "contacts_" + customer.id, parentId: customer.id, customerId: customer.id,
+                title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false
+            },
+            {
+                id: "contracts_" + customer.id, parentId: customer.id, customerId: customer.id,
+                title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false
+            },
+            {
+                id: "objects_" + customer.id, parentId: customer.id, customerId: customer.id,
+                title: "Объекты", name: "Объекты", isFolder: true, type: "objectsFolder", search: false
+            }
+        ]
+    );
+}
+
 function loadNavTreeData() {
     getCustomerNodes(function (customers) {
         var nodes = [];
@@ -185,16 +214,7 @@ function loadNavTreeData() {
                 id: customers[i].id,
                 isFolder: true,
                 type: "customer",
-                children: [
-                    {
-                        id: "contacts_" + customers[i].id, parentId: customers[i].id, customerId: customers[i].id,
-                        title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false
-                    },
-                    {
-                        id: "contracts_" + customers[i].id, parentId: customers[i].id, customerId: customers[i].id,
-                        title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false
-                    }
-                ]
+                children: createBaseFolders(customers[i])
             };
         }
         // Tree Data

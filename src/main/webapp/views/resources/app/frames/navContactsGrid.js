@@ -70,9 +70,17 @@ NavContactsGrid =  {
          if (!browserFrame.isVisible()) browserFrame.show();
           if (navTreeCurrentCustomerId != record.customerId) {
               refreshBrowserFrame(record.customerId);
+//  Setup current node in navTree - Replace after implement application menu
+              navTree.deselectAllRecords();
+              navTree.selectRecord(navTreeData.findById(record.customerId));
+              navTree.scrollToRow(navTree.getFocusRow());
+
               navTreeCurrentCustomerId = record.customerId;
           }
-          ContactsForm.setCurrentRecord(ContactsForm.getRecordById(record.id));
+
+
+
+        ContactsForm.setCurrentRecord(ContactsForm.getRecordById(record.id));
     },
 
     getItemById: function (id) {

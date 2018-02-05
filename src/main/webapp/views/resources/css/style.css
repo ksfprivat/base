@@ -134,7 +134,7 @@ div.dummy {
     /*background-color: #1976D2; !important;*/
     color: #2962FF; !important;
     font-size: 18px; !important;
-    padding: 10px;
+    padding: 4px;
     font-family: RobotoLight, sans-serif; !important;
 }
 
@@ -167,7 +167,6 @@ div.dummy {
     background-color: #EEEEEE;
     border-radius: 3px;
 }
-
 
 .cardBoxToolButton,
 .cardBoxToolButtonSelected,
