@@ -6,6 +6,14 @@
     <%--Styles--%>
     <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
 	<link rel="shortcut icon" href="resources/icons/favicon.ico" type="image/x-icon">
+
+    <%--JQuery--%>
+    <script src="<c:url value="resources/lib/jquery/jquery-1.11.3.js"/>"></script>
+
+    <%--PDF make library--%>
+    <script src="<c:url value="resources/lib/pdfmake/pdfmake.min.js"/>"></script>
+    <script src="<c:url value="resources/lib/pdfmake/vfs_fonts.js"/>"></script>
+
 	<%--Isomorphic SmarClient init scripts	--%>
 	<script>var isomorphicDir="/resources/lib/isomorphic/";</script>
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_Core.js"/>"></script>
@@ -16,8 +24,6 @@
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_DataBinding.js"/>"></script>
 	<script src="<c:url value="resources/lib/isomorphic/skins/Tahoe/load_skin.js"/>"></script>
 
-	<%--JQuery--%>
-	<script src="<c:url value="resources/lib/jquery/jquery-1.11.3.js"/>"></script>
 	<%--Application layout--%>
     <script src="<c:url value="resources/app/header.js" />"></script>
     <script src="<c:url value="resources/app/footer.js" />"></script>
@@ -33,8 +39,10 @@
 	<script src="<c:url value="resources/app/forms/contactsForm.js"/>"></script>
 	<script src="<c:url value="resources/app/windows/customerWindow.js"/>"></script>
 	<script src="<c:url value="resources/app/windows/contactWindow.js"/>"></script>
+    <script src="<c:url value="resources/app/windows/splashWindow.js" />"></script>
 
-	<script src="<c:url value="resources/app/frames/navContactsGrid.js"/>"></script>
+
+    <script src="<c:url value="resources/app/frames/navContactsGrid.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
 
@@ -44,10 +52,13 @@
 
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
+        var splashWindow;
+
 		function initApplication() {
             isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);
-            createLayout();
+            splashWindow = SplashWindow.create();
+            appLayout = createLayout();
         }
 	</script>
 

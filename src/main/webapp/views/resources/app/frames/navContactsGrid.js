@@ -54,6 +54,9 @@ NavContactsGrid =  {
             }
             listGrid.setDataSource(dataSource);
             listGrid.hideFields(["id", "name"]);
+
+            appReady();
+
         });
     },
 
@@ -77,8 +80,6 @@ NavContactsGrid =  {
 
               navTreeCurrentCustomerId = record.customerId;
           }
-
-
 
         ContactsForm.setCurrentRecord(ContactsForm.getRecordById(record.id));
     },

@@ -4,45 +4,70 @@ ContactsForm ={
         this.changed = false;
         this.changeCache = [];
         this.customerId = null;
-        this.header = HTMLFlow.create({
-            contents: "<table class='cardBoxTitle'><tr>" +
-            "<td><input id='contactsCardExpandButton' title='Свернуть' type='image' src='" + imgDir + "/ic_expand.png' class='cardBoxHeaderButton' onclick='ContactsForm.cardExpand()'></td>" +
-            "<td width='100%'>Контакты</td>" +
-            "<td><input id='contactsCardBoxCommitChangesButton' title='Сохранить' type='image' src='" + imgDir + "/ic_commit.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='ContactsForm.commitChanges()'></td>" +
-            "<td><input id='contactsCardBoxRollbackChangesButton' title='Отменить' type='image' src='" + imgDir + "/ic_rollback.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='ContactsForm.rollbackChanges()'></td>" +
-            "</tr></table>"
+
+        function createButton(title, icon, visible, size, event){
+            return (
+                IButton.create({
+                    layoutAlign:"center",
+                    iconAlign:"left",
+                    iconSize: 24,
+                    width: size,
+                    height: 24,
+                    visibility: visible,
+                    showDownIcon: false,
+                    title:title,
+                    icon: imgDir+"/"+icon,
+                    showFocused: false,
+                    baseStyle:"cardBoxToolButton",
+                    click: event
+                }));
+        }
+
+
+        this.contextMenu  = isc.Menu.create({
+            autoDraw: false,
+            showShadow: false,
+            shadowDepth: 10,
+            data: [
+                {title: "Экспорт в PDF", icon:imgDir+"/ic_export.png", click:this.exportToPDF},
+                {title: "Составить сообщение", icon:imgDir+"/ic_email.png", click:this.exportToPDF}
+
+            ]
         });
 
-        this.btnAddConatact =  IButton.create({
-            iconSize: 24,
-            showDownIcon: false,
-            title:"Добавить",
-            icon: imgDir+"/ic_add_blue.png",
-            showFocused: false,
-            baseStyle:"cardBoxToolButton",
-            click: this.addContact
+        this.menuBar = MenuButton.create({
+            title:"",
+            width:1,
+            height:24,
+            menu:this.contextMenu,
+            baseStyle:"cardBoxToolButton"
         });
 
+        this.btnAddConatact =  createButton("Добавить", "ic_add_blue.png", "visible", 120,this.addContact);
+        this.btnDelConatact =  createButton("Удалить", "ic_delete_blue.png", "visible", 120, this.deleteContact);
+        this.btnEditConatact=  createButton("Изменить", "ic_edit_blue.png", "visible",120, this.editContact);
 
-        this.btnDelConatact = IButton.create({
-            iconSize: 24,
-            showDownIcon: false,
-            title:"Удалить",
-            icon: imgDir+"/ic_delete_blue.png",
-            showFocused: false,
-            baseStyle:"cardBoxToolButton",
-            click: this.deleteContact
-        });
+        this.btnMenu = createButton(null, "ic_menu.png", "visible",24, function(){ContactsForm.menuBar.showMenu()});
+
+        this.btnExpand = createButton(null,"ic_expand.png", "visible", 24, ContactsForm.cardExpand);
+        this.btnCommit = createButton(null,"ic_commit.png", "hidden", 24,ContactsForm.commitChanges);
+        this.btnRollback = createButton(null,"ic_rollback.png", "hidden",24, ContactsForm.rollbackChanges);
 
 
-        this.btnEditConatact = IButton.create({
-            iconSize: 24,
-            showDownIcon: false,
-            title:"Изменить",
-            icon: imgDir+"/ic_edit_blue.png",
-            showFocused: false,
-            baseStyle:"cardBoxToolButton",
-            click: this.editContact
+        this.header = HLayout.create({
+            width:"100%",
+            padding:10,
+            members: [
+                this.btnExpand,
+                HTMLFlow.create({
+                    width:"100%",
+                    contents:"<div class='cardBoxTitle'>Контакты</div>"
+                }),
+                this.btnCommit,
+                this.btnRollback,
+                this.btnMenu,
+                this.menuBar
+            ]
         });
 
 
@@ -101,18 +126,18 @@ ContactsForm ={
     },
 
     cardExpand: function () {
-        for (var i = 1; i < this.content.members.length; i++) {
-            if (this.expanded) {
-                this.content.members[i].hide();
-                this.content.setHeight(30);
-                $("#contactsCardExpandButton").attr("src", imgDir + "/ic_collapse.png");
+        for (var i = 1; i < ContactsForm.content.members.length; i++) {
+            if (ContactsForm.expanded) {
+                ContactsForm.content.members[i].hide();
+                ContactsForm.content.setHeight(30);
+                ContactsForm.btnExpand.setIcon(imgDir+"/ic_collapse.png");
             } else {
-                this.content.members[i].show();
-                this.content.setHeight(300);
-                $("#contactsCardExpandButton").attr("src", imgDir + "/ic_expand.png");
+                ContactsForm.content.members[i].show();
+                ContactsForm.content.setHeight(300);
+                ContactsForm.btnExpand.setIcon(imgDir+"/ic_expand.png");
             }
         }
-        this.expanded = !this.expanded;
+        ContactsForm.expanded = ! ContactsForm.expanded;
     },
 
     commitChanges: function () {
@@ -159,8 +184,13 @@ ContactsForm ={
     },
 
     setChangeBlockState: function (state) {
-        $("#contactsCardBoxCommitChangesButton").attr("style", "visibility:" + state);
-        $("#contactsCardBoxRollbackChangesButton").attr("style", "visibility:" + state);
+        if(state == "visible") {
+            ContactsForm.btnCommit.show();
+            ContactsForm.btnRollback.show();
+        } else {
+            ContactsForm.btnCommit.hide();
+            ContactsForm.btnRollback.hide();
+        }
     },
 
     addContact: function () {
@@ -226,5 +256,61 @@ ContactsForm ={
              var index =  navContactsGrid.listGrid.getRecordIndex(navContactsGridItem);
              navContactsGrid.listGrid.scrollToRow(index);
          }
+    },
+
+    exportToPDF: function() {
+
+        function formatAddress(data) {
+            var result = "";
+            var fields = ['post', 'district', 'region', 'city', 'street', 'building'];
+            for (var i = 0; i < fields.length; i++) {
+              if (typeof data[fields[i]] != "undefined")
+                if (data[fields[i]].length > 0) {
+                    result = result + data[fields[i]]+" ";
+                    if (i != fields.length) result = result+",";
+                }
+            }
+            return result.substring(0, result.length-1);
+        }
+
+        var customer = CustomerForm.getData();
+        var docDef = {
+            content: [
+                {text: 'Организация', fontSize: 15,  margin: 5 },
+
+                {table: {
+                    headerRows: 1,
+                    widths: [ '*', '*'],
+                    body: [
+                        ['Наименование', customer.title],
+                        ['Полное наименование', customer.titleFull],
+                        ['ИНН', customer.inn],
+                        ['Адрес', formatAddress(customer)]
+                    ]
+                }},
+                {text: 'Контакты', fontSize: 15,  margin: 5 },
+
+                {table: {
+                    headerRows: 1,
+                    widths: [ 110, 90, 90, 90, 90],
+                    body: [
+                        ['Имя', "Должность", "Телефон", "Мобильный", "E-mail"]
+                    ]
+                }}
+            ]
+
+        };
+
+
+        for (var i = 0; i < ContactsForm.contactsGrid.data.length; i++) {
+            docDef.content[3].table.body.push([
+                ContactsForm.contactsGrid.data[i].name,
+                ContactsForm.contactsGrid.data[i].position,
+                ContactsForm.contactsGrid.data[i].phone,
+                ContactsForm.contactsGrid.data[i].mobile,
+                ContactsForm.contactsGrid.data[i].email]);
+        }
+
+        pdfMake.createPdf(docDef).open();
     }
 };

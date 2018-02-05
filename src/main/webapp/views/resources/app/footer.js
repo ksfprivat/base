@@ -1,5 +1,5 @@
 function getFooter() {
     return "<div class='footer'>" +
-            "<a class='footer_text'>Base 2.0 Copyright (c) 2017</a>" +
+            "<a class='footer_text'>Base CRM Copyright (c) 2018 (build 180205)</a>" +
             "</div>";
 }

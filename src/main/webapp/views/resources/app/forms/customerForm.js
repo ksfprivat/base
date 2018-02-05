@@ -4,16 +4,18 @@ CustomerForm = {
         this.expanded = true;
         this.changed = false;
         this.data = null;
-        // this.header = HTMLFlow.create({
-        //     contents: "<table class='cardBoxTitle'><tr>" +
-        //     "<td><input id='cardBoxExpandButton' title='Свернуть' type='image' src='" + imgDir + "/ic_expand.png' class='cardBoxHeaderButton' onclick='CustomerForm.cardExpand()'></td>" +
-        //     "<td width='100%'>Организация</td>" +
-        //     "<td><input id='cardBoxCommitChangesButton' title='Сохранить' type='image' src='" + imgDir + "/ic_commit.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='CustomerForm.commitChanges()'></td>" +
-        //     "<td><input id='cardBoxRollbackChangesButton' title='Отменить' type='image' src='" + imgDir + "/ic_rollback.png' class='cardBoxHeaderButton' style='visibility: hidden' onclick='CustomerForm.rollbackChanges()'></td>" +
-        //     "<td><input title='Экспорт' type='image' src='" + imgDir + "/ic_menu.png' class='cardBoxHeaderButton' onclick=''></td>" +
-        //     "</tr></table>"
-        // });
 
+
+        this.contextMenu  = isc.Menu.create({
+            ID: "menu",
+            autoDraw: false,
+            showShadow: true,
+            imageSize:24,
+            shadowDepth: 10,
+            data: [
+                {title: "Экспорт в PDF", icon:imgDir+"/ic_export.png", click:CustomerForm.exportToPDF}
+            ]
+        });
 
         function createButton(icon, visible, event){
             return (
@@ -36,9 +38,19 @@ CustomerForm = {
         this.btnExpand = createButton("ic_expand.png", "visible", CustomerForm.cardExpand);
         this.btnCommit = createButton("ic_commit.png", "hidden", CustomerForm.commitChanges);
         this.btnRollback = createButton("ic_rollback.png", "hidden", CustomerForm.rollbackChanges);
-        this.btnMenu = createButton("ic_menu.png", "visible");
 
-        this.xHeader = HLayout.create({
+        this.btnMenu = createButton("ic_menu.png", "visible", function(){CustomerForm.menuBar.showMenu()});
+
+        this.menuBar = MenuButton.create({
+            title:"",
+            width:1,
+            height:24,
+            menu:CustomerForm.contextMenu,
+            baseStyle:"cardBoxToolButton"
+        });
+
+
+        this.header = HLayout.create({
            width:"100%",
            padding:10,
            members: [
@@ -49,7 +61,8 @@ CustomerForm = {
                }),
                this.btnCommit,
                this.btnRollback,
-               this.btnMenu
+               this.btnMenu,
+               this.menuBar
            ]
         });
 
@@ -100,8 +113,7 @@ CustomerForm = {
             height: "300",
             autoDraw: false,
             members: [
-                // this.header,
-                this.xHeader,
+                this.header,
                 blockTitle("Наименование"),
                 this.titleBlock,
                 blockTitle("Адрес"),
@@ -158,12 +170,10 @@ CustomerForm = {
             if (CustomerForm.expanded) {
                 CustomerForm.content.members[i].hide();
                 CustomerForm.content.setHeight(30);
-                // $("#cardBoxExpandButton").attr("src", imgDir + "/ic_collapse.png");
                 CustomerForm.btnExpand.setIcon(imgDir+"/ic_collapse.png");
             } else {
                 CustomerForm.content.members[i].show();
                 CustomerForm.content.setHeight(300);
-                // $("#cardBoxExpandButton").attr("src", imgDir + "/ic_expand.png");
                 CustomerForm.btnExpand.setIcon(imgDir+"/ic_expand.png");
             }
         }
@@ -178,14 +188,46 @@ CustomerForm = {
             CustomerForm.btnCommit.hide();
             CustomerForm.btnRollback.hide();
         }
-
-        // $("#cardBoxCommitChangesButton").attr("style", "visibility:" + state);
-        // $("#cardBoxRollbackChangesButton").attr("style", "visibility:" + state);
-    },
+     },
 
     clearData: function() {
         CustomerForm.titleBlock.clearValues();
         CustomerForm.addressBlock.clearValues();
+    },
+
+    exportToPDF:function() {
+
+        function formatAddress(data) {
+            var result = "";
+            var fields = ['post', 'district', 'region', 'city', 'street', 'building'];
+            for (var i = 0; i < fields.length; i++) {
+                if (typeof data[fields[i]] != "undefined")
+                    if (data[fields[i]].length > 0) {
+                        result = result + data[fields[i]]+" ";
+                        if (i != fields.length) result = result+",";
+                    }
+            }
+            return result.substring(0, result.length-1);
+        }
+
+        var customer = CustomerForm.getData();
+        var docDef = {
+            content: [
+                {text: 'Организация', fontSize: 15,  margin: 5 },
+
+                {table: {
+                    headerRows: 1,
+                    widths: [ '*', '*'],
+                    body: [
+                        ['Наименование', customer.title],
+                        ['Полное наименование', customer.titleFull],
+                        ['ИНН', customer.inn],
+                        ['Адрес', formatAddress(customer)]
+                    ]
+                }}
+                ]};
+
+        pdfMake.createPdf(docDef).open();
     }
 
 };
