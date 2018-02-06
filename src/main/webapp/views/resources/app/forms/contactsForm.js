@@ -10,6 +10,7 @@ ContactsForm ={
                 IButton.create({
                     layoutAlign:"center",
                     iconAlign:"left",
+                    align:"left",
                     iconSize: 24,
                     width: size,
                     height: 24,
@@ -43,9 +44,9 @@ ContactsForm ={
             baseStyle:"cardBoxToolButton"
         });
 
-        this.btnAddConatact =  createButton("Добавить", "ic_add_blue.png", "visible", 120,this.addContact);
-        this.btnDelConatact =  createButton("Удалить", "ic_delete_blue.png", "visible", 120, this.deleteContact);
-        this.btnEditConatact=  createButton("Изменить", "ic_edit_blue.png", "visible",120, this.editContact);
+        this.btnAddConatact =  createButton("Добавить", "ic_add_blue.png", "visible", 110,this.addContact);
+        this.btnDelConatact =  createButton("Удалить", "ic_delete_blue.png", "visible", 110, this.deleteContact);
+        this.btnEditConatact=  createButton("Изменить", "ic_edit_blue.png", "visible",110, this.editContact);
 
         this.btnMenu = createButton(null, "ic_menu.png", "visible",24, function(){ContactsForm.menuBar.showMenu()});
 
@@ -73,7 +74,7 @@ ContactsForm ={
 
         this.toolBarBlock = HLayout.create({
             width: "100%",
-            margin:4,
+            margin:6,
             height: 32,
             members:[
                 this.btnAddConatact,

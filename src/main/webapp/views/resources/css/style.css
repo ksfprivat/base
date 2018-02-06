@@ -6,7 +6,7 @@ body {
 }
 
 body:after {
-    content: url("/resources/img/splash.png");
+    content: url("/resources/img/splash.png") url("/resources/img/preloader.gif");
     display: none;
 }
 
