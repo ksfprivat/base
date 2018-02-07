@@ -14,7 +14,7 @@ CustomerForm = {
             shadowDepth: 10,
             valueIconSize:24,
             data: [
-                {title: "Экспорт в PDF", icon:imgDir+"/ic_export.png", click:CustomerForm.exportToPDF}
+                {title: "Экспорт в PDF", icon:imgDir+"/ic_pdf.png", click:CustomerForm.exportToPDF}
             ]
         });
 
@@ -167,7 +167,7 @@ CustomerForm = {
     },
 
     cardExpand: function () {
-        for (var i = 2; i < CustomerForm.content.members.length; i++) {
+        for (var i = 1; i < CustomerForm.content.members.length; i++) {
             if (CustomerForm.expanded) {
                 CustomerForm.content.members[i].hide();
                 CustomerForm.content.setHeight(30);

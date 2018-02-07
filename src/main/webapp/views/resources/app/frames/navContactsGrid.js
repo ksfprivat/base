@@ -54,7 +54,7 @@ NavContactsGrid =  {
             }
             listGrid.setDataSource(dataSource);
             listGrid.hideFields(["id", "name"]);
-            SplashWindow.window.close();
+            afterLoad();
         });
     },
 

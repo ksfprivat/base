@@ -6,7 +6,7 @@ body {
 }
 
 body:after {
-    content: url("/resources/img/splash.png") url("/resources/img/preloader.gif");
+    content: url("/resources/img/splash.png");
     display: none;
 }
 
@@ -73,11 +73,11 @@ div.dummy {
 }
 
 .header_text {
-    font-size: 9pt;
+    font-size: 11pt;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     color: #ffffff;
-    line-height: 40px;
-    padding: 10px;
+    /*line-height: 40px;*/
+    /*padding: 10px;*/
 }
 
 

@@ -25,13 +25,14 @@ ContactsForm ={
         }
 
 
-        this.contextMenu  = isc.Menu.create({
+        this.contextMenu  = Menu.create({
             autoDraw: false,
             showShadow: false,
+            imageSize: 24,
             shadowDepth: 10,
             data: [
-                {title: "Экспорт в PDF", icon:imgDir+"/ic_export.png", click:this.exportToPDF},
-                {title: "Составить сообщение", icon:imgDir+"/ic_email.png", click:this.exportToPDF}
+                {title: "Экспорт в PDF", icon:imgDir+"/ic_pdf.png", click:this.exportToPDF},
+                {title: "Составить сообщение...", icon:imgDir+"/ic_email.png", click:this.mailTo}
 
             ]
         });
@@ -259,6 +260,15 @@ ContactsForm ={
          }
     },
 
+    mailTo: function () {
+        var record= ContactsForm.contactsGrid.getSelectedRecord();
+        if (record == null || (record.email.length == 0) || (typeof record.email == "undefined") ) {
+            isc.warn("Невозможно оставить сообщение для адресата - нет корректного адреса email");
+        } else {
+            window.location.href = "mailto:"+record.email;
+        }
+    },
+
     exportToPDF: function() {
 
         function formatAddress(data) {
@@ -301,7 +311,6 @@ ContactsForm ={
             ]
 
         };
-
 
         for (var i = 0; i < ContactsForm.contactsGrid.data.length; i++) {
             docDef.content[3].table.body.push([

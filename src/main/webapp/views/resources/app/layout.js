@@ -1,13 +1,14 @@
 const imgDir = "/resources/img/ui";
-var appLqyout;
+var  header;
 
 function createLayout() {
+    header = Header.create();
     VLayout.create({
         width: "100%",
         height:"100%",
         autoDraw:true,
         members:[
-            createHeader(),
+            header.headerBar,
             createMainFrame(),
             createFooter()
         ]
@@ -19,7 +20,6 @@ function createMainFrame() {
         HLayout.create({
             width:  "100%",
             height: "100%",
-
             members:[
                 createNavigationFrame(),
                 createBrowserFrame()
@@ -28,21 +28,14 @@ function createMainFrame() {
    );
 }
 
-// function separator() {
-//     return VLayout.create({height:3});
-// }
-
-
-function createHeader() {
-    return HTMLFlow.create({
-        width: "100%",
-        contents: getHeader()
-    });
-}
 
 function createFooter() {
     return HTMLFlow.create({
         width: "100%",
         contents: getFooter()
     });
+}
+
+function afterLoad() {
+    SplashWindow.window.close();
 }
