@@ -10,6 +10,20 @@ function getcurrentUser(callback) {
     });
 }
 
+
+function setCurrentUser() {
+   getcurrentUser(function(data) {
+       var html = "<div class='header'>" +
+           "<div class='logo'><img src='/resources/img/logo.png'/></div>"+
+           "<div class='header_login'>"+
+           "<img style='float: left' src='/resources/img/user_profile.png'>"+
+           "<a class='header_text' id='userName'>"+data+"@base.org&nbsp;</a>"+
+           "<a class='header_text' href='/logout'>Logout</a> "+
+           "</div></div>";
+       header.setContents(html);
+   });
+}
+
 function getHeader() {
     var header;
 
@@ -22,5 +36,4 @@ function getHeader() {
             "</div></div>";
 
     return header;
-
 }

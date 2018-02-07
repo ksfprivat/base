@@ -167,7 +167,7 @@ CustomerForm = {
     },
 
     cardExpand: function () {
-        for (var i = 2; i < CustomerForm.content.members.length; i++) {
+        for (var i = 1; i < CustomerForm.content.members.length; i++) {
             if (CustomerForm.expanded) {
                 CustomerForm.content.members[i].hide();
                 CustomerForm.content.setHeight(30);
