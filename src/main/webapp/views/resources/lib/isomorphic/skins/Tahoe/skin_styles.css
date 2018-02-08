@@ -1021,22 +1021,26 @@ into the listGrid filterEditor  */
 .menuSelected img,
 .menuIconFieldOver img,
 .menuOver img {
-  filter: brightness(400%);
-  -webkit-filter: brightness(400%);
-  -moz-filter: brightness(400%);
-  -o-filter: brightness(400%);
-  -ms-filter: brightness(400%);
+  height: 24px;
+  width: 24px;
+  /*filter: brightness(400%);*/
+  /*-webkit-filter: brightness(400%);*/
+  /*-moz-filter: brightness(400%);*/
+  /*-o-filter: brightness(400%);*/
+  /*-ms-filter: brightness(400%);*/
 }
 
-/*
+
 .menuIconField img,
 .menu img {
-	filter: contrast(0%);
-	-webkit-filter: contrast(0%);
-	-moz-filter: contrast(0%);
-	-o-filter: contrast(0%);
-	-ms-filter: contrast(0%);
-}*/
+    width: 24px;
+    height: 24px;
+    /*filter: contrast(0%);*/
+    /*-webkit-filter: contrast(0%);*/
+    /*-moz-filter: contrast(0%);*/
+    /*-o-filter: contrast(0%);*/
+    /*-ms-filter: contrast(0%);*/
+}
 /* menu header buttons */
 .menuButton,
 .menuButtonOver,
@@ -3021,6 +3025,7 @@ ul {
 .treeMenuSelectedOverDark,
 .treeMenuSelectedSelected,
 .treeMenuSelectedSelectedOver {
+
   background-color: #157fcc;
   color: #fff;
 }
@@ -3047,6 +3052,7 @@ ul {
 .menuIconFieldSelectedOver,
 .menuIconFieldSelectedOverDark,
 .menuIconFieldDisabled {
+
   padding-left: 17px;
   padding-right: 4px;
 }

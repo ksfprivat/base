@@ -41,6 +41,8 @@ NavContactsGrid =  {
                     {name: "title", title:"Контакты"},
                     {name: "name"}
                 ],
+                // cacheAllData:true,
+                // autoCacheAllData: true,
                 clientOnly: true
             });
 
@@ -52,8 +54,7 @@ NavContactsGrid =  {
             }
             listGrid.setDataSource(dataSource);
             listGrid.hideFields(["id", "name"]);
-
-            showLayout();
+            afterLoad();
         });
     },
 

@@ -27,7 +27,7 @@ SplashWindow = {
                     contents:[
                         "<br><div align = 'center' style='color: #7D7D7D; font-size: 16px'>Загрузка данных...</div>"+
                         "<br><div align = 'center' style='color: #7D7D7D; font-size: 10px'>BASE CRM Customer Relationship Management System."+"" +
-                        "<br>Copyright (c) 2018 Fedotovskih Konstantin</div>"
+                        "<br>Copyright (c) 2018 Fedotovskih Konstantin</div><br>"
                     ]
                 })
 
