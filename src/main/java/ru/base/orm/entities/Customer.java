@@ -7,6 +7,7 @@ import java.util.Collection;
 
 
 @Entity
+@Table(name = "customer")
 public class Customer {
     private int id;
     private String title;
