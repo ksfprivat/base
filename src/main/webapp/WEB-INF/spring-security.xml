@@ -41,6 +41,9 @@
             <user-service>
                 <user name="admin" password="$2a$12$QOzaiuSsr.foKhf9D2VMveWR9TjVvKE8JmbeqWGPwoO.Ah7rxQbVm" authorities="ROLE_ADMIN" />
                 <user name="user" password="$2a$12$epf4lYS5fEBl0VROHoxvkO9rEJwFsp51XMSWyaKh7DTeSMQUl2Ppu" authorities="ROLE_USER" />
+                <user name="boa" password="$2a$12$mFyRFQScLp9MAHJSfC0ok.CZzTEnZQ5WCSYo9u51fz1Q58kWBgPFK" authorities="ROLE_USER" />
+                <user name="lsu" password="$2a$12$23D3r53t5I9SbST5.eEEA.U0nUaOP/qiu96pcwQrGQ1jxnMGN6oti" authorities="ROLE_USER" />
+                <user name="usp" password="$2a$12$ZJ7/GevFARBgAX2mE6L6Zu63QluK1EDGFs2T2bcT6bLZ0zdE/PS8O" authorities="ROLE_USER" />
             </user-service>
         </authentication-provider>
     </authentication-manager>

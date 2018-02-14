@@ -9,7 +9,6 @@
               http://www.springframework.org/schema/tx
               http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-
               <tx:annotation-driven />
 
               <context:component-scan
@@ -21,7 +20,7 @@
               <bean id="dataSource" class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
                      <property name="url" value="jdbc:mysql://localhost:3306/data" />
                      <property name="user" value="root" />
-                     <property name="password" value="Exploit84" />
+                     <property name="password" value="password" />
               </bean>
 
               <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -33,7 +32,7 @@
                                    <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/data</prop>
                                    <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
                                    <!--Enable automatic open and close session for lazy data access strategy-->
-                                   <prop key="hibernate.enable_lazy_load_no_trans">true </prop>
+                                   <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
                             </props>
                      </property>
                      <property name="packagesToScan" value="ru.base.orm.entities" />

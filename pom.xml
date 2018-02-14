@@ -142,12 +142,16 @@
         </dependency>
 
         <!-- MySQL JDBC driver -->
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+            <!--<version>5.1.31</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.31</version>
+            <version>5.1.45</version>
         </dependency>
-
         <!--Java servlet-->
         <dependency>
             <groupId>javax.servlet</groupId>
