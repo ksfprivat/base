@@ -32,7 +32,7 @@ ContactsForm ={
             shadowDepth: 10,
             data: [
                 {title: "Экспорт в PDF", icon:imgDir+"/ic_pdf.png", click:this.exportToPDF},
-                {title: "Составить сообщение...", icon:imgDir+"/ic_email.png", click:this.mailTo},
+                {title: "Составить сообщение...", icon:imgDir+"/ic_send.png", click:this.mailTo},
                 {title: "Вид: Страница", icon:imgDir+"/ic_page_view.png", click:this.setPageViewMode},
                 {title: "Вид: Карточка", icon:imgDir+"/ic_card_view.png", click:this.setCadViewMode}
             ]
@@ -51,11 +51,15 @@ ContactsForm ={
         this.btnEditConatact=  createButton("Изменить", "ic_edit_blue.png", "visible",110, this.editContact);
 
         this.btnMenu = createButton(null, "ic_menu.png", "visible",24, function(){ContactsForm.menuBar.showMenu()});
+        this.btnMaximize = createButton(null, "ic_resize_max.png", "visible",24, this.setPageViewMode);
+        this.btnMinimize = createButton(null, "ic_resize_min.png", "hidden",24, this.setCadViewMode);
 
         this.btnExpand = createButton(null,"ic_expand.png", "visible", 24, ContactsForm.cardExpand);
         this.btnCommit = createButton(null,"ic_commit.png", "hidden", 24,ContactsForm.commitChanges);
         this.btnRollback = createButton(null,"ic_rollback.png", "hidden",24, ContactsForm.rollbackChanges);
 
+
+        this.spacer = VLayout.create({width:"6"});
 
         this.header = HLayout.create({
             width:"100%",
@@ -67,7 +71,12 @@ ContactsForm ={
                     contents:"<div class='cardBoxTitle'>Контакты</div>"
                 }),
                 this.btnCommit,
+                this.spacer,
                 this.btnRollback,
+                this.spacer,
+                this.btnMaximize,
+                this.btnMinimize,
+                this.spacer,
                 this.btnMenu,
                 this.menuBar
             ]
@@ -333,6 +342,8 @@ ContactsForm ={
     },
 
     setPageViewMode: function () {
+       ContactsForm.btnMaximize.hide();
+       ContactsForm.btnMinimize.show();
         if (!ContactsForm.expanded)
             ContactsForm.cardExpand();
         ContactsForm.btnExpand.hide();
@@ -347,6 +358,8 @@ ContactsForm ={
     },
 
     setCadViewMode: function () {
+        ContactsForm.btnMaximize.show();
+        ContactsForm.btnMinimize.hide();
         ContactsForm.btnExpand.show();
         ContactsForm.customerTitle.hide();
         browserFrame.members.forEach(function (member) {

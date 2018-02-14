@@ -50,6 +50,7 @@ CustomerForm = {
             baseStyle:"cardBoxToolButton"
         });
 
+        this.spacer = VLayout.create({width:"6"});
 
         this.header = HLayout.create({
            width:"100%",
@@ -61,7 +62,9 @@ CustomerForm = {
                    contents:"<div class='cardBoxTitle'>Организация</div>"
                }),
                this.btnCommit,
+               this.spacer,
                this.btnRollback,
+               this.spacer,
                this.btnMenu,
                this.menuBar
            ]
