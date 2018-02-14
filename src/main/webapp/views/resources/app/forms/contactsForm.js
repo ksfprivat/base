@@ -32,8 +32,9 @@ ContactsForm ={
             shadowDepth: 10,
             data: [
                 {title: "Экспорт в PDF", icon:imgDir+"/ic_pdf.png", click:this.exportToPDF},
-                {title: "Составить сообщение...", icon:imgDir+"/ic_email.png", click:this.mailTo}
-
+                {title: "Составить сообщение...", icon:imgDir+"/ic_email.png", click:this.mailTo},
+                {title: "Вид: Страница", icon:imgDir+"/ic_page_view.png", click:this.setPageViewMode},
+                {title: "Вид: Карточка", icon:imgDir+"/ic_card_view.png", click:this.setCadViewMode}
             ]
         });
 
@@ -72,6 +73,9 @@ ContactsForm ={
             ]
         });
 
+        this.customerTitle = HTMLFlow.create({
+            width: "100%", visibility: "hidden"
+        });
 
         this.toolBarBlock = HLayout.create({
             width: "100%",
@@ -117,6 +121,7 @@ ContactsForm ={
             autoDraw: false,
             members: [
                 this.header,
+                this.customerTitle,
                 this.toolBarBlock,
                 this.contactsGrid
             ]
@@ -128,14 +133,15 @@ ContactsForm ={
     },
 
     cardExpand: function () {
-        for (var i = 1; i < ContactsForm.content.members.length; i++) {
+        var expandedHeight = (ContactsForm.customerTitle.visibility != "hidden") ? "100%":"300";
+        for (var i = 2; i < ContactsForm.content.members.length; i++) {
             if (ContactsForm.expanded) {
                 ContactsForm.content.members[i].hide();
                 ContactsForm.content.setHeight(30);
                 ContactsForm.btnExpand.setIcon(imgDir+"/ic_collapse.png");
             } else {
                 ContactsForm.content.members[i].show();
-                ContactsForm.content.setHeight(300);
+                ContactsForm.content.setHeight(expandedHeight);
                 ContactsForm.btnExpand.setIcon(imgDir+"/ic_expand.png");
             }
         }
@@ -182,6 +188,8 @@ ContactsForm ={
     setData: function (contacts, customerId) {
         ContactsForm.changeCache = [];
         ContactsForm.customerId = customerId;
+        if (ContactsForm.customerTitle.visibility != "hidden")
+            ContactsForm.setCustomerTitle();
         ContactsForm.contactsGrid.setData(contacts);
     },
 
@@ -322,5 +330,38 @@ ContactsForm ={
         }
 
         pdfMake.createPdf(docDef).open();
+    },
+
+    setPageViewMode: function () {
+        if (!ContactsForm.expanded)
+            ContactsForm.cardExpand();
+        ContactsForm.btnExpand.hide();
+        ContactsForm.setCustomerTitle();
+        ContactsForm.customerTitle.show();
+        browserFrame.members.forEach(function (member) {
+           if (member !=  ContactsForm.content) {
+               member.hide();
+           }
+        });
+        ContactsForm.content.setHeight("100%");
+    },
+
+    setCadViewMode: function () {
+        ContactsForm.btnExpand.show();
+        ContactsForm.customerTitle.hide();
+        browserFrame.members.forEach(function (member) {
+            if (member !=  ContactsForm.content) {
+                member.show();
+            }
+        });
+        ContactsForm.content.setHeight("300");
+    },
+
+    setCustomerTitle: function() {
+        ContactsForm.customerTitle.setContents(
+            "<div class='cardBoxSectionTitle'>" +
+            customerCard.getData().title +
+            "</div><div class='cardBoxSeparator'/>"
+        );
     }
 };

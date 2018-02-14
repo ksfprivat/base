@@ -1137,7 +1137,8 @@ into the listGrid filterEditor  */
 .menuButtonSelectedOpened,
 .menuButtonSelectedDownOpened,
 .menuButtonSelectedOverOpened {
-  background-color: #157fcc;
+  /*background-color: #157fcc;*/
+    background-color: red;
   border: #157fcc solid 2px;
 }
 
@@ -3026,8 +3027,9 @@ ul {
 .treeMenuSelectedSelected,
 .treeMenuSelectedSelectedOver {
 
-  background-color: #157fcc;
-  color: #fff;
+  /*background-color: #157fcc;*/
+  background-color: #90CAF9;
+  /*color: #fff;*/
 }
 
 .menuTitleField,
