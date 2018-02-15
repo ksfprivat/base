@@ -18,7 +18,7 @@ CustomerForm = {
             ]
         });
 
-        function createButton(icon, visible, event){
+        function createButton(icon, visible, title, event){
             return (
                 IButton.create({
                     layoutAlign:"center",
@@ -28,7 +28,7 @@ CustomerForm = {
                     height: 24,
                     visibility: visible,
                     showDownIcon: false,
-                    title:null,
+                    title:title,
                     icon: imgDir+"/"+icon,
                     showFocused: false,
                     baseStyle:"cardBoxToolButton",
@@ -36,11 +36,13 @@ CustomerForm = {
             }));
         }
 
-        this.btnExpand = createButton("ic_expand.png", "visible", CustomerForm.cardExpand);
-        this.btnCommit = createButton("ic_commit.png", "hidden", CustomerForm.commitChanges);
-        this.btnRollback = createButton("ic_rollback.png", "hidden", CustomerForm.rollbackChanges);
+        this.btnExpand = createButton("ic_expand.png", "visible", null, CustomerForm.cardExpand);
+        this.btnCommit = createButton("ic_commit.png", "hidden", null, CustomerForm.commitChanges);
+        this.btnRollback = createButton("ic_rollback.png", "hidden", null, CustomerForm.rollbackChanges);
 
-        this.btnMenu = createButton("ic_menu.png", "visible", function(){CustomerForm.menuBar.showMenu()});
+        this.btnMenu = createButton("ic_menu.png", "visible", null, function(){CustomerForm.menuBar.showMenu()});
+        this.btnAddNote = createButton("ic_note_add.png", "visible", null, null);
+        this.btnShowNotes = createButton("ic_note.png", "hidden", "Примечания (3)", null);
 
         this.menuBar = MenuButton.create({
             title:"",
@@ -64,6 +66,9 @@ CustomerForm = {
                this.btnCommit,
                this.spacer,
                this.btnRollback,
+               this.spacer,
+               this.btnShowNotes,
+               this.btnAddNote,
                this.spacer,
                this.btnMenu,
                this.menuBar
@@ -106,6 +111,26 @@ CustomerForm = {
 
         });
 
+        this.notesBlock = DynamicForm.create({
+            colWidths: [1, "*"],
+            numCols: 2,
+            height: 120,
+            padding: 6,
+            margin: 8,
+            cellPadding:0,
+            length: 5000,
+            showTitle: false,
+            titleSuffix: null,
+            colSpan: 2,
+            autoDraw: false,
+            fields: [
+                {name: "note", title: null, type:"textArea", width:"100%", height:"*"}
+            ],
+
+            itemChanged: this.fieldsChanged
+
+        });
+
         function blockTitle(title) {
             return HTMLFlow.create({
                 contents: "<div class='cardBoxSectionTitle'>" + title + "</div><div class='cardBoxSeparator'/>"
@@ -122,6 +147,9 @@ CustomerForm = {
                 this.titleBlock,
                 blockTitle("Адрес"),
                 this.addressBlock
+                ,
+                blockTitle("Примечания"),
+                this.notesBlock
             ]
         });
 
@@ -135,6 +163,14 @@ CustomerForm = {
         CustomerForm.data = customer;
         CustomerForm.titleBlock.setValues(this.data);
         CustomerForm.addressBlock.setValues(this.data);
+        CustomerForm.notesBlock.setValue("note", this.data.note);
+        if (this.data.note != null) {
+            CustomerForm.btnAddNote.hide();
+            CustomerForm.btnShowNotes.show();
+        } else {
+            CustomerForm.btnAddNote.show();
+            CustomerForm.btnShowNotes.hide();
+        }
         CustomerForm.setChangeBlockState("hidden");
     },
 
@@ -145,12 +181,15 @@ CustomerForm = {
       for (var i = 0; i < addressBlockFields.length; i++) {
           result[addressBlockFields[i].name] = CustomerForm.addressBlock.getValue(addressBlockFields[i].name);
       }
+      result["note"] = CustomerForm.notesBlock.getValue("note");
       return result;
     },
 
-    fieldsChanged: function () {
-        CustomerForm.changed = true;
-        CustomerForm.setChangeBlockState("visible");
+    fieldsChanged: function (item, newValue, oldValue) {
+        if (newValue != oldValue) {
+            CustomerForm.changed = true;
+            CustomerForm.setChangeBlockState("visible");
+        }
     },
 
     commitChanges: function () {

@@ -20,6 +20,7 @@ public class Customer {
     private String district;
     private String inn;
     private String region;
+    private String note;
     private Collection<Contact> contactsById;
     private Collection<Contract> contractsById;
 
@@ -122,6 +123,16 @@ public class Customer {
 
     public void setInn(String inn) {
         this.inn = inn;
+    }
+
+    @Basic
+    @Column(name = "note", nullable = true)
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     @Basic
