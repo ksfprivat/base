@@ -41,8 +41,11 @@ CustomerForm = {
         this.btnRollback = createButton("ic_rollback.png", "hidden", null, CustomerForm.rollbackChanges);
 
         this.btnMenu = createButton("ic_menu.png", "visible", null, function(){CustomerForm.menuBar.showMenu()});
-        this.btnAddNote = createButton("ic_note_add.png", "visible", null, null);
-        this.btnShowNotes = createButton("ic_note.png", "hidden", "Примечания (3)", null);
+        this.btnHideNotes = createButton("ic_expand.png", "hidden", null, CustomerForm.showNotes);
+        this.btnNotesAlert = createButton("ic_info.png", "hidden", null, CustomerForm.showNotes);
+        this.btnMaximize = createButton("ic_resize_max.png", "visible", null, CustomerForm.setPageViewMode);
+        this.btnMinimize = createButton("ic_resize_min.png", "hidden", null, null);
+
 
         this.menuBar = MenuButton.create({
             title:"",
@@ -67,8 +70,8 @@ CustomerForm = {
                this.spacer,
                this.btnRollback,
                this.spacer,
-               this.btnShowNotes,
-               this.btnAddNote,
+               this.btnMaximize,
+               this.btnMinimize,
                this.spacer,
                this.btnMenu,
                this.menuBar
@@ -108,8 +111,35 @@ CustomerForm = {
             ],
 
             itemChanged: this.fieldsChanged
-
         });
+
+       this.btnShowNotes =  IButton.create({
+            layoutAlign:"left",
+            iconAlign:"left",
+            align:"left",
+            iconSize: 24,
+            padding:4,
+            width: 150,
+            showDownIcon: false,
+            title:"Коментарии<img src='"+imgDir+"/ic_goto.png' style='vertical-align:middle'>",
+            icon: imgDir+"/ic_note.png",
+            showFocused: false,
+            baseStyle:"cardBoxToolButton",
+            click: CustomerForm.showNotes
+        });
+
+       this.notesBlockHeader = HLayout.create({
+           width:"100%",
+           members:[
+                HLayout.create({width:"14"}),
+                this.btnShowNotes,
+                HLayout.create({width:"100%"}),
+                this.btnNotesAlert,
+                HLayout.create({width:"6"}),
+                this.btnHideNotes,
+                HLayout.create({width:"12"})
+           ]
+       });
 
         this.notesBlock = DynamicForm.create({
             colWidths: [1, "*"],
@@ -123,12 +153,11 @@ CustomerForm = {
             titleSuffix: null,
             colSpan: 2,
             autoDraw: false,
+            visibility: "hidden",
             fields: [
                 {name: "note", title: null, type:"textArea", width:"100%", height:"*"}
             ],
-
             itemChanged: this.fieldsChanged
-
         });
 
         function blockTitle(title) {
@@ -146,10 +175,10 @@ CustomerForm = {
                 blockTitle("Наименование"),
                 this.titleBlock,
                 blockTitle("Адрес"),
-                this.addressBlock
-                ,
-                blockTitle("Примечания"),
-                this.notesBlock
+                this.addressBlock,
+                this.notesBlockHeader,
+                this.notesBlock,
+                VLayout.create({height:"12"})
             ]
         });
 
@@ -164,14 +193,9 @@ CustomerForm = {
         CustomerForm.titleBlock.setValues(this.data);
         CustomerForm.addressBlock.setValues(this.data);
         CustomerForm.notesBlock.setValue("note", this.data.note);
-        if (this.data.note != null) {
-            CustomerForm.btnAddNote.hide();
-            CustomerForm.btnShowNotes.show();
-        } else {
-            CustomerForm.btnAddNote.show();
-            CustomerForm.btnShowNotes.hide();
-        }
         CustomerForm.setChangeBlockState("hidden");
+        if (this.data.note != null) { CustomerForm.btnNotesAlert.show();}
+        else {CustomerForm.btnNotesAlert.hide();}
     },
 
     getData: function () {
@@ -271,7 +295,36 @@ CustomerForm = {
                 ]};
 
         pdfMake.createPdf(docDef).open();
+    },
+
+    showNotes: function () {
+        if (CustomerForm.notesBlock.visibility != "inherit") {
+            CustomerForm.btnHideNotes.show();
+            CustomerForm.notesBlock.show();
+            CustomerForm.btnShowNotes.setTitle("Коментарии");
+            CustomerForm.btnShowNotes.setWidth("130");
+        } else {
+            CustomerForm.btnHideNotes.hide();
+            CustomerForm.notesBlock.hide();
+            CustomerForm.btnShowNotes.setTitle("Коментарии<img src='"+imgDir+"/ic_goto.png' style='vertical-align:middle'>");
+            CustomerForm.btnShowNotes.setWidth("150");
+        }
     }
+
+    // setPageViewMode: function () {
+    //     CustomerForm.btnMaximize.hide();
+    //     CustomerForm.btnMinimize.show();
+    //     if (!CustomerForm.expanded)
+    //         CustomerForm.cardExpand();
+    //     CustomerForm.btnExpand.hide();
+    //     browserFrame.members.forEach(function (member) {
+    //         if (member !=  CustomerForm.content) {
+    //             member.hide();
+    //         }
+    //     });
+    //     CustomerForm.content.setHeight("100%");
+    // }
+
 
 };
 
