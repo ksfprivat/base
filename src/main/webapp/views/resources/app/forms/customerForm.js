@@ -304,17 +304,15 @@ CustomerForm = {
             CustomerForm.notesBlock.show();
             CustomerForm.btnShowNotes.setTitle("Коментарии");
             CustomerForm.btnShowNotes.setWidth("130");
-            if (CustomerForm.viewMode = "page") {
-                CustomerForm.footer.setHeight("12");
-            }
         } else {
-              CustomerForm.btnHideNotes.hide();
-              CustomerForm.notesBlock.hide();
-              CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_goto.png' style='vertical-align:middle'>");
-              CustomerForm.btnShowNotes.setWidth("150");
-              if (CustomerForm.viewMode = "page") {
-                  CustomerForm.footer.setHeight("100%");
-              }
+            CustomerForm.btnHideNotes.hide();
+            CustomerForm.notesBlock.hide();
+            CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_goto.png' style='vertical-align:middle'>");
+            CustomerForm.btnShowNotes.setWidth("150");
+            if (CustomerForm.viewMode == "page") {
+                console.log("gfgdf");
+                CustomerForm.footer.setHeight("100%");
+            } else CustomerForm.footer.setHeight("12");
         }
     },
 
