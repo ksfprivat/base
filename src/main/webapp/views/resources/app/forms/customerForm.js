@@ -4,7 +4,7 @@ CustomerForm = {
         this.expanded = true;
         this.changed = false;
         this.data = null;
-
+        this.viewMode = "card";
 
         this.contextMenu  = isc.Menu.create({
             ID: "menu",
@@ -44,8 +44,7 @@ CustomerForm = {
         this.btnHideNotes = createButton("ic_expand.png", "hidden", null, CustomerForm.showNotes);
         this.btnNotesAlert = createButton("ic_info.png", "hidden", null, CustomerForm.showNotes);
         this.btnMaximize = createButton("ic_resize_max.png", "visible", null, CustomerForm.setPageViewMode);
-        this.btnMinimize = createButton("ic_resize_min.png", "hidden", null, null);
-
+        this.btnMinimize = createButton("ic_resize_min.png", "hidden", null,  CustomerForm.setCardViewMode);
 
         this.menuBar = MenuButton.create({
             title:"",
@@ -166,6 +165,8 @@ CustomerForm = {
             });
         }
 
+        this.footer = VLayout.create({height:"12"});
+
         this.content = VLayout.create({
             width: "100%",
             height: "300",
@@ -178,7 +179,7 @@ CustomerForm = {
                 this.addressBlock,
                 this.notesBlockHeader,
                 this.notesBlock,
-                VLayout.create({height:"12"})
+                this.footer
             ]
         });
 
@@ -303,29 +304,53 @@ CustomerForm = {
             CustomerForm.notesBlock.show();
             CustomerForm.btnShowNotes.setTitle("Коментарии");
             CustomerForm.btnShowNotes.setWidth("130");
+            if (CustomerForm.viewMode = "page") {
+                CustomerForm.footer.setHeight("12");
+            }
         } else {
-            CustomerForm.btnHideNotes.hide();
-            CustomerForm.notesBlock.hide();
-            CustomerForm.btnShowNotes.setTitle("Коментарии<img src='"+imgDir+"/ic_goto.png' style='vertical-align:middle'>");
-            CustomerForm.btnShowNotes.setWidth("150");
+              CustomerForm.btnHideNotes.hide();
+              CustomerForm.notesBlock.hide();
+              CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_goto.png' style='vertical-align:middle'>");
+              CustomerForm.btnShowNotes.setWidth("150");
+              if (CustomerForm.viewMode = "page") {
+                  CustomerForm.footer.setHeight("100%");
+              }
         }
+    },
+
+     setPageViewMode: function () {
+         CustomerForm.viewMode = "page";
+         CustomerForm.btnMaximize.hide();
+         CustomerForm.btnMinimize.show();
+         if (!CustomerForm.expanded)
+             CustomerForm.cardExpand();
+         CustomerForm.btnExpand.hide();
+         browserFrame.members.forEach(function (member) {
+             if (member !=  CustomerForm.content) {
+                 member.hide();
+             }
+         });
+         CustomerForm.content.setHeight("100%");
+         CustomerForm.notesBlock.setHeight("100%");
+         CustomerForm.notesBlock.show();
+     },
+
+    setCardViewMode: function () {
+        CustomerForm.viewMode = "card";
+        CustomerForm.btnMaximize.show();
+        CustomerForm.btnMinimize.hide();
+        if (!CustomerForm.expanded)
+            CustomerForm.cardExpand();
+        CustomerForm.btnExpand.show();
+        browserFrame.members.forEach(function (member) {
+            if (member !=  CustomerForm.content) {
+                member.show();
+            }
+        });
+        CustomerForm.content.setHeight(300);
+        CustomerForm.notesBlock.setHeight(120);
+        CustomerForm.notesBlock.show();
     }
-
-    // setPageViewMode: function () {
-    //     CustomerForm.btnMaximize.hide();
-    //     CustomerForm.btnMinimize.show();
-    //     if (!CustomerForm.expanded)
-    //         CustomerForm.cardExpand();
-    //     CustomerForm.btnExpand.hide();
-    //     browserFrame.members.forEach(function (member) {
-    //         if (member !=  CustomerForm.content) {
-    //             member.hide();
-    //         }
-    //     });
-    //     CustomerForm.content.setHeight("100%");
-    // }
-
-
 };
 
 
