@@ -8,5 +8,9 @@ public class PasswordEncoder {
         System.out.println(encoder.encode("d1857s"));
         System.out.println(encoder.encode("m8639r"));
         System.out.println(encoder.encode("s4021q"));
+
+        System.out.println(encoder.encode("fin18"));
+        System.out.println(encoder.encode("buh18"));
+
     }
 }
