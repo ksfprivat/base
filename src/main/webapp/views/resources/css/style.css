@@ -329,8 +329,9 @@ div.dummy {
     align-items: center;
     text-align: center;
     padding: 6px;
-    color: #1565c0;
-    margin-bottom: 46px;
+    color: #757575;
+    margin-bottom: 8px;
+    height: 56px;
     font-size: 10px;
     font-family: RobotoLight, serif;
 }
@@ -338,4 +339,17 @@ div.dummy {
 .sideBarButton:hover {
     background: #E0E0E0;
     cursor: hand;
+}
+
+.mainMenuButton {
+    width: 24px;
+    height: 24px;
+    background-color: #00b956;
+    /*padding: 6px;*/
+    margin-left: 20px;
+    vertical-align: middle;
+}
+
+.mainMenuButton:hover {
+    background-color: #1e97ef;
 }

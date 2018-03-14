@@ -2,6 +2,7 @@ Header = {
   create: function() {
 
       this.logoImg = Img.create({
+          align: "left",
           width:158, height: 40,
           src: "/resources/img/logo.png"
       });
@@ -26,11 +27,16 @@ Header = {
           contents:"<a href='/logout' title='Выход'><img src='/resources/img/ic_logout.png'></a>"
       });
 
+      this.mainMenuBtn = HTMLFlow.create({
+          contents:"<img src="+imgDir+"/ic_menu_white.png>"
+      });
+
       this.headerBar = HLayout.create({
           width:"100%",
           height: 40,
           backgroundColor : "#0D47A1",
           members:[
+              this.mainMenuBtn,
               this.logoImg,
               this.spacer,
               this.userProfileImg,
@@ -38,6 +44,8 @@ Header = {
               this.logoutBtn
           ]
       });
+
+
 
       this.init();
 
