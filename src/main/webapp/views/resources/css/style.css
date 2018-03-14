@@ -324,3 +324,18 @@ div.dummy {
     font-family: RobotoLight, serif;
     width: 100%;
 }
+
+.sideBarButton {
+    align-items: center;
+    text-align: center;
+    padding: 6px;
+    color: #1565c0;
+    margin-bottom: 46px;
+    font-size: 10px;
+    font-family: RobotoLight, serif;
+}
+
+.sideBarButton:hover {
+    background: #E0E0E0;
+    cursor: hand;
+}

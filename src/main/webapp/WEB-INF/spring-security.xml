@@ -15,7 +15,7 @@
         <intercept-url pattern="/resources/icons/**" access="permitAll"/>
         <intercept-url pattern="/resources/lib/**" access="permitAll"/>
         <!--Deactivate this for debug build-->
-        <intercept-url pattern="/**" access="isAuthenticated()" />
+        <!--<intercept-url pattern="/**" access="isAuthenticated()" />-->
 
         <!--<intercept-url pattern="/resources/app/**" access="isAuthenticated()" />-->
         <!--<intercept-url pattern="/**" access="hasRole('ADMIN')" />-->
@@ -29,7 +29,6 @@
                 password-parameter="password"/>
 
         <!--<logout logout-success-url="/logout"/>-->
-
 
         <session-management>
             <concurrency-control expired-url="/login"/>

@@ -46,7 +46,7 @@
     <script src="<c:url value="resources/app/frames/navContactsGrid.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
-	<script src="<c:url value="resources/app/frames/sideBar.js" />"></script>
+	<script src="<c:url value="resources/app/frames/sideBarFrame.js" />"></script>
 
 
 
@@ -58,7 +58,7 @@
 		function initApplication() {
             isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);
-            SplashWindow.create();
+//            SplashWindow.create();
             createLayout();
 
 
