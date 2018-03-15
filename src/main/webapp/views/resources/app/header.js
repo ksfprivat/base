@@ -1,12 +1,6 @@
 Header = {
   create: function() {
 
-      this.logoImg = Img.create({
-          align: "left",
-          width:158, height: 40,
-          src: "/resources/img/logo.png"
-      });
-
       this.userProfileImg = Img.create({
           width:40, height: 40,
           src: "/resources/img/user_profile.png"
@@ -28,24 +22,31 @@ Header = {
       });
 
       this.mainMenuBtn = HTMLFlow.create({
-          contents:"<img src="+imgDir+"/ic_menu_white.png>"
+          contents:
+          "<img class='mainMenuButton' src="+imgDir+"/ic_menu_white.png>"
       });
+
+      this.logo = HTMLFlow.create({
+          contents:"<img style='margin-left: -150px' src='/resources/img/logo.png'>"
+      });
+
+
+
 
       this.headerBar = HLayout.create({
           width:"100%",
           height: 40,
           backgroundColor : "#0D47A1",
           members:[
+
               this.mainMenuBtn,
-              this.logoImg,
+              this.logo,
               this.spacer,
               this.userProfileImg,
               this.userProfile,
               this.logoutBtn
           ]
       });
-
-
 
       this.init();
 

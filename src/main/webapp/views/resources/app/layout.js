@@ -29,7 +29,6 @@ function createMainFrame() {
    );
 }
 
-
 function createFooter() {
     return HTMLFlow.create({
         width: "100%",

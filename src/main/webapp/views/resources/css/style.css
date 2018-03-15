@@ -342,14 +342,19 @@ div.dummy {
 }
 
 .mainMenuButton {
+    alignment: left;
     width: 24px;
     height: 24px;
-    background-color: #00b956;
-    /*padding: 6px;*/
-    margin-left: 20px;
-    vertical-align: middle;
+    margin-top: 2px;
+    padding: 6px;
+    margin-left: 21px;
+    margin-right: 1px;
+    cursor: hand;
+    display: inline-block;
+    float: left;
+    position: absolute;
 }
 
 .mainMenuButton:hover {
-    background-color: #1e97ef;
+    background-color: #1565C0;
 }

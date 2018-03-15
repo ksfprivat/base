@@ -13,11 +13,13 @@ SideBarFrame = {
             }))
         }
 
-        this.btnHome =  createButton("Главная", "ic_sb_home.png", null);
-        this.btnCRM  =  createButton("CRM", "ic_sb_CRM.png", null);
-        this.btnReports =  createButton("Отчеты", "ic_sb_report.png", null);
-        this.btnCalendar =  createButton("Календарь", "ic_sb_calendar.png", null);
-        this.btnHelp =  createButton("Справка", "ic_sb_help.png", null);
+        this.btnHome        =  createButton("Главная", "ic_sb_home.png", null);
+        this.btnCRM         =  createButton("CRM", "ic_sb_CRM.png", null);
+        this.btnReports     =  createButton("Отчеты", "ic_sb_report.png", null);
+        this.btnCalendar    =  createButton("Календарь", "ic_sb_calendar.png", null);
+        this.btnHelp        =  createButton("Справка", "ic_sb_help.png", null);
+        this.btnSettings    =  createButton("Настройки", "ic_sb_settings.png", null);
+
 
         this.btnCollapse = HTMLFlow.create({contents:
                 "<div class='sideBarButton' style='height: 22px; margin-bottom: 0'>" +
@@ -29,12 +31,6 @@ SideBarFrame = {
            backgroundColor:"#E0E0E0"
         });
 
-        this.hSeparator = VLayout.create({
-            height: 16,
-            members:[
-                HTMLFlow.create({contents: "<div>&nbsp;</div>"})
-            ]
-        });
         this.spacer = VLayout.create({height:"100%"});
 
         this.toolBar = VLayout.create({
@@ -47,6 +43,7 @@ SideBarFrame = {
                 this.btnCRM,
                 this.btnReports,
                 this.btnCalendar,
+                this.btnSettings,
                 this.btnHelp,
                 this.spacer,
                 this.btnCollapse
