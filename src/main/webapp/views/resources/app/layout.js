@@ -21,7 +21,7 @@ function createMainFrame() {
             width:  "100%",
             height: "100%",
             members:[
-                SideBarFrame.create().content,
+           //     SideBarFrame.create().content,
                 createNavigationFrame(),
                 createBrowserFrame()
         ]

@@ -50,18 +50,14 @@
 
 
 
-
-
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
 
 		function initApplication() {
             isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);
-//            SplashWindow.create();
+            SplashWindow.create();
             createLayout();
-
-
         }
 	</script>
 

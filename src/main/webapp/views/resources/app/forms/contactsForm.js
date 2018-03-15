@@ -109,15 +109,16 @@ ContactsForm ={
             autoDraw: false,
             fields: [
                 {name: "id",  primaryKey: true},
-                {name: "name", title:"Имя", width: 250},
-                {name: "position", title:"Должность"},
-                {name: "phone", title:"Телефон"},
-                {name: "mobile", title:"Мобильный"},
-                {name: "email", title:"E-mail"},
-                {name: "fax", title:"Факс"}
+                {name: "name", title:"Имя", width: 250, changed :this.fieldChanged},
+                {name: "position", title:"Должность", changed :this.fieldChanged},
+                {name: "phone", title:"Телефон", changed :this.fieldChanged},
+                {name: "mobile", title:"Мобильный", changed :this.fieldChanged},
+                {name: "email", title:"E-mail", changed :this.fieldChanged},
+                {name: "fax", title:"Факс", changed :this.fieldChanged}
             ],
             sortField: 1,
             rowClick: this.rowClick,
+            selectionChanged  : this.selectionChanged,
             cellChanged: this.contactsChanged
         });
 
@@ -141,6 +142,15 @@ ContactsForm ={
         return Object.create(this);
     },
 
+    fieldChanged: function(form, item, value) {
+        //console.log('cell is changed:'+ContactsForm.contactsGrid.getSelectedRecord());
+        ContactsForm.contactsChanged(ContactsForm.contactsGrid.getSelectedRecord());
+    },
+
+    selectionChanged: function() {
+      ContactsForm.contactsGrid.endEditing();
+    },
+
     cardExpand: function () {
         var expandedHeight = (ContactsForm.customerTitle.visibility != "hidden") ? "100%":"300";
         for (var i = 2; i < ContactsForm.content.members.length; i++) {
@@ -158,6 +168,7 @@ ContactsForm ={
     },
 
     commitChanges: function () {
+        ContactsForm.contactsGrid.endEditing();
         for (var i = 0; i < ContactsForm.changeCache.length; i++) {
 
             var contact = {};
@@ -182,6 +193,7 @@ ContactsForm ={
     },
 
     rollbackChanges: function () {
+        ContactsForm.contactsGrid.endEditing();
         getContactsByCustomerId(ContactsForm.changeCache[0].customerId, function(contacts){
             ContactsForm.setData(contacts);
         });
@@ -200,6 +212,7 @@ ContactsForm ={
         if (ContactsForm.customerTitle.visibility != "hidden")
             ContactsForm.setCustomerTitle();
         ContactsForm.contactsGrid.setData(contacts);
+        ContactsForm.setChangeBlockState("hidden");
     },
 
     setChangeBlockState: function (state) {
