@@ -1,8 +1,10 @@
 const imgDir = "/resources/img/ui";
-var  header;
+var   header;
+var   sideBar;
 
 function createLayout() {
-    header = Header.create();
+    header  = Header.create();
+    sideBar = SideBarFrame.create();
     VLayout.create({
         width: "100%",
         height:"100%",
@@ -21,7 +23,7 @@ function createMainFrame() {
             width:  "100%",
             height: "100%",
             members:[
-           //     SideBarFrame.create().content,
+                sideBar.content,
                 createNavigationFrame(),
                 createBrowserFrame()
         ]

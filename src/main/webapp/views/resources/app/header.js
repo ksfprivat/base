@@ -23,15 +23,16 @@ Header = {
 
       this.mainMenuBtn = HTMLFlow.create({
           contents:
-          "<img class='mainMenuButton' src="+imgDir+"/ic_menu_white.png>"
+          "<img class='mainMenuButton' src="+imgDir+"/ic_menu_white.png>",
+          click:function() {
+              var visibility = (SideBarFrame.content.visibility == "hidden") ? "visible" : "hidden";
+              SideBarFrame.content.setVisibility(visibility);
+          }
       });
 
       this.logo = HTMLFlow.create({
-          contents:"<img style='margin-left: -150px' src='/resources/img/logo.png'>"
+          contents:"<img style='margin-left: -165px' src='/resources/img/logo.png'>"
       });
-
-
-
 
       this.headerBar = HLayout.create({
           width:"100%",
