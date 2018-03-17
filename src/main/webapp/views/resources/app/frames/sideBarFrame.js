@@ -68,8 +68,20 @@ SideBarFrame = {
 
     setAppState: function (state) {
         SideBarFrame.appState = state;
+        //SideBarFrame.toolBar.members[0].setBackgroundColor("#d7d7d7");
+
+        for (var i = 0; i < SideBarFrame.toolBar.members.length; i++) {
+            if (i == state) {
+                SideBarFrame.toolBar.members[i].setBackgroundColor("#d7d7d7")
+            }
+            else {
+                SideBarFrame.toolBar.members[i].setBackgroundColor("#eeeeee")
+            }
+        }
+
         switch (state) {
             case 0: // Home
+
                 break;
             case 1: // CRM
                 break;
