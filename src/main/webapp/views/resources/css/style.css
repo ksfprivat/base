@@ -338,7 +338,7 @@ div.dummy {
 
 .sideBarButton:hover {
     background: #E0E0E0;
-    cursor: hand;
+    cursor: pointer;
 }
 
 .mainMenuButton {
@@ -357,5 +357,5 @@ div.dummy {
 }
 
 .mainMenuButton:hover {
-    background-color: #1565C0;
+   background-color: #1565C0;
 }

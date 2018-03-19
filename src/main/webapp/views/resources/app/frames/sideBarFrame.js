@@ -68,15 +68,17 @@ SideBarFrame = {
 
     setAppState: function (state) {
         SideBarFrame.appState = state;
-        //SideBarFrame.toolBar.members[0].setBackgroundColor("#d7d7d7");
 
         for (var i = 0; i < SideBarFrame.toolBar.members.length; i++) {
-            if (i == state) {
-                SideBarFrame.toolBar.members[i].setBackgroundColor("#d7d7d7")
-            }
-            else {
-                SideBarFrame.toolBar.members[i].setBackgroundColor("#eeeeee")
-            }
+            // if (i === state) {
+            //     SideBarFrame.toolBar.members[i].setBackgroundColor("#d7d7d7")
+            // }
+            // else {
+            //     SideBarFrame.toolBar.members[i].setBackgroundColor("#eeeeee")
+            // }
+            SideBarFrame.toolBar.members[i].setBackgroundColor(
+                (i === state) ? ("#d7d7d7") : ("#eeeeee")
+            );
         }
 
         switch (state) {
@@ -94,6 +96,5 @@ SideBarFrame = {
             case 5: // Help
                 break;
         }
-        console.log(state);
     }
 };
