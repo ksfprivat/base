@@ -1,10 +1,22 @@
 const imgDir = "/resources/img/ui";
 var   header;
 var   sideBar;
+var   crmFrame;
+var   dashboardFrame;
 
 function createLayout() {
-    header  = Header.create();
-    sideBar = SideBarFrame.create();
+    header   = Header.create();
+    sideBar  = SideBarFrame.create();
+    crmFrame = HLayout.create({
+        width: "100%", height: "100%", autoDraw: false,
+        members:[
+            createNavigationFrame(),
+            createBrowserFrame()
+        ]
+    });
+
+    dashboardFrame = DashboardFrame.create();
+
     VLayout.create({
         width: "100%",
         height:"100%",
@@ -24,8 +36,10 @@ function createMainFrame() {
             height: "100%",
             members:[
                 sideBar.content,
-                createNavigationFrame(),
-                createBrowserFrame()
+                crmFrame,
+                dashboardFrame.content
+                // createNavigationFrame(),
+                // createBrowserFrame()
         ]
     })
    );

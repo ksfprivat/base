@@ -71,19 +71,25 @@ SideBarFrame = {
         //SideBarFrame.toolBar.members[0].setBackgroundColor("#d7d7d7");
 
         for (var i = 0; i < SideBarFrame.toolBar.members.length; i++) {
-            if (i == state) {
-                SideBarFrame.toolBar.members[i].setBackgroundColor("#d7d7d7")
-            }
-            else {
-                SideBarFrame.toolBar.members[i].setBackgroundColor("#eeeeee")
-            }
+            // if (i === state) {
+            //     SideBarFrame.toolBar.members[i].setBackgroundColor("#d7d7d7")
+            // }
+            // else {
+            //     SideBarFrame.toolBar.members[i].setBackgroundColor("#eeeeee")
+            // }
+            SideBarFrame.toolBar.members[i].setBackgroundColor(
+                (i === state) ? ("#d7d7d7") : ("#eeeeee")
+            );
         }
 
         switch (state) {
             case 0: // Home
-
+                crmFrame.setVisibility("hidden");
+                dashboardFrame.content.setVisibility("visible");
                 break;
             case 1: // CRM
+                crmFrame.setVisibility("visible");
+                dashboardFrame.content.setVisibility("hidden");
                 break;
             case 2: // Reports
                 break;
@@ -94,6 +100,5 @@ SideBarFrame = {
             case 5: // Help
                 break;
         }
-        console.log(state);
     }
 };

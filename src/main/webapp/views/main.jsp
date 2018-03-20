@@ -47,8 +47,7 @@
 	<script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/sideBarFrame.js" />"></script>
-
-
+	<script src="<c:url value="resources/app/frames/dashboardFrame.js" />"></script>
 
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
