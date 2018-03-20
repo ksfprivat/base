@@ -42,12 +42,12 @@
 	<script src="<c:url value="resources/app/windows/contactWindow.js"/>"></script>
     <script src="<c:url value="resources/app/windows/splashWindow.js" />"></script>
 
-
     <script src="<c:url value="resources/app/frames/navContactsGrid.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/sideBarFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/dashboardFrame.js" />"></script>
+	<script src="<c:url value="resources/app/frames/dummyFrame.js" />"></script>
 
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
@@ -57,6 +57,7 @@
             isc.Canvas.resizeControls(8);
             SplashWindow.create();
             createLayout();
+            sideBar.setAppState(1)
         }
 	</script>
 

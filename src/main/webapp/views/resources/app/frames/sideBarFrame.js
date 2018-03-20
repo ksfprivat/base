@@ -68,16 +68,15 @@ SideBarFrame = {
     setAppState: function (state) {
         SideBarFrame.appState = state;
 
-        for (var i = 0; i < SideBarFrame.toolBar.members.length; i++) {
+        for (var i = 0; i < SideBarFrame.toolBar.members.length-2; i++) {
 
-            if (i === state) {
-                SideBarFrame.toolBar.members[i].setStyleName("sideBarButtonActive");
-                mainFrame.members[i+1].setVisibility("visible");
+            SideBarFrame.toolBar.members[i].setStyleName(
+                (i === state) ? "sideBarButtonActive" : "sideBarButton"
+            );
 
-            } else {
-                SideBarFrame.toolBar.members[i].setStyleName("sideBarButton");
-                mainFrame.members[i+1].setVisibility("hidden");
-            }
+            mainFrame.members[i+1].setVisibility(
+                (i === state) ? "visible" : "hidden"
+            );
         }
     }
 };

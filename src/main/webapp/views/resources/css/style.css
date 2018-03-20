@@ -343,7 +343,7 @@ div.dummy {
 }
 .sideBarButtonActive {
     background: #E0E0E0;
-    border-left: 3px solid #1e97ef;
+    border-left: 5px solid #1e97ef;
     cursor: pointer;
 }
 

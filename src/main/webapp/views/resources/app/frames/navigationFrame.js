@@ -164,13 +164,13 @@ function refreshCustomerNode(data) {
 function onNodeClick(viewer, node, recordNum) {
     navTreeSelectedNode = node;
     if (!browserFrame.isVisible()) browserFrame.show();
-    if (node.type == "customer") {
-        if (navTreeCurrentCustomerId != node.id) {
+    if (node.type === "customer") {
+        if (navTreeCurrentCustomerId !== node.id) {
             refreshBrowserFrame(node.id);
             navTreeCurrentCustomerId = node.id;
         }
     } else {
-        if (navTreeCurrentCustomerId != node.customerId) {
+        if (navTreeCurrentCustomerId !== node.customerId) {
             refreshBrowserFrame(node.customerId);
             navTreeCurrentCustomerId = node.customerId;
         }

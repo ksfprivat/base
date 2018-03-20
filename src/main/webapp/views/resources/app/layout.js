@@ -19,6 +19,7 @@ function createLayout() {
     crmFrame.content = crmFrame;
 
     dashboardFrame = DashboardFrame.create();
+    DummyFrame.create();
 
 
     mainFrame = HLayout.create({
@@ -28,7 +29,11 @@ function createLayout() {
         members:[
             sideBar.content,
             dashboardFrame.content,
-            crmFrame.content
+            crmFrame.content,
+            DummyFrame.create().content,
+            DummyFrame.create().content,
+            DummyFrame.create().content,
+            DummyFrame.create().content
         ]
     });
     // Main layout builder
