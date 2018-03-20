@@ -70,12 +70,6 @@ SideBarFrame = {
         SideBarFrame.appState = state;
 
         for (var i = 0; i < SideBarFrame.toolBar.members.length; i++) {
-            // if (i === state) {
-            //     SideBarFrame.toolBar.members[i].setBackgroundColor("#d7d7d7")
-            // }
-            // else {
-            //     SideBarFrame.toolBar.members[i].setBackgroundColor("#eeeeee")
-            // }
             SideBarFrame.toolBar.members[i].setBackgroundColor(
                 (i === state) ? ("#d7d7d7") : ("#eeeeee")
             );
