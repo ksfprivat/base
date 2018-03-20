@@ -333,11 +333,17 @@ div.dummy {
     margin-bottom: 8px;
     height: 56px;
     font-size: 10px;
+    cursor: pointer;
     font-family: RobotoLight, serif;
 }
 
 .sideBarButton:hover {
     background: #E0E0E0;
+    cursor: pointer;
+}
+.sideBarButtonActive {
+    background: #E0E0E0;
+    border-left: 3px solid #1e97ef;
     cursor: pointer;
 }
 

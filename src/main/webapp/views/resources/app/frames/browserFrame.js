@@ -34,8 +34,8 @@ function refreshBrowserFrame(customerId) {
 
             switch (getNavigationFrameMode()){
                 case VM_CUSTOMERS: // Customers (navTree event initiator)
-                    if (typeof navTreeSelectedNode != "undefined")
-                        if (navTreeSelectedNode.type == "contact")
+                    if (typeof navTreeSelectedNode !== "undefined")
+                        if (navTreeSelectedNode.type === "contact")
                             ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
                     break;
 

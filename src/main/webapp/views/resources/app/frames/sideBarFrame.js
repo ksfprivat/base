@@ -5,8 +5,7 @@ SideBarFrame = {
         function createButton(title, icon, state){
           return (
             HTMLFlow.create({
-                //overflow: "hidden",
-                contents:
+                 contents:
                 "<div class ='sideBarButton' style='margin: 0'>"+
                     "<img src="+imgDir+"/"+icon+" width='36px'><br>" + title +
                 "</div>",
@@ -70,28 +69,15 @@ SideBarFrame = {
         SideBarFrame.appState = state;
 
         for (var i = 0; i < SideBarFrame.toolBar.members.length; i++) {
-            SideBarFrame.toolBar.members[i].setBackgroundColor(
-                (i === state) ? ("#d7d7d7") : ("#eeeeee")
-            );
-        }
 
-        switch (state) {
-            case 0: // Home
-                crmFrame.setVisibility("hidden");
-                dashboardFrame.content.setVisibility("visible");
-                break;
-            case 1: // CRM
-                crmFrame.setVisibility("visible");
-                dashboardFrame.content.setVisibility("hidden");
-                break;
-            case 2: // Reports
-                break;
-            case 3: // Calendar
-                break;
-            case 4: // Settings
-                break;
-            case 5: // Help
-                break;
+            if (i === state) {
+                SideBarFrame.toolBar.members[i].setStyleName("sideBarButtonActive");
+                mainFrame.members[i+1].setVisibility("visible");
+
+            } else {
+                SideBarFrame.toolBar.members[i].setStyleName("sideBarButton");
+                mainFrame.members[i+1].setVisibility("hidden");
+            }
         }
     }
 };
