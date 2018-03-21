@@ -23,7 +23,9 @@ HelpFrame = {
                 backgroundColor:"#ffffff",
                 contents:
                 "<div align='center' style='overflow: hidden'>"+
-                "<h1 align='center' style='color: #0b6ef9'><b>Help Frame</b></h1><br>"+
+                "<div class='aboutBanner'></div>"+
+                "<h1 align='center' style='color: #0b6ef9'><b>Build</b> 182003 (Sierra)</h1><br>"+
+                "<p>BASE. Customer relationship system. 2018. Zintur Ltd. Fedotovskih Konstantin</p>"+
                 "<a href='/resources/html/index.html' target=\_blank\">Справочные материалы</a>"+
                 "</div>"
             })

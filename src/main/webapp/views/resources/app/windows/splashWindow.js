@@ -3,8 +3,9 @@ SplashWindow = {
         this.window = isc.Window.create({
             width: 600,
             height:150,
-            border: null,
-            // bodyColor: '#1565c0',
+            border: 0,
+            margin:0, padding:0,
+            overflow:"hide",
             showHeaderIcon: false,
             isModal: true,
             autoCenter: true,

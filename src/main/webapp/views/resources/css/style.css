@@ -66,6 +66,15 @@ div.dummy {
     color: #ffffff;
 }
 
+
+.aboutBanner {
+    /*height: 360px;*/
+    height: 50%;
+    width: 100%;
+    background: url("/resources/html/img/bg_logo.png") no-repeat;
+    background-size: cover;
+}
+
 .header_login {
     float: right;
     line-height: 40px;
