@@ -40,6 +40,7 @@ function createLayout() {
     VLayout.create({
         width: "100%",
         height:"100%",
+        overflow: "hidden",
         autoDraw:true,
         members:[
             header.headerBar,

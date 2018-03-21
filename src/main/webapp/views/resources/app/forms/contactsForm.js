@@ -32,9 +32,7 @@ ContactsForm ={
             shadowDepth: 10,
             data: [
                 {title: "Экспорт в PDF", icon:imgDir+"/ic_pdf.png", click:this.exportToPDF},
-                {title: "Составить сообщение...", icon:imgDir+"/ic_send.png", click:this.mailTo},
-                {title: "Вид: Страница", icon:imgDir+"/ic_page_view.png", click:this.setPageViewMode},
-                {title: "Вид: Карточка", icon:imgDir+"/ic_card_view.png", click:this.setCadViewMode}
+                {title: "Составить сообщение...", icon:imgDir+"/ic_send.png", click:this.mailTo}
             ]
         });
 
