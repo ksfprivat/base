@@ -4,6 +4,7 @@ var   sideBar;
 var   mainFrame;
 var   crmFrame;
 var   dashboardFrame;
+var   helpFrame;
 
 function createLayout() {
     header   = Header.create();
@@ -19,8 +20,7 @@ function createLayout() {
     crmFrame.content = crmFrame;
 
     dashboardFrame = DashboardFrame.create();
-    DummyFrame.create();
-
+    helpFrame = HelpFrame.create();
 
     mainFrame = HLayout.create({
         width:  "100%",
@@ -33,7 +33,7 @@ function createLayout() {
             DummyFrame.create().content,
             DummyFrame.create().content,
             DummyFrame.create().content,
-            DummyFrame.create().content
+            helpFrame.content
         ]
     });
     // Main layout builder
