@@ -207,7 +207,7 @@ ContactsForm ={
     setData: function (contacts, customerId) {
         ContactsForm.changeCache = [];
         ContactsForm.customerId = customerId;
-        if (ContactsForm.customerTitle.visibility != "hidden")
+        if (ContactsForm.customerTitle.visibility !== "hidden")
             ContactsForm.setCustomerTitle();
         ContactsForm.contactsGrid.setData(contacts);
         ContactsForm.setChangeBlockState("hidden");

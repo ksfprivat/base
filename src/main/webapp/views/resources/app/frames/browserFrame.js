@@ -10,8 +10,6 @@ function createBrowserFrame() {
     contactsCard  = ContactsForm.create();
     contractsCard = ContractsForm.create();
 
-    console.log(contractsCard.content);
-
     browserFrame = VLayout.create({
         width: "100%",
         height: "100%",
@@ -38,7 +36,6 @@ function refreshBrowserFrame(customerId) {
         customerCard.setData(customer);
         getContactsByCustomerId(customer.id, function(contacts){
             contactsCard.setData(contacts, customer.id);
-
             switch (getNavigationFrameMode()){
                 case VM_CUSTOMERS: // Customers (navTree event initiator)
                     if (typeof navTreeSelectedNode !== "undefined")
@@ -52,6 +49,9 @@ function refreshBrowserFrame(customerId) {
                     break;
             }
 
+        });
+        getContractsByCustomerId(customer.id, function (contracts) {
+            contractsCard.setData(contracts, customer.id);
         });
     });
 }

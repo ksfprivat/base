@@ -108,7 +108,7 @@ ContractsForm ={
                 {name: "id",  primaryKey: true},
                 {name: "title", title:"Наименование", width: 250, changed :this.fieldChanged},
                 {name: "date", title:"Дата", changed :this.fieldChanged},
-                {name: "date_final", title:"Окончание", changed :this.fieldChanged},
+                {name: "dateFinal", title:"Окончание", changed :this.fieldChanged},
                 {name: "amount", title:"Сумма", changed :this.fieldChanged},
                 {name: "type", title:"Тип", changed :this.fieldChanged},
                 {name: "status", title:"Состояние", changed :this.fieldChanged}
@@ -182,12 +182,13 @@ ContractsForm ={
         ContractsForm.setChangeBlockState("visible");
     },
 
-    setData: function (contacts, customerId) {
+    setData: function (contracts, customerId) {
+        console.log(contracts);
         ContractsForm.changeCache = [];
         ContractsForm.customerId = customerId;
         if (ContractsForm.customerTitle.visibility !== "hidden")
             ContractsForm.setCustomerTitle();
-        ContractsForm.listGrid.setData(contacts);
+        ContractsForm.listGrid.setData(contracts);
         ContractsForm.setChangeBlockState("hidden");
     },
 

@@ -17,6 +17,8 @@ public interface CustomerDao {
 
     Contract getContractById(int contractId);
 
+    List<Contract> getContracts();
+
     Integer insertCustomer(Customer customer);
 
     void updateCustomer(Customer customer);

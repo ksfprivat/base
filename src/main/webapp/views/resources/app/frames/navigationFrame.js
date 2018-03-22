@@ -111,7 +111,7 @@ function onNavTreeOpenFolder(node) {
 function addContactNode(customerId, contact) {
     var folder = navTreeData.findById("contacts_"+customerId);
 
-    if (typeof folder != "undefined") {
+    if (typeof folder !== "undefined") {
         var node={
             id: contact.id,
             customerId: customerId,
@@ -126,14 +126,14 @@ function addContactNode(customerId, contact) {
 function deleteContactNode(id) {
     var node =  navTreeData.findById(id);
 
-    if (typeof node != "undefined") {
+    if (typeof node !== "undefined") {
         navTreeData.remove(node);
     }
 }
 
 function changeNodeTitle(id, title) {
     var node = navTreeData.findById(id);
-    if (typeof node != "undefined") {
+    if (typeof node !== "undefined") {
          if (navTree.getRowNum(node) > 0) {
             node.title = title;
             navTree.refreshRow(navTree.getRowNum(node));
@@ -143,7 +143,7 @@ function changeNodeTitle(id, title) {
 
 function selectNode(id) {
     var node = navTreeData.findById(id);
-    if (typeof node != "undefined") {
+    if (typeof node !== "undefined") {
         navTree.selectRecord(parent);
         navTree.scrollToRow(navTree.getFocusRow());
     }
@@ -151,7 +151,7 @@ function selectNode(id) {
 
 
 function refreshCustomerNode(data) {
-    if (navTreeSelectedNode.type == "customer") {
+    if (navTreeSelectedNode.type === "customer") {
         navTreeSelectedNode.title = data.title;
         navTree.refreshRow(navTree.getRowNum(navTreeSelectedNode));
     } else {

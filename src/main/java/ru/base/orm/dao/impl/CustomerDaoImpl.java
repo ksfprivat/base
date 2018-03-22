@@ -39,6 +39,12 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<Contract> getContracts() {
+        return sessionFactory.getCurrentSession().createQuery("from Contract order by title").list();
+    }
+
+    @Override
     public Integer insertCustomer(Customer customer) {
         Integer id = (Integer) sessionFactory.getCurrentSession().save(customer);
         System.out.println("CUSTOMER_ID:"+id);
