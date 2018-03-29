@@ -1,17 +1,20 @@
 package ru.base.orm.entities;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 
+@JsonAutoDetect
 @Entity
 @Table(name = "contract")
 public class Contract {
     private int id;
     private String title;
     private Date date;
-    private Timestamp dateFinal;
+    private Date dateFinal;
     private String status;
     private Double amount;
     private String department;
@@ -21,6 +24,7 @@ public class Contract {
     private Customer customerByCustomerId;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;
@@ -42,21 +46,23 @@ public class Contract {
 
     @Basic
     @Column(name = "date", nullable = true)
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
     public Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(java.sql.Date date) {
         this.date = date;
     }
 
     @Basic
     @Column(name = "dateFinal", nullable = true)
-    public Timestamp getDateFinal() {
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
+    public Date getDateFinal() {
         return dateFinal;
     }
 
-    public void setDateFinal(Timestamp dateFinal) {
+    public void setDateFinal(Date dateFinal) {
         this.dateFinal = dateFinal;
     }
 
