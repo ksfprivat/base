@@ -27,12 +27,12 @@ public class DatasourceSelectTest {
         for (Customer customer : customers) {
             System.out.println(customer.getId()+"\t"+customer.getTitle());
 
-            List<Contact> contacts = customerService.getContactsById(customer.getId());
-            for (Contact contact : contacts)
-                System.out.println("\t"+contact.getId()+"\t"+contact.getName());
-//            List<Contract> contracts = customerService.getContractsById(customer.getId());
-//            for (Contract contract : contracts)
-//                System.out.println("\t"+contract.getId()+"\t"+contract.getTitle());
+//            List<Contact> contacts = customerService.getContactsById(customer.getId());
+//            for (Contact contact : contacts)
+//                System.out.println("\t"+contact.getId()+"\t"+contact.getName());
+            List<Contract> contracts = customerService.getContractsById(customer.getId());
+            for (Contract contract : contracts)
+                System.out.println("\t"+contract.getId()+"\t"+contract.getTitle()+"\t"+contract.getDate());
         }
 
     }

@@ -22,7 +22,8 @@
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_Grids.js"/>"></script>
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_Forms.js"/>"></script>
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_DataBinding.js"/>"></script>
-	<script src="<c:url value="resources/lib/isomorphic/skins/Tahoe/load_skin.js"/>"></script>
+    <script src="<c:url value="resources/lib/isomorphic/locales/frameworkMessages_ru.js"/>"></script>
+    <script src="<c:url value="resources/lib/isomorphic/skins/Tahoe/load_skin.js"/>"></script>
 
 	<%--Application layout--%>
     <script src="<c:url value="resources/app/header.js" />"></script>

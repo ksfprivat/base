@@ -1,6 +1,7 @@
 package ru.base.orm.entities;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 
@@ -9,7 +10,7 @@ import java.sql.Timestamp;
 public class Contract {
     private int id;
     private String title;
-    private Timestamp date;
+    private Date date;
     private Timestamp dateFinal;
     private String status;
     private Double amount;
@@ -41,11 +42,11 @@ public class Contract {
 
     @Basic
     @Column(name = "date", nullable = true)
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

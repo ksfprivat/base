@@ -107,9 +107,9 @@ ContractsForm ={
             fields: [
                 {name: "id",  primaryKey: true},
                 {name: "title", title:"Наименование", width: 250, changed :this.fieldChanged},
-                {name: "date", title:"Дата", changed :this.fieldChanged},
+                {name: "date", title:"Дата", type:"date", format:"MMM d, yyyy", changed :this.fieldChanged},
                 {name: "dateFinal", title:"Окончание", changed :this.fieldChanged},
-                {name: "amount", title:"Сумма", changed :this.fieldChanged},
+                {name: "amount", title:"Сумма", type:"float", format: ",0.00 р;", changed :this.fieldChanged},
                 {name: "type", title:"Тип", changed :this.fieldChanged},
                 {name: "status", title:"Состояние", changed :this.fieldChanged}
             ],
