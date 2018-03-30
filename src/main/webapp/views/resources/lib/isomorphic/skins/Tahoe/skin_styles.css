@@ -4792,8 +4792,7 @@ select[disabled] option {
 .comboBoxItemPickerFocusedRTL,
 .comboBoxItemPickerFocusedOverRTL {
   display: inline-block;
-  background-position: 0px 0px;
-  background: url(./images/pickers/down.png) no-repeat;
+  background: url(./images/pickers/down.png) no-repeat 22px 22px;
 }
 
 .comboBoxItemPickerDisabled {
