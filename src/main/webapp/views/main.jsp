@@ -27,8 +27,6 @@
 
 	<%--Application layout--%>
     <script src="<c:url value="resources/app/header.js" />"></script>
-    <script src="<c:url value="resources/app/footer.js" />"></script>
-
     <script src="<c:url value="resources/app/layout.js" />"></script>
     <%--Data binding    --%>
 	<script src="<c:url value="resources/app/dataBinding/customers.js" />"></script>

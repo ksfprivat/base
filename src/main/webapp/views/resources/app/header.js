@@ -37,6 +37,7 @@ Header = {
       this.headerBar = HLayout.create({
           width:"100%",
           height: 40,
+          // overflow: "hidden",
           backgroundColor : "#0D47A1",
           members:[
 
