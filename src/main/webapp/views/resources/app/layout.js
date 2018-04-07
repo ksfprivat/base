@@ -53,10 +53,14 @@ function createLayout() {
 function createFooter() {
     return HTMLFlow.create({
         width: "100%",
-        contents: getFooter()
+        contents:
+        "<div class='footer'>" +
+            "<a class='footer_text'>Base CRM Copyright (c) 2018. Build 182003 (Sierra)</a>" +
+        "</div>"
     });
 }
 
 function afterLoad() {
     SplashWindow.window.close();
 }
+
