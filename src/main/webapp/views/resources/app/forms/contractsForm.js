@@ -106,22 +106,23 @@ ContractsForm ={
             autoDraw: false,
             fields: [
                 {name: "id",  primaryKey: true},
-                {name: "title", title:"Наименование", width: 250, changed :this.fieldChanged},
-                {name: "date", title:"Дата", type:"date",  changed :this.fieldChanged},
-                {name: "dateFinal", title:"Окончание", type:"date", changed :this.fieldChanged},
-                {name: "amount", title:"Сумма", type:"float", format: ",0.00;", changed :this.fieldChanged},
-                {name: "type", title:"Тип", changed :this.fieldChanged,
+                {name: "title", title:"Наименование", width: 250, align:"left", changed :this.fieldChanged},
+                {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged},
+                {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged},
+                {name: "amount", title:"Сумма", type:"float", format: ",0.00;",align:"left", changed :this.fieldChanged},
+                {name: "type", title:"Тип", align:"left", changed :this.fieldChanged,
                     valueMap: {
                         0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
                     }
                 },
-                {name: "status", title:"Состояние", changed :this.fieldChanged,
+                {name: "status", title:"Состояние", align:"left", changed :this.fieldChanged,
                     valueMap: {
                         0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
                     }
                 }
             ],
             sortField: 1,
+            sortDirection:"descending",
             rowClick: this.rowClick,
             selectionChanged  : this.selectionChanged,
             cellChanged: this.contactsChanged
@@ -254,8 +255,6 @@ ContractsForm ={
     rowClick: function (record, recordNum, fieldNum) {
 
     },
-
-
 
     exportToPDF: function() {
 
