@@ -150,7 +150,7 @@ ContactsForm ={
     },
 
     cardExpand: function () {
-        var expandedHeight = (ContactsForm.customerTitle.visibility != "hidden") ? "100%":"300";
+        var expandedHeight = (ContactsForm.customerTitle.visibility !== "hidden") ? "100%":"300";
         for (var i = 2; i < ContactsForm.content.members.length; i++) {
             if (ContactsForm.expanded) {
                 ContactsForm.content.members[i].hide();

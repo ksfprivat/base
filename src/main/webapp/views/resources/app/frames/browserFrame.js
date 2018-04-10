@@ -8,7 +8,7 @@ function createBrowserFrame() {
     var separator = VLayout.create({height:"16px"});
     customerCard  = CustomerForm.create();
     contactsCard  = ContactsForm.create();
-    // contractsCard = ContractsForm.create();
+    contractsCard = ContractsForm.create();
 
     browserFrame = VLayout.create({
         width: "100%",
@@ -23,10 +23,9 @@ function createBrowserFrame() {
         members: [
             customerCard.content,
             separator,
-            contactsCard.content
-            // ,
-            // separator,
-            // contractsCard.content
+            contactsCard.content,
+            separator,
+            contractsCard.content
         ]
     });
     return browserFrame;
