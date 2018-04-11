@@ -177,19 +177,34 @@ ContractsForm ={
         ContractsForm.listGrid.endEditing();
         // Commit code
         for (var i = 0; i < ContractsForm.changeCache.length; i++) {
-            var contract = {
-                id: ContractsForm.changeCache[i].id,
-                title: ContractsForm.changeCache[i].title,
-                date: ContractsForm.changeCache[i].date,
-                dateFinal: ContractsForm.changeCache[i].dateFinal,
-                status: ContractsForm.changeCache[i].status,
-                amount: ContractsForm.changeCache[i].amount,
-                type: ContractsForm.changeCache[i].type
-            };
+            // var contract = {
+            //     id: ContractsForm.changeCache[i].id,
+            //     title: ContractsForm.changeCache[i].title,
+            //     date: ContractsForm.changeCache[i].date,
+            //     dateFinal: ContractsForm.changeCache[i].dateFinal,
+            //     status: ContractsForm.changeCache[i].status,
+            //     amount: ContractsForm.changeCache[i].amount,
+            //     type: ContractsForm.changeCache[i].type
+            // };
 
-            updateContract(contract, function(success) {
-                // IDLE
-            });
+                var contract = {};
+
+                contract.id = ContractsForm.changeCache[i].id;
+                contract.title = ContractsForm.changeCache[i].title;
+                contract.date = ContractsForm.changeCache[i].date;
+                contract.dateFinal = ContractsForm.changeCache[i].dateFinal;
+                contract.status = ContractsForm.changeCache[i].status;
+                contract.amount = ContractsForm.changeCache[i].amount;
+                contract.type = ContractsForm.changeCache[i].type;
+                contract.department = ContractsForm.changeCache[i].department;
+                contract.object = 0;
+                contract.department = ContractsForm.changeCache[i].customerId;
+
+
+            console.log(ContractsForm.changeCache[i]);
+            // delete ContractsForm.changeCache[i].customerByCustomerId;
+            updateContract(contract, function(success) { });
+
         }
         ContractsForm.changeCache = [];
         ContractsForm.setChangeBlockState("hidden");

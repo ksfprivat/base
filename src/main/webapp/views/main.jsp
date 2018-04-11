@@ -10,9 +10,9 @@
     <%--JQuery--%>
     <script src="<c:url value="resources/lib/jquery/jquery-1.11.3.js"/>"></script>
 
-    <%--PDF make library--%>
-    <script src="<c:url value="resources/lib/pdfmake/pdfmake.min.js"/>"></script>
-    <script src="<c:url value="resources/lib/pdfmake/vfs_fonts.js"/>"></script>
+	<%--PDF make library--%>
+	<script src="<c:url value="resources/lib/pdfmake/pdfmake.min.js"/>"></script>
+	<script src="<c:url value="resources/lib/pdfmake/vfs_fonts.js"/>"></script>
 
 	<%--Isomorphic SmarClient init scripts	--%>
 	<script>var isomorphicDir="/resources/lib/isomorphic/";</script>
