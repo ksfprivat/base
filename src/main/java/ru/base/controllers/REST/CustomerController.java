@@ -1,12 +1,9 @@
 package ru.base.controllers.REST;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.base.controllers.nodes.ContactNode;
 import ru.base.controllers.nodes.CustomerNode;
-import ru.base.orm.entities.Contact;
 import ru.base.orm.entities.Customer;
 import ru.base.orm.services.CustomerService;
 

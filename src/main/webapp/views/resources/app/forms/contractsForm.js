@@ -43,9 +43,9 @@ ContractsForm ={
             baseStyle:"cardBoxToolButton"
         });
 
-        this.btnAddConatact =  createButton("Добавить", "ic_add_blue.png", "visible", 110,this.addContact);
-        this.btnDelConatact =  createButton("Удалить", "ic_delete_blue.png", "visible", 110, this.deleteContact);
-        this.btnEditConatact=  createButton("Изменить", "ic_edit_blue.png", "visible",110, this.editContact);
+        this.btnAddConatact =  createButton("Добавить", "ic_add_blue.png", "visible", 110,this.addContract);
+        this.btnDelConatact =  createButton("Удалить", "ic_delete_blue.png", "visible", 110, this.deleteContract);
+        this.btnEditConatact=  createButton("Изменить", "ic_edit_blue.png", "visible",110, this.editContract);
 
         this.btnMenu = createButton(null, "ic_menu.png", "visible",24, function(){ContractsForm.menuBar.showMenu()});
         this.btnMaximize = createButton(null, "ic_resize_max.png", "visible",24, this.setPageViewMode);
@@ -102,13 +102,14 @@ ContractsForm ={
             alternateFieldStyles: false,
             showHeaderMenuButton:false,
             showSortNumerals: false,
+            showHeaderContextMenu: false,
             canEdit:true,
             autoDraw: false,
             fields: [
                 {name: "id",  primaryKey: true},
                 {name: "title", title:"Наименование", width: 250, align:"left", changed :this.fieldChanged},
-                {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged},
-                {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged},
+                {name: "date", title:"Дата", type:"date", align:"left", format:"dd.MM.yyyy", changed :this.fieldChanged},
+                {name: "dateFinal", title:"Окончание", type:"date", format:"dd.MM.yyyy", align:"left", changed :this.fieldChanged},
                 {name: "amount", title:"Сумма", type:"float", format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "type", title:"Тип", align:"left", changed :this.fieldChanged,
                     valueMap: {
@@ -121,11 +122,11 @@ ContractsForm ={
                     }
                 }
             ],
-            sortField: 1,
+            sortField: 2,
             sortDirection:"descending",
             rowClick: this.rowClick,
             selectionChanged  : this.selectionChanged,
-            cellChanged: this.contactsChanged
+            cellChanged: this.ContractsChanged
         });
 
         this.listGrid.hideFields(["id"]);
@@ -149,7 +150,7 @@ ContractsForm ={
     },
 
     fieldChanged: function(form, item, value) {
-        ContractsForm.contactsChanged(ContractsForm.listGrid.getSelectedRecord());
+        ContractsForm.ContractsChanged(ContractsForm.listGrid.getSelectedRecord());
     },
 
     selectionChanged: function() {
@@ -175,6 +176,21 @@ ContractsForm ={
     commitChanges: function () {
         ContractsForm.listGrid.endEditing();
         // Commit code
+        for (var i = 0; i < ContractsForm.changeCache.length; i++) {
+            var contract = {
+                id: ContractsForm.changeCache[i].id,
+                title: ContractsForm.changeCache[i].title,
+                date: ContractsForm.changeCache[i].date,
+                dateFinal: ContractsForm.changeCache[i].dateFinal,
+                status: ContractsForm.changeCache[i].status,
+                amount: ContractsForm.changeCache[i].amount,
+                type: ContractsForm.changeCache[i].type
+            };
+
+            updateContract(contract, function(success) {
+                // IDLE
+            });
+        }
         ContractsForm.changeCache = [];
         ContractsForm.setChangeBlockState("hidden");
     },
@@ -182,22 +198,27 @@ ContractsForm ={
     rollbackChanges: function () {
         ContractsForm.listGrid.endEditing();
         // Rollback code
+        getContractsByCustomerId(ContractsForm.changeCache[0].customerId, function(contracts){
+            ContractsForm.setData(contracts);
+        });
+
         ContractsForm.setChangeBlockState("hidden");
     },
 
-    contactsChanged:function(record, newValue, oldValue, rowNum, colNum, grid){
+    ContractsChanged:function(record, newValue, oldValue, rowNum, colNum, grid){
         if (!ContractsForm.changeCache.includes(record))
             ContractsForm.changeCache.push(record);
         ContractsForm.setChangeBlockState("visible");
     },
 
     setData: function (contracts, customerId) {
-        console.log(contracts);
         ContractsForm.changeCache = [];
         ContractsForm.customerId = customerId;
         if (ContractsForm.customerTitle.visibility !== "hidden")
             ContractsForm.setCustomerTitle();
+        var sortState = ContractsForm.listGrid.getSort();
         ContractsForm.listGrid.setData(contracts);
+        ContractsForm.listGrid.setSort(sortState);
         ContractsForm.setChangeBlockState("hidden");
     },
 
@@ -211,11 +232,11 @@ ContractsForm ={
         }
     },
 
-    addContact: function () {
-        // Add contact code
+    addContract: function () {
+        // Add Contract code
     },
 
-    deleteContact: function () {
+    deleteContract: function () {
         var record = ContractsForm.listGrid.getSelectedRecord();
         if (record != null)
             isc.ask("Вы хотите удалить: "+record.name,
@@ -226,10 +247,10 @@ ContractsForm ={
             );
     },
 
-    editContact: function () {
+    editContract: function () {
         var record = ContractsForm.listGrid.getSelectedRecord();
         if (record != null) {
-           // Edit contact code
+           // Edit Contract code
         }
     },
 
@@ -244,7 +265,7 @@ ContractsForm ={
     setCurrentRecord: function(record) {
         ContractsForm.listGrid.deselectAllRecords();
         ContractsForm.listGrid.selectRecord(record);
-        // Unknown exception for the first time click on contact node
+        // Unknown exception for the first time click on Contract node
         try {
             ContractsForm.listGrid.scrollToRow(ContractsForm.listGrid.getFocusRow());
         } catch (e) {

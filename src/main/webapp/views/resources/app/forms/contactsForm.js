@@ -102,6 +102,7 @@ ContactsForm ={
             alternateRecordStyles: true,
             alternateFieldStyles: false,
             showHeaderMenuButton:false,
+            showHeaderContextMenu: false,
             showSortNumerals: false,
             canEdit:true,
             autoDraw: false,
@@ -205,11 +206,13 @@ ContactsForm ={
     },
 
     setData: function (contacts, customerId) {
+        var sortState = ContactsForm.contactsGrid.getSort();
         ContactsForm.changeCache = [];
         ContactsForm.customerId = customerId;
         if (ContactsForm.customerTitle.visibility !== "hidden")
             ContactsForm.setCustomerTitle();
         ContactsForm.contactsGrid.setData(contacts);
+        ContactsForm.contactsGrid.setSort(sortState);
         ContactsForm.setChangeBlockState("hidden");
     },
 

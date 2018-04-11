@@ -88,6 +88,11 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    public void updateContract(Contract contract) {
+        sessionFactory.getCurrentSession().update(contract);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public List<Customer> getCustomers() {
         return sessionFactory.getCurrentSession().createQuery("from Customer order by title").list();

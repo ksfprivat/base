@@ -35,6 +35,8 @@ public interface CustomerDao {
 
     void deleteContract(Contract contract);
 
+    void updateContract(Contract contract);
+
     List<Customer> getCustomers();
 
     List<Contact> getContactsById(int customerId);

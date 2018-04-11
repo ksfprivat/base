@@ -22,9 +22,9 @@ public class ContactController {
    private CustomerService customerService;
 
 
-    @RequestMapping(value = "getContactById", method = RequestMethod.GET)
-    @ResponseBody
-    public Contact getCustomerById(@RequestParam(value = "id") int id) {
+   @RequestMapping(value = "getContactById", method = RequestMethod.GET)
+   @ResponseBody
+   public Contact getCustomerById(@RequestParam(value = "id") int id) {
         return customerService.getContactById(id);
     }
 

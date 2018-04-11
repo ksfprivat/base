@@ -28,6 +28,7 @@
 	<%--Application layout--%>
     <script src="<c:url value="resources/app/header.js" />"></script>
     <script src="<c:url value="resources/app/layout.js" />"></script>
+
     <%--Data binding    --%>
 	<script src="<c:url value="resources/app/dataBinding/customers.js" />"></script>
     <script src="<c:url value="resources/app/dataBinding/contracts.js" />"></script>
@@ -53,6 +54,13 @@
 
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
+
+        // function setLocalizationSettings() {
+        //     Date.setShortDisplayFormat("toEuropeanShortDate");
+        //     Date.setInputFormat("DMY");
+        //     Date.setDefaultDateSeparator(".");
+        //     Date.setFirstDayOfWeek(1);
+        // }
 
 		function initApplication() {
             isc.Canvas.resizeFonts(3);

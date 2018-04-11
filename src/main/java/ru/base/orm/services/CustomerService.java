@@ -31,6 +31,8 @@ public interface CustomerService {
 
     void deleteContract(Contract contract);
 
+    void updateContract(Contract contract);
+
     List<Customer> getCustomers();
 
     List<Contact> getContacts();

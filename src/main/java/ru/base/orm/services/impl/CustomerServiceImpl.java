@@ -85,6 +85,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
+    public void updateContract(Contract contract) {
+        customerDAO.updateContract(contract);
+    }
+
+    @Override
+    @Transactional
     public List<Customer> getCustomers() {
         return customerDAO.getCustomers();
     }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.base.controllers.nodes.ContractNode;
-import ru.base.orm.entities.Contact;
 import ru.base.orm.entities.Contract;
 import ru.base.orm.services.CustomerService;
 
@@ -40,5 +39,13 @@ public class ContractController {
         }
 
         return contractNodes;
+    }
+
+    @RequestMapping(value = "updateContract", method = RequestMethod.GET)
+    @ResponseBody
+    void updateContract(Contract contract) {
+//        contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
+//        customerService.updateContract(contract);
+        System.out.println("In update controller");
     }
 }
