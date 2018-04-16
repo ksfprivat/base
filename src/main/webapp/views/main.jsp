@@ -55,17 +55,18 @@
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
 
-        // function setLocalizationSettings() {
-        //     Date.setShortDisplayFormat("toEuropeanShortDate");
-        //     Date.setInputFormat("DMY");
-        //     Date.setDefaultDateSeparator(".");
-        //     Date.setFirstDayOfWeek(1);
-        // }
+        function setLocalizationSettings() {
+            // Date.setShortDisplayFormat("toEuropeanShortDate");
+            // Date.setInputFormat("DMY");
+            // Date.setDefaultDateSeparator(".");
+            // Date.setFirstDayOfWeek(1);
+        }
 
 		function initApplication() {
             isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);
-            SplashWindow.create();
+            // setLocalizationSettings();
+            // SplashWindow.create();
             createLayout();
             sideBar.setAppState(1)
         }

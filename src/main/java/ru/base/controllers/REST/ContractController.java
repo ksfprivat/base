@@ -11,6 +11,7 @@ import ru.base.orm.entities.Contract;
 import ru.base.orm.services.CustomerService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -46,6 +47,6 @@ public class ContractController {
     void updateContract(Contract contract) {
 //        contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
 //        customerService.updateContract(contract);
-        System.out.println("In update controller");
+        System.out.println("In update controller:"+contract.getDate());
     }
 }

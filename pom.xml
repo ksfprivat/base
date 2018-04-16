@@ -11,8 +11,8 @@
         <spring.version>4.2.8.RELEASE</spring.version>
         <spring.security.version>4.0.1.RELEASE</spring.security.version>
         <jstl.version>1.2</jstl.version>
-        <!--<jackson.version>2.5.3</jackson.version>-->
-        <jackson.version>2.9.4</jackson.version>
+        <jackson.version>2.5.3</jackson.version>
+        <!--<jackson.version>2.9.4</jackson.version>-->
     </properties>
 
     <dependencies>

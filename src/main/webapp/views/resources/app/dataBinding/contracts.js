@@ -25,7 +25,7 @@ function getContractNodesByCustomerId(customerId, callback) {
 }
 
 function updateContract(contract, callback) {
-    console.log("trace: js binding request");
+    console.log("trace: js binding request"+contract);
     var result;
     $.ajax({
         type: "GET",

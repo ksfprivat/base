@@ -3,7 +3,7 @@ ContactWindow = {
     create: function (transactionType, customerTitle) {
         this.transactionType = transactionType;
         this.title = "Новый контакт";
-        if (transactionType == TRANSACTION_UPDATE) this.title = "Контакт";
+        if (transactionType === TRANSACTION_UPDATE) this.title = "Контакт";
 
         this.header = HTMLFlow.create({
             width: "100%",
@@ -134,7 +134,7 @@ ContactWindow = {
 
 
     validate: function () {
-        if (ContactWindow.nameBlock.getValue("name") == undefined) {
+        if (ContactWindow.nameBlock.getValue("name") === undefined) {
             isc.warn("Необходимо ввести имя контакта !");
             return false
         }

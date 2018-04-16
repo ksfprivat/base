@@ -2,10 +2,14 @@ package ru.base.orm.entities;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.base.utils.JsonDateDeserializer;
+import ru.base.utils.JsonDateSerializer;
 
 import javax.persistence.*;
-import java.sql.Date;
-
+import java.util.Date;
 
 @JsonAutoDetect
 @Entity
@@ -14,7 +18,7 @@ public class Contract {
     private int id;
     private String title;
     private Date date;
-    private Date dateFinal;
+    private String dateFinal;
     private String status;
     private Double amount;
     private String department;
@@ -46,23 +50,27 @@ public class Contract {
 
     @Basic
     @Column(name = "date", nullable = true)
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @JsonSerialize(using = JsonDateSerializer.class)
+    ////    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     public Date getDate() {
         return date;
     }
 
-    public void setDate(java.sql.Date date) {
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public void setDate(Date date) {
         this.date = date;
     }
 
     @Basic
     @Column(name = "dateFinal", nullable = true)
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
-    public Date getDateFinal() {
+    public String getDateFinal() {
         return dateFinal;
     }
 
-    public void setDateFinal(Date dateFinal) {
+    public void setDateFinal(String dateFinal) {
         this.dateFinal = dateFinal;
     }
 
