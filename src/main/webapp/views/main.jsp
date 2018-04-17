@@ -25,6 +25,9 @@
     <script src="<c:url value="resources/lib/isomorphic/locales/frameworkMessages_ru.js"/>"></script>
     <script src="<c:url value="resources/lib/isomorphic/skins/Tahoe/load_skin.js"/>"></script>
 
+    <%--Utilites	--%>
+    <script src="<c:url value="resources/app/utils/dateUtils.js"/>"></script>
+
 	<%--Application layout--%>
     <script src="<c:url value="resources/app/header.js" />"></script>
     <script src="<c:url value="resources/app/layout.js" />"></script>

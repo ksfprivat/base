@@ -7,9 +7,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.base.utils.JsonDateDeserializer;
 import ru.base.utils.JsonDateSerializer;
+import ru.base.utils.JsonTimestampDeserializer;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
+
 
 @JsonAutoDetect
 @Entity
@@ -17,7 +20,8 @@ import java.util.Date;
 public class Contract {
     private int id;
     private String title;
-    private Date date;
+    @JsonFormat(shape=JsonFormat.Shape.NUMBER, pattern="s")
+    private Timestamp date;
     private String dateFinal;
     private String status;
     private Double amount;
@@ -50,16 +54,18 @@ public class Contract {
 
     @Basic
     @Column(name = "date", nullable = true)
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
-    @JsonSerialize(using = JsonDateSerializer.class)
+//    @DateTimeFormat(pattern = "dd.MM.yyyy")
+//    @JsonSerialize(using = JsonDateSerializer.class)
+    //    @JsonSerialize(using = JsonDateSerializer.class)
     ////    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
-    @JsonDeserialize(using = JsonDateDeserializer.class)
-    public void setDate(Date date) {
+//    @DateTimeFormat(pattern = "dd.MM.yyyy")
+//    @JsonDeserialize(using = JsonDateDeserializer.class)
+//    @JsonDeserialize(using = JsonTimestampDeserializer.class)
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

@@ -108,8 +108,15 @@ ContractsForm ={
             fields: [
                 {name: "id",  primaryKey: true},
                 {name: "title", title:"Наименование", width: 250, align:"left", changed :this.fieldChanged},
-                {name: "date", title:"Дата", type:"date", align:"left", format:"dd.MM.yyyy", changed :this.fieldChanged},
-                {name: "dateFinal", title:"Окончание", type:"date", format:"dd.MM.yyyy", align:"left", changed :this.fieldChanged},
+                {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
+                    formatCellValue: function (value) {
+                        return (timestampToDateString(value));
+                    },
+                    formatEditorValue: function (value) {
+                        return (timestampToDateString(value));
+                    }
+                },
+                {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged},
                 {name: "amount", title:"Сумма", type:"float", format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "type", title:"Тип", align:"left", changed :this.fieldChanged,
                     valueMap: {
