@@ -1,18 +1,15 @@
-function timestampToDateString(timestamp) {
-    var date = new Date(Number(timestamp));
-    return (
-        ( (Number(date.getDate())<10) ? ("0"+date.getDate()): (date.getDate()) )+"."+
-        ( (Number(date.getMonth()+1)<10) ? ("0"+(Number(date.getMonth())+1)): ((Number(date.getMonth())+1)) )+"."+
-        date.getFullYear());
+function formatDateString(value) {
+    return (value.substr(8,2)+"."+value.substr(5,2)+"."+value.substr(0,4));
 }
 
-function dateStringToTimestamp(dateString) {
-    return new Date(dateString.split(".").reverse().join(".")).getTime();
+function dateToDateString(value) {
+       return (
+           value.getFullYear()+"."+
+           ((Number(value.getMonth()+1)<10) ? ("0"+(Number(value.getMonth())+1)): ((Number(value.getMonth())+1)) )+"."+
+           ((Number(value.getDate())<10) ? ("0"+value.getDate()): (value.getDate()))
+       );
 }
 
-function isTimestamp (value) {
-    return Number(value) > 0;
-}
 
 function isDateString (value) {
     return (value.indexOf(".") !== -1)

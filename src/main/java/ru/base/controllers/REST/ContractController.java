@@ -45,8 +45,9 @@ public class ContractController {
     @RequestMapping(value = "updateContract", method = RequestMethod.GET)
     @ResponseBody
     void updateContract(Contract contract) {
-//        contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
-//        customerService.updateContract(contract);
+        System.out.println(contract.getCustomerId());
+        contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
+        customerService.updateContract(contract);
         System.out.println("In update controller:"+contract.getDate());
     }
 }

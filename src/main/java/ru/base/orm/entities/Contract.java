@@ -20,9 +20,8 @@ import java.util.Date;
 public class Contract {
     private int id;
     private String title;
-    @JsonFormat(shape=JsonFormat.Shape.NUMBER, pattern="s")
-    private Timestamp date;
-    private String dateFinal;
+    private Date date;
+    private Date dateFinal;
     private String status;
     private Double amount;
     private String department;
@@ -54,29 +53,31 @@ public class Contract {
 
     @Basic
     @Column(name = "date", nullable = true)
-//    @DateTimeFormat(pattern = "dd.MM.yyyy")
-//    @JsonSerialize(using = JsonDateSerializer.class)
-    //    @JsonSerialize(using = JsonDateSerializer.class)
-    ////    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
-    public Timestamp getDate() {
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
+    public Date getDate() {
         return date;
     }
 
-//    @DateTimeFormat(pattern = "dd.MM.yyyy")
-//    @JsonDeserialize(using = JsonDateDeserializer.class)
-//    @JsonDeserialize(using = JsonTimestampDeserializer.class)
-    public void setDate(Timestamp date) {
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public void setDate(Date date) {
         this.date = date;
     }
 
     @Basic
     @Column(name = "dateFinal", nullable = true)
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
-    public String getDateFinal() {
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
+    public Date getDateFinal() {
         return dateFinal;
     }
 
-    public void setDateFinal(String dateFinal) {
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public void setDateFinal(Date dateFinal) {
         this.dateFinal = dateFinal;
     }
 

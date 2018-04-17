@@ -321,7 +321,7 @@ function navTreeAddButtonClick() {
                 break;
     }
 
-    if (getNavigationFrameMode() == VM_CONTACTS) {
+    if (getNavigationFrameMode() === VM_CONTACTS) {
         if (customerCard.data != null) {
             ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title)
                 .setData({}, ContactsForm.customerId );
@@ -330,7 +330,7 @@ function navTreeAddButtonClick() {
 }
 
 function deleteNavTreeNode() {
-    if (typeof  navTreeSelectedNode == "undefined") {
+    if (typeof  navTreeSelectedNode === "undefined") {
         isc.warn("Необходимо выбрать данные");
         return;
     }

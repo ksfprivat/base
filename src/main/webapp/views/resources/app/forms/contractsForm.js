@@ -4,6 +4,7 @@ ContractsForm ={
         this.changed = false;
         this.changeCache = [];
         this.customerId = null;
+        this.sortState = [];
 
         function createButton(title, icon, visible, size, event){
             return (
@@ -110,13 +111,20 @@ ContractsForm ={
                 {name: "title", title:"Наименование", width: 250, align:"left", changed :this.fieldChanged},
                 {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
                     formatCellValue: function (value) {
-                        return (timestampToDateString(value));
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                     },
                     formatEditorValue: function (value) {
-                        return (timestampToDateString(value));
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                     }
                 },
-                {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged},
+                {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged,
+                    formatCellValue: function (value) {
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    },
+                    formatEditorValue: function (value) {
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    }
+                },
                 {name: "amount", title:"Сумма", type:"float", format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "type", title:"Тип", align:"left", changed :this.fieldChanged,
                     valueMap: {
@@ -135,6 +143,8 @@ ContractsForm ={
             selectionChanged  : this.selectionChanged,
             cellChanged: this.ContractsChanged
         });
+
+        this.sortState = this.listGrid.getSort();
 
         this.listGrid.hideFields(["id"]);
 
@@ -182,34 +192,22 @@ ContractsForm ={
 
     commitChanges: function () {
         ContractsForm.listGrid.endEditing();
-        // Commit code
         for (var i = 0; i < ContractsForm.changeCache.length; i++) {
-            // var contract = {
-            //     id: ContractsForm.changeCache[i].id,
-            //     title: ContractsForm.changeCache[i].title,
-            //     date: ContractsForm.changeCache[i].date,
-            //     dateFinal: ContractsForm.changeCache[i].dateFinal,
-            //     status: ContractsForm.changeCache[i].status,
-            //     amount: ContractsForm.changeCache[i].amount,
-            //     type: ContractsForm.changeCache[i].type
-            // };
-
                 var contract = {};
 
                 contract.id = ContractsForm.changeCache[i].id;
+                contract.customerId = ContractsForm.changeCache[i].customerId;
                 contract.title = ContractsForm.changeCache[i].title;
-                contract.date = ContractsForm.changeCache[i].date;
-                contract.dateFinal = null;//ContractsForm.changeCache[i].dateFinal;
+                contract.date = isDate(ContractsForm.changeCache[i].date) ?
+                    dateToDateString(ContractsForm.changeCache[i].date) : ContractsForm.changeCache[i].date;
+                contract.dateFinal = isDate(ContractsForm.changeCache[i].dateFinal) ?
+                    dateToDateString(ContractsForm.changeCache[i].dateFinal) : ContractsForm.changeCache[i].dateFinal;
                 contract.status = ContractsForm.changeCache[i].status;
                 contract.amount = 1;//ContractsForm.changeCache[i].amount;
                 contract.type = "1";//ContractsForm.changeCache[i].type;
                 contract.department = ContractsForm.changeCache[i].department;
                 contract.object = 0;
                 contract.department = ContractsForm.changeCache[i].customerId;
-
-
-            console.log(contract);
-            // delete ContractsForm.changeCache[i].customerByCustomerId;
             updateContract(contract, function(success) { });
 
         }
@@ -238,10 +236,9 @@ ContractsForm ={
         ContractsForm.customerId = customerId;
         if (ContractsForm.customerTitle.visibility !== "hidden")
             ContractsForm.setCustomerTitle();
-        var sortState = ContractsForm.listGrid.getSort();
         ContractsForm.listGrid.setData(contracts);
-        ContractsForm.listGrid.setSort(sortState);
         ContractsForm.setChangeBlockState("hidden");
+        ContractsForm.listGrid.setSort(ContractsForm.sortState);
     },
 
     setChangeBlockState: function (state) {

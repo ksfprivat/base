@@ -4,6 +4,7 @@ ContactsForm ={
         this.changed = false;
         this.changeCache = [];
         this.customerId = null;
+        this.sortState = [];
 
         function createButton(title, icon, visible, size, event){
             return (
@@ -121,6 +122,8 @@ ContactsForm ={
             cellChanged: this.contactsChanged
         });
 
+        this.sortState = this.contactsGrid.getSort();
+
         this.contactsGrid.hideFields(["id"]);
 
         this.content = VLayout.create({
@@ -214,10 +217,11 @@ ContactsForm ={
         ContactsForm.contactsGrid.setData(contacts);
         ContactsForm.contactsGrid.setSort(sortState);
         ContactsForm.setChangeBlockState("hidden");
+        ContactsForm.contactsGrid.setSort(ContactsForm.sortState);
     },
 
     setChangeBlockState: function (state) {
-        if(state == "visible") {
+        if(state === "visible") {
             ContactsForm.btnCommit.show();
             ContactsForm.btnRollback.show();
         } else {
