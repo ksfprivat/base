@@ -69,7 +69,7 @@
             isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);
             // setLocalizationSettings();
-            // SplashWindow.create();
+            SplashWindow.create();
             createLayout();
             sideBar.setAppState(1)
         }

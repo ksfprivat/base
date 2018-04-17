@@ -13,6 +13,7 @@ public class Contact {
     private String mobile;
     private String email;
     private String fax;
+    private Integer favorite;
     private Integer customerId;
     private Customer customer;
 
@@ -86,6 +87,15 @@ public class Contact {
     public void setFax(String fax) {
         this.fax = fax;
     }
+
+    @Basic
+    @Column(name = "favorite", nullable = true)
+    public Integer getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(Integer favorite) {
+        this.favorite = favorite;    }
 
     @Basic
     @Column(name = "customer_id", nullable = true, insertable = false, updatable = false)

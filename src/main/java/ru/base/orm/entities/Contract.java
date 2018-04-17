@@ -7,14 +7,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.base.utils.JsonDateDeserializer;
 import ru.base.utils.JsonDateSerializer;
-import ru.base.utils.JsonTimestampDeserializer;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
-
-@JsonAutoDetect
 @Entity
 @Table(name = "contract")
 public class Contract {

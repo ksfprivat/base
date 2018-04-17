@@ -25,7 +25,6 @@ ContactsForm ={
                 }));
         }
 
-
         this.contextMenu  = Menu.create({
             autoDraw: false,
             showShadow: false,
@@ -105,10 +104,14 @@ ContactsForm ={
             showHeaderMenuButton:false,
             showHeaderContextMenu: false,
             showSortNumerals: false,
+            showRecordComponents: true,
+            showRecordComponentsByCell: true,
             canEdit:true,
             autoDraw: false,
             fields: [
-                {name: "id",  primaryKey: true},
+                {name: "id",  primaryKey: true, hidden :true},
+                {name: "favorite", hidden: true},
+                {name:"fav", title:" ", width:22, align: "center"},
                 {name: "name", title:"Имя", width: 250, changed :this.fieldChanged},
                 {name: "position", title:"Должность", changed :this.fieldChanged},
                 {name: "phone", title:"Телефон", changed :this.fieldChanged},
@@ -116,15 +119,50 @@ ContactsForm ={
                 {name: "email", title:"E-mail", changed :this.fieldChanged},
                 {name: "fax", title:"Факс", changed :this.fieldChanged}
             ],
-            sortField: 1,
+            canMultiSort: true,
+            initialSort: [
+                {property: "favorite", direction: "descending"},
+                {property: "name", direction: "ascending"}
+            ],
             rowClick: this.rowClick,
             selectionChanged  : this.selectionChanged,
-            cellChanged: this.contactsChanged
+            cellChanged: this.contactsChanged,
+            createRecordComponent : function (record, colNum)  {
+                var fieldName = this.getFieldName(colNum);
+
+                if (fieldName === "fav") {
+                    var recordCanvas = HLayout.create({
+                        height: 22,
+                        width: "100%",
+                        align: "center"
+                    });
+                    var favBtn = isc.ImgButton.create({
+                        showDown: false,
+                        showRollOver: false,
+                        layoutAlign: "center",
+                        src: (record.favorite === 0) ? (imgDir+"/ic_star_gray.png"): (imgDir+"/ic_star.png"),
+                        prompt: "Make a favorite",
+                        height: 18,
+                        width: 18,
+                        grid: this,
+                        click : function () {
+                            if ( record.favorite === 1) {
+                                this.setSrc(imgDir+"/ic_star_gray.png");
+                                record.favorite = 0;
+                            }
+                            else {
+                                this.setSrc(imgDir+"/ic_star.png");
+                                record.favorite = 1;
+                            }
+                            ContactsForm.contactsChanged(record);
+                        }});
+                    recordCanvas.addMember(favBtn);
+                    return recordCanvas;
+                } else  return null;
+            }
         });
 
         this.sortState = this.contactsGrid.getSort();
-
-        this.contactsGrid.hideFields(["id"]);
 
         this.content = VLayout.create({
             width: "100%",
@@ -182,6 +220,7 @@ ContactsForm ={
             contact.mobile = ContactsForm.changeCache[i].mobile;
             contact.email = ContactsForm.changeCache[i].email;
             contact.fax = ContactsForm.changeCache[i].fax;
+            contact.favorite = ContactsForm.changeCache[i].favorite;
             contact.customerId = ContactsForm.changeCache[i].customerId;
 
             updateContact(contact, function(success) {
