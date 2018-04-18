@@ -45,6 +45,14 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<Contract> getContractsByYear(int year) {
+        return sessionFactory.getCurrentSession().createQuery("from Contract where date between '"+
+                String.valueOf(year)+"/01/01' and '"+
+                String.valueOf(year)+"/12/31' order by date").list();
+    }
+
+    @Override
     public Integer insertCustomer(Customer customer) {
         Integer id = (Integer) sessionFactory.getCurrentSession().save(customer);
         System.out.println("CUSTOMER_ID:"+id);
@@ -83,8 +91,8 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public void deleteContract(Contract contract) {
-        sessionFactory.getCurrentSession().delete(contract);
+    public void deleteContract(int id) {
+        sessionFactory.getCurrentSession().delete(sessionFactory.getCurrentSession().get(Contract.class, id));
     }
 
     @Override

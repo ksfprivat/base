@@ -203,8 +203,8 @@ ContractsForm ={
                 contract.dateFinal = isDate(ContractsForm.changeCache[i].dateFinal) ?
                     dateToDateString(ContractsForm.changeCache[i].dateFinal) : ContractsForm.changeCache[i].dateFinal;
                 contract.status = ContractsForm.changeCache[i].status;
-                contract.amount = 1;//ContractsForm.changeCache[i].amount;
-                contract.type = "1";//ContractsForm.changeCache[i].type;
+                contract.amount = ContractsForm.changeCache[i].amount;
+                contract.type = ContractsForm.changeCache[i].type;
                 contract.department = ContractsForm.changeCache[i].department;
                 contract.object = 0;
                 contract.department = ContractsForm.changeCache[i].customerId;
@@ -252,16 +252,22 @@ ContractsForm ={
     },
 
     addContract: function () {
-        // Add Contract code
+        var contractWindow = ContractWindow.create(TRANSACTION_INSERT, customerCard.getData().title);
+        contractWindow.setData({}, ContactsForm.customerId );
     },
 
     deleteContract: function () {
         var record = ContractsForm.listGrid.getSelectedRecord();
         if (record != null)
-            isc.ask("Вы хотите удалить: "+record.name,
+            isc.ask("Вы хотите удалить: "+record.title,
                 {
                     yesClick: function() {
-                        // Delete contract code
+                        deleteContract(record.id, function (success) {
+                            if (success) {
+                                ContractsForm.listGrid.removeSelectedData();
+                                // Another operation
+                            }
+                        });
                         return this.Super('yesClick', arguments);}}
             );
     },

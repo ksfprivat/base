@@ -18,6 +18,7 @@ public interface CustomerDao {
     Contract getContractById(int contractId);
 
     List<Contract> getContracts();
+    List<Contract> getContractsByYear(int year);
 
     Integer insertCustomer(Customer customer);
 
@@ -33,7 +34,7 @@ public interface CustomerDao {
 
     void insertContract(Contract contract);
 
-    void deleteContract(Contract contract);
+    void deleteContract(int id);
 
     void updateContract(Contract contract);
 

@@ -42,3 +42,23 @@ function updateContract(contract, callback) {
         }
     });
 }
+
+function deleteContract(contractId, callback) {
+    console.log("Delete:"+contractId);
+    var result;
+    $.ajax({
+        type: "GET",
+        url: "deleteContract",
+        data: 'id='+contractId,
+        success: function () {
+            console.log("Success: Delete contact:" + contractId);
+            result = true;
+            if (typeof callback === "function") callback(result);
+        },
+        error: function (jqXHR, status, error) {
+            alert("Error:" + jqXHR.status + "\n\n" + jqXHR.responseText + "\n\n" + error);
+            result = false;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}

@@ -45,6 +45,7 @@
 
 	<script src="<c:url value="resources/app/windows/customerWindow.js"/>"></script>
 	<script src="<c:url value="resources/app/windows/contactWindow.js"/>"></script>
+	<script src="<c:url value="resources/app/windows/contractWindow.js"/>"></script>
     <script src="<c:url value="resources/app/windows/splashWindow.js" />"></script>
 
     <script src="<c:url value="resources/app/frames/navContactsGrid.js"/>"></script>
@@ -58,18 +59,10 @@
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
 
-        function setLocalizationSettings() {
-            // Date.setShortDisplayFormat("toEuropeanShortDate");
-            // Date.setInputFormat("DMY");
-            // Date.setDefaultDateSeparator(".");
-            // Date.setFirstDayOfWeek(1);
-        }
-
-		function initApplication() {
+        function initApplication() {
             isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);
-            // setLocalizationSettings();
-            SplashWindow.create();
+            // SplashWindow.create();
             createLayout();
             sideBar.setAppState(1)
         }

@@ -79,8 +79,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public void deleteContract(Contract contract) {
-        customerDAO.deleteContract(contract);
+    public void deleteContract(int id) {
+        customerDAO.deleteContract(id);
     }
 
     @Override
@@ -105,6 +105,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public List<Contract> getContracts() {
         return customerDAO.getContracts();
+    }
+
+    @Override
+    @Transactional
+    public List<Contract> getContractsByYear(int year) {
+        return customerDAO.getContractsByYear(year);
     }
 
     @Override

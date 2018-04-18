@@ -21,7 +21,6 @@ public class ContractController {
     @Autowired
     CustomerService customerService;
 
-
     @RequestMapping(value = "getContractsByCustomerId", method = RequestMethod.POST)
     @ResponseBody
     public List<Contract> getContractsByCustomerId(@RequestParam(value = "id") int customerId) {
@@ -41,13 +40,43 @@ public class ContractController {
 
         return contractNodes;
     }
+    
+    private int parseContractNumber(String value) {
+        StringBuilder resultStr = new StringBuilder();
+        if ((value.charAt(0) + "").equals("0")) return 0;
+        for (int i = 0; i < value.length(); i++) {
+            if (Character.isDigit(value.charAt(i)))
+                resultStr.append(value.charAt(i));
+            else break;
+        }
+        return (resultStr.length() > 0) ? Integer.parseInt(resultStr.toString()) : 0;
+    }
+
+    @RequestMapping(value = "getNewContractNumber", method = RequestMethod.GET)
+    @ResponseBody
+    public int getNewContractNumber(@RequestParam(value = "year") int year) {
+        List<Contract> contracts = customerService.getContractsByYear(year);
+        int result = 0, contractNumber;
+
+        for (Contract contract : contracts) {
+            contractNumber = parseContractNumber(contract.getTitle());
+            if (result < contractNumber) result = contractNumber;
+
+        }
+        return result + 1;
+    }
 
     @RequestMapping(value = "updateContract", method = RequestMethod.GET)
     @ResponseBody
     void updateContract(Contract contract) {
-        System.out.println(contract.getCustomerId());
         contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
         customerService.updateContract(contract);
-        System.out.println("In update controller:"+contract.getDate());
+    }
+
+    @RequestMapping(value = "deleteContract", method = RequestMethod.GET)
+    @ResponseBody
+    void deleteContract(@RequestParam(value = "id") int id) {
+        customerService.deleteContract(id);
     }
 }
+

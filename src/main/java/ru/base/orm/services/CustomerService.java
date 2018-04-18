@@ -29,7 +29,7 @@ public interface CustomerService {
 
     void insertContract(Contract contract);
 
-    void deleteContract(Contract contract);
+    void deleteContract(int id);
 
     void updateContract(Contract contract);
 
@@ -38,6 +38,7 @@ public interface CustomerService {
     List<Contact> getContacts();
 
     List<Contract> getContracts();
+    List<Contract> getContractsByYear(int year);
 
     List<Contact> getContactsById(int customersId);
 

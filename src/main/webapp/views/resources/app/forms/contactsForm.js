@@ -141,7 +141,7 @@ ContactsForm ={
                         showRollOver: false,
                         layoutAlign: "center",
                         src: (record.favorite === 0) ? (imgDir+"/ic_star_gray.png"): (imgDir+"/ic_star.png"),
-                        prompt: "Make a favorite",
+                        prompt: "Фаворит",
                         height: 18,
                         width: 18,
                         grid: this,
@@ -271,7 +271,7 @@ ContactsForm ={
 
     addContact: function () {
        var contactWindow = ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title);
-       contactWindow.setData({}, ContactsForm.customerId )
+       contactWindow.setData({}, ContactsForm.customerId );
     },
 
     deleteContact: function () {
