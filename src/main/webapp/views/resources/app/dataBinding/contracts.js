@@ -43,6 +43,26 @@ function updateContract(contract, callback) {
     });
 }
 
+
+function insertContract(contact, callback) {
+    var result;
+    $.ajax({
+        type: "GET",
+        url: "insertContract",
+        data: contract,
+        success: function (data) {
+            console.log("Success: Insert contract:" + contact.name);
+            result = data;
+            if (typeof callback === "function") callback(result);
+        },
+        error: function (jqXHR, status, error) {
+            alert("Error:" + jqXHR.status + "\n\n" + jqXHR.responseText + "\n\n" + error);
+            result = false;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+
 function deleteContract(contractId, callback) {
     console.log("Delete:"+contractId);
     var result;
@@ -58,6 +78,19 @@ function deleteContract(contractId, callback) {
         error: function (jqXHR, status, error) {
             alert("Error:" + jqXHR.status + "\n\n" + jqXHR.responseText + "\n\n" + error);
             result = false;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+
+function getNewContractNumber(year, callback) {
+    var result;
+    $.ajax({
+        type: 'GET',
+        url: 'getNewContractNumber',
+        data: 'year='+year,
+        success: function (data) {
+            result = data;
             if (typeof callback === "function") callback(result);
         }
     });

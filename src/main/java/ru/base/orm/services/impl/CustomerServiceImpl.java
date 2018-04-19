@@ -73,8 +73,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public void insertContract(Contract contract) {
-        customerDAO.insertContract(contract);
+    public Integer insertContract(Contract contract) {
+       return customerDAO.insertContract(contract);
     }
 
     @Override

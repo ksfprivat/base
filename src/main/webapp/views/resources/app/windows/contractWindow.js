@@ -18,8 +18,7 @@ ContractWindow = {
             contents: "<div class='cardBoxSectionTitle'>" + customerTitle + "</div><div class='cardBoxSeparator'/>"
         });
 
-
-        this.ContractDataBlock = DynamicForm.create({
+        this.contractDataBlock = DynamicForm.create({
             titleOrientation: "top",
             colWidths: ["100", "100"],
             numCols: 2,
@@ -27,17 +26,21 @@ ContractWindow = {
             margin: 8,
             autoDraw: false,
             fields: [
-                {name: "title", title: "Наименование", type: "text"},
-                {name: "type", title: "Тип", type: "text",
+                {name: "title", title: "Наименование", editorType:"ComboBoxItem"},
+
+                {name: "type", title: "Тип", editorType:"ComboBoxItem",
                     valueMap: {
                         0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
                     }},
-                {name: "date", title: "Дата", type: "text"},
-                {name: "dateFinal", title: "Завершение", type: "text"},
+                {name: "date", title: "Дата", type: "date"},
+                {name: "dateFinal", title: "Завершение", type: "date"},
 
-                {name: "Amount", title: "Сумма", type: "text"},
-                {name: "Costs", title: "Расходы", type: "text"},
-                {name: "Status", title: "Статус", type: "text"}
+                {name: "amount", title: "Сумма", type:"float", format:",0.00;", defaultValue: 0},
+                {name: "costs", title: "Расходы", type:"float", format:",0.00;", defaultValue: 0},
+                {name: "status", title: "Статус", type: "text",editorType:"ComboBoxItem",
+                    valueMap: {
+                        0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
+                    }}
             ]
         });
 
@@ -54,7 +57,6 @@ ContractWindow = {
             ]
         });
 
-
         this.window = isc.Window.create({
             width: 475,
             showHeaderIcon: false,
@@ -67,14 +69,35 @@ ContractWindow = {
             items: [
                 this.header,
                 this.customerTitleBlock,
-                this.ContractDataBlock,
+                this.contractDataBlock,
                 this.controlsBlock
             ]
         });
 
+        this.init();
+
         return Object.create(this);
     },
 
+    init:function () {
+        var contractSuffix = [
+            "ВТ", "ВП", "ОИ",
+            "К/ВТ", "К/ВП", "К/ОИ",
+            "П/ВТ", "П/ВП", "П/ОИ",
+            "У/ВТ", "У/ВП", "У/ОИ"
+        ];
+        var valueMap = {};
+        var year = (((new Date()).getFullYear()).toString());
+
+        getNewContractNumber(year, function (number) {
+
+            for (var i = 0; i < contractSuffix.length; i++)
+                valueMap[i] = (number+" "+contractSuffix[i]+"/"+year.substr(2,2));
+
+            ContractWindow.contractDataBlock.setValue("title", valueMap[0]);
+            ContractWindow.contractDataBlock.setValueMap("title", valueMap);
+        });
+    },
 
     save: function () {
         switch (ContractWindow.transactionType) {
@@ -86,9 +109,22 @@ ContractWindow = {
     },
 
     insert: function () {
-        var Contract = ContractWindow.getData();
+
         if (ContractWindow.validate()) {
-           // Insert block
+
+
+
+            var contract = ContractWindow.getData();
+            contract.date = isDate(contract.date) ?
+                dateToDateString(contract.date) : contract.date;
+            contract.dateFinal = isDate(contract.dateFinal) ?
+                dateToDateString(contract.dateFinal) : contract.dateFinal;
+            contract.customerId = ContractWindow.customerId;
+            delete contract["costs"];
+            console.log(contract);
+
+
+
             ContractWindow.close();
         }
     },
@@ -108,23 +144,40 @@ ContractWindow = {
 
 
     validate: function () {
+
+        for (var i = 0; i < ContractWindow.contractDataBlock.fields.length; i++) {
+            if (ContractWindow.contractDataBlock.getValue(ContractWindow.contractDataBlock.fields[i].name) === undefined) {
+                isc.warn("Необходимо заполнить поле: <b>" +ContractWindow.contractDataBlock.fields[i].title+"</b>");
+                return false;
+            }
+        }
+
+        if (ContractWindow.contractDataBlock.getValue("date") > ContractWindow.contractDataBlock.getValue("dateFinal")) {
+            isc.warn("Значение поля <b>Дата</b> должно быть раньше чем значение поля <b>Дата окончания</b>");
+            return false;
+        }
+        if (!isDigit(ContractWindow.contractDataBlock.getValue("amount"))) {
+            isc.warn("Не корректное значение полля <b>Сумма</b>");
+            return false;
+        }
+        if (!isDigit(ContractWindow.contractDataBlock.getValue("costs"))) {
+            isc.warn("Не корректное значение полля <b>Расходы</b>");
+            return false;
+        }
         return true;
     },
 
     getData: function () {
-        // Rewrite addressBlock values in titleBlock (merge values to Customer entity)
-        var result = ContractWindow.ContractDataBlock.getValues();
-
-        return result;
+        return ContractWindow.contractDataBlock.getValues();
     },
 
     setData: function (Contract, customerId) {
         ContractWindow.customerId = customerId;
-        ContractWindow.ContractDataBlock.setValues(Contract);
+        ContractWindow.contractDataBlock.setValues(Contract);
     },
 
     clearData: function () {
-        ContractWindow.ContractDataBlock.clearValues();
+        ContractWindow.contractDataBlock.clearValues();
         ContractWindow.data = null;
     },
 

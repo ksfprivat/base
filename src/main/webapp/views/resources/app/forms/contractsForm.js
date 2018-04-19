@@ -253,7 +253,7 @@ ContractsForm ={
 
     addContract: function () {
         var contractWindow = ContractWindow.create(TRANSACTION_INSERT, customerCard.getData().title);
-        contractWindow.setData({}, ContactsForm.customerId );
+        contractWindow.setData({}, ContractsForm.customerId );
     },
 
     deleteContract: function () {

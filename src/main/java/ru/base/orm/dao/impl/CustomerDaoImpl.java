@@ -86,8 +86,8 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public void insertContract(Contract contract) {
-        sessionFactory.getCurrentSession().save(contract);
+    public Integer insertContract(Contract contract) {
+        return  (Integer) sessionFactory.getCurrentSession().save(contract);
     }
 
     @Override

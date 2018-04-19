@@ -294,7 +294,7 @@ function setFilterNavTree(filter) {
 }
 
 function clearFilterNavTree() {
-   if (navTreeTabSet.getSelectedTabNumber() != 0)
+   if (navTreeTabSet.getSelectedTabNumber() !== 0)
        navTree.setDataSource(navTreeCache);
     navTree.filterData(null);
     $("#searchText").val("");
@@ -304,12 +304,12 @@ function clearFilterNavTree() {
 }
 
 function navTreeIsFiltered() {
-    return $("#searchText").val().length != 0;
+    return $("#searchText").val().length !== 0;
 }
 
 
 function navTreeAddButtonClick() {
-    if (getNavigationFrameMode() == VM_CUSTOMERS)
+    if (getNavigationFrameMode() === VM_CUSTOMERS)
         switch (navTreeSelectedNode.type) {
             case "customer":
                 CustomerWindow.create(TRANSACTION_INSERT);

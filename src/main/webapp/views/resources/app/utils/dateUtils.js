@@ -18,3 +18,7 @@ function isDateString (value) {
 function isDate(value) {
     return (value instanceof Date)
 }
+
+function isDigit(str) {
+    return str && !/[^\d]/.test(str);
+}

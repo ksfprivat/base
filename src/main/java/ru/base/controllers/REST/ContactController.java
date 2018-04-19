@@ -83,6 +83,6 @@ public class ContactController {
     @ResponseBody
     Integer insertContact(Contact contact) {
        contact.setCustomer(customerService.getCustomerById(contact.getCustomerId()));
-        return customerService.insertContact(contact);
+       return customerService.insertContact(contact);
     }
 }

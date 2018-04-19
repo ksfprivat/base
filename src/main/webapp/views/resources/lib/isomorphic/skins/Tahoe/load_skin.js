@@ -977,7 +977,8 @@ with (theWindow) {
         });
         
         isc.ComboBoxItem.addProperties({
-            pickerIconSrc:"sprite:cssClass:comboBoxItemPicker;size:16,32;offset:0,12;",
+            // pickerIconSrc:"sprite:cssClass:comboBoxItemPicker;size:16,32;offset:0,12;",
+            pickerIconSrc:"sprite:cssClass:comboBoxItemPicker;offset:0,3;",
             pickerIconHeight:20,
             pickerIconWidth:10,
             pickerIconStyle:"selectItemPickerIcon"
@@ -1046,7 +1047,8 @@ with (theWindow) {
         isc.SelectItem.addProperties({
             // Media is 14w by 8h - making the image element taller and and slightly wider
             // while maintaining scale and v-centering so there's a larger clickable area
-            pickerIconSrc:"sprite:cssClass:comboBoxItemPicker;size:16,32;offset:0,12;",
+            // pickerIconSrc:"sprite:cssClass:comboBoxItemPicker;size:16,32;offset:0,12;",
+            pickerIconSrc:"sprite:cssClass:comboBoxItemPicker;offset:0,2;",
             pickerIconHeight:20,
             pickerIconWidth:10,
             pickerIconStyle:"selectItemPickerIcon"
@@ -1108,7 +1110,7 @@ with (theWindow) {
             width: 220,
             valueFieldWidth:180,
             quantityFieldWidth: 60,
-            pickerIconWidth: 20, pickerIconHeight: 20            
+            pickerIconWidth: 20, pickerIconHeight: 20
         });
         isc.RelativeDateItem.changeDefaults("pickerIconDefaults", {
             neverDisable: false,
