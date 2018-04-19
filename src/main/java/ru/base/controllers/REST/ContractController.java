@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.base.controllers.nodes.ContractNode;
+import ru.base.orm.entities.Contact;
 import ru.base.orm.entities.Contract;
 import ru.base.orm.services.CustomerService;
 
@@ -77,6 +78,15 @@ public class ContractController {
     @ResponseBody
     void deleteContract(@RequestParam(value = "id") int id) {
         customerService.deleteContract(id);
+    }
+
+
+    @RequestMapping(value = "insertContract", method = RequestMethod.GET)
+    @ResponseBody
+    Integer insertContact(Contract contract) {
+        System.out.println("Controller:"+contract.getTitle());
+        contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
+        return customerService.insertContract(contract);
     }
 }
 

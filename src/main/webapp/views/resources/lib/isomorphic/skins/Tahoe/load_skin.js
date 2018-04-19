@@ -341,7 +341,7 @@ with (theWindow) {
             width: 24
         });
         isc.MultiSortPanel.changeDefaults("levelDownButtonDefaults", {
-            src: "[SKINIMG]TransferIcons/down.png",
+            src: "[SKINIMG]TransferIcons/downArrow.png",
             height: 22,
             width: 24
         });
@@ -978,9 +978,9 @@ with (theWindow) {
         
         isc.ComboBoxItem.addProperties({
             // pickerIconSrc:"sprite:cssClass:comboBoxItemPicker;size:16,32;offset:0,12;",
-            pickerIconSrc:"sprite:cssClass:comboBoxItemPicker;offset:0,3;",
+            pickerIconSrc:"sprite:cssClass:comboBoxItemPicker;offset:4,3;",
             pickerIconHeight:20,
-            pickerIconWidth:10,
+            pickerIconWidth:16,
             pickerIconStyle:"selectItemPickerIcon"
         });
         

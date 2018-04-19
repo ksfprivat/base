@@ -379,3 +379,32 @@ div.dummy {
    background-color: #1565C0;
 }
 
+.cellGreen,
+.cellGreenSelected,
+.cellGreenDisabled,
+.cellGreenSelectedDisabled {
+    background-color: #CCFF90;
+    font-size: 11px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+    width: auto;
+}
+
+.cellGreenOver,
+.cellGreenSelectedOver,
+.cellGreenSelected,
+.cellGreenSelectedOver,
+.cellGreenSelectedDisabled {
+    background-color:  #90caf9;
+    font-size: 11px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+}
+
+.cellGreenDown,
+.cellGreenSelectedDown {
+    color: #90caf9;
+    font-size: 11px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+}

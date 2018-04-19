@@ -44,14 +44,14 @@ function updateContract(contract, callback) {
 }
 
 
-function insertContract(contact, callback) {
+function insertContract(contract, callback) {
     var result;
     $.ajax({
         type: "GET",
         url: "insertContract",
         data: contract,
         success: function (data) {
-            console.log("Success: Insert contract:" + contact.name);
+            console.log("Success: Insert contract:" + contract.name);
             result = data;
             if (typeof callback === "function") callback(result);
         },

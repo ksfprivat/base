@@ -90,10 +90,8 @@ ContractWindow = {
         var year = (((new Date()).getFullYear()).toString());
 
         getNewContractNumber(year, function (number) {
-
             for (var i = 0; i < contractSuffix.length; i++)
                 valueMap[i] = (number+" "+contractSuffix[i]+"/"+year.substr(2,2));
-
             ContractWindow.contractDataBlock.setValue("title", valueMap[0]);
             ContractWindow.contractDataBlock.setValueMap("title", valueMap);
         });
@@ -109,11 +107,7 @@ ContractWindow = {
     },
 
     insert: function () {
-
         if (ContractWindow.validate()) {
-
-
-
             var contract = ContractWindow.getData();
             contract.date = isDate(contract.date) ?
                 dateToDateString(contract.date) : contract.date;
@@ -121,23 +115,37 @@ ContractWindow = {
                 dateToDateString(contract.dateFinal) : contract.dateFinal;
             contract.customerId = ContractWindow.customerId;
             delete contract["costs"];
-            console.log(contract);
-
-
-
+            insertContract(contract, function (newContractId) {
+                contract.id = newContractId;
+                contractsCard.listGrid.addData(contract);
+            });
             ContractWindow.close();
         }
     },
 
     update: function () {
         if (ContractWindow.validate()) {
+            var contract = ContractWindow.getData();
+            // var currentRecord  = ContractsForm.getRecordById(contract.id);
 
+            var currentRecord = {};
+            currentRecord.title = contract.title;
+            currentRecord.type = contract.type;
+            currentRecord.date =  isDate(contract.date) ?
+                dateToDateString(contract.date) : contract.date;
+            currentRecord.dateFinal = isDate(contract.dateFinal) ?
+                dateToDateString(contract.dateFinal) : contract.dateFinal;
+            currentRecord.amount = contract.amount;
+            currentRecord.status = contract.status;
+            currentRecord.customerId = ContractWindow.customerId;
 
-            updateContract(ContractWindow.getData(), function (success) {
+            updateContact(currentRecord, function (success) {
                 if (success) {
 
                 }
             });
+
+            console.log(currentRecord);
             ContractWindow.close();
         }
     },

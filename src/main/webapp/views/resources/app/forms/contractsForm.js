@@ -140,6 +140,14 @@ ContractsForm ={
             sortField: 2,
             sortDirection:"descending",
             rowClick: this.rowClick,
+
+            getBaseStyle:function (record, rowNum, colNum) {
+                if ((record.status === "Исполнение") || (record.status === "1"))  {
+                    return "cellGreen";
+                }
+                else return this.baseStyle;
+            },
+
             selectionChanged  : this.selectionChanged,
             cellChanged: this.ContractsChanged
         });
@@ -275,7 +283,8 @@ ContractsForm ={
     editContract: function () {
         var record = ContractsForm.listGrid.getSelectedRecord();
         if (record != null) {
-           // Edit Contract code
+            var contractWindow = ContractWindow.create(TRANSACTION_UPDATE, customerCard.getData().title);
+            contractWindow.setData(record, ContractsForm.customerId)
         }
     },
 
