@@ -20,5 +20,6 @@ function isDate(value) {
 }
 
 function isDigit(str) {
-    return str && !/[^\d]/.test(str);
+    if (Number(str) === 0) return true;
+    else return str && !/[^\d]/.test(str);
 }

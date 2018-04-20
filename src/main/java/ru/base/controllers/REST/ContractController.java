@@ -70,6 +70,7 @@ public class ContractController {
     @RequestMapping(value = "updateContract", method = RequestMethod.GET)
     @ResponseBody
     void updateContract(Contract contract) {
+        System.out.println(contract.getTitle());
         contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
         customerService.updateContract(contract);
     }

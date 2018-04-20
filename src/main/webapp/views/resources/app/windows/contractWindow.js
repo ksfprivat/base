@@ -92,8 +92,10 @@ ContractWindow = {
         getNewContractNumber(year, function (number) {
             for (var i = 0; i < contractSuffix.length; i++)
                 valueMap[i] = (number+" "+contractSuffix[i]+"/"+year.substr(2,2));
-            ContractWindow.contractDataBlock.setValue("title", valueMap[0]);
-            ContractWindow.contractDataBlock.setValueMap("title", valueMap);
+            if (ContractWindow.transactionType === TRANSACTION_INSERT) {
+                ContractWindow.contractDataBlock.setValue("title", valueMap[0]);
+                ContractWindow.contractDataBlock.setValueMap("title", valueMap);
+            }
         });
     },
 
@@ -125,27 +127,26 @@ ContractWindow = {
 
     update: function () {
         if (ContractWindow.validate()) {
-            var contract = ContractWindow.getData();
-            // var currentRecord  = ContractsForm.getRecordById(contract.id);
+            // Prepare contract entity
+            var contract = ContractWindow.contractDataBlock.getValues();
 
-            var currentRecord = {};
-            currentRecord.title = contract.title;
-            currentRecord.type = contract.type;
-            currentRecord.date =  isDate(contract.date) ?
-                dateToDateString(contract.date) : contract.date;
-            currentRecord.dateFinal = isDate(contract.dateFinal) ?
-                dateToDateString(contract.dateFinal) : contract.dateFinal;
-            currentRecord.amount = contract.amount;
-            currentRecord.status = contract.status;
-            currentRecord.customerId = ContractWindow.customerId;
+            contract.customerId = ContractWindow.customerId;
+            contract.date =  isDate(contract.date) ?
+                    dateToDateString(contract.date) : contract.date;
+            contract.dateFinal = isDate(contract.dateFinal) ?
+                    dateToDateString(contract.dateFinal) : contract.dateFinal;
+            contract.department = null;
+            contract.object = null;
+            delete contract["costs"];
+            delete contract["customerByCustomerId"];
 
-            updateContact(currentRecord, function (success) {
+            updateContract(contract, function (success) {
                 if (success) {
-
+                    var rowNum = contractsCard.listGrid.getRowNum(contractsCard.listGrid.getSelectedRecord());
+                    contractsCard.listGrid.setEditValues(rowNum, contract);
+                    contractsCard.listGrid.refreshRow(rowNum);
                 }
             });
-
-            console.log(currentRecord);
             ContractWindow.close();
         }
     },
@@ -179,9 +180,11 @@ ContractWindow = {
         return ContractWindow.contractDataBlock.getValues();
     },
 
-    setData: function (Contract, customerId) {
+    setData: function (contract, customerId) {
         ContractWindow.customerId = customerId;
-        ContractWindow.contractDataBlock.setValues(Contract);
+        ContractWindow.contractDataBlock.setValues(contract);
+        ContractWindow.contractDataBlock.setValue("date", new Date(contract.date));
+        ContractWindow.contractDataBlock.setValue("dateFinal", new Date(contract.dateFinal));
     },
 
     clearData: function () {
