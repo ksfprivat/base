@@ -106,6 +106,7 @@ ContractsForm ={
             showHeaderContextMenu: false,
             canEdit:true,
             autoDraw: false,
+            baseStyle:"cell",
             fields: [
                 {name: "id",  primaryKey: true},
                 {name: "title", title:"Наименование", width: 250, align:"left", changed :this.fieldChanged},
@@ -143,9 +144,12 @@ ContractsForm ={
 
             getBaseStyle:function (record, rowNum, colNum) {
                 if ((record.status === "Исполнение") || (record.status === "1"))  {
-                    return "cellGreen";
+                    if ((new Date()) > (new Date(record.dateFinal)))
+                    return "cellRed";
+                     else return"cellGreen"
                 }
-                else return this.baseStyle;
+                else
+                return this.baseStyle;
             },
 
             selectionChanged  : this.selectionChanged,
