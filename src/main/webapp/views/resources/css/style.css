@@ -117,7 +117,7 @@ div.dummy {
     color: white;
 }
 
-.greenButton {
+.RedButton {
     background: #00b956;
     color: white;
 }
@@ -380,24 +380,24 @@ div.dummy {
 }
 
 .cellGreen,
-.cellGreenDark,
-.cellGreenSelected,
-.cellGreenDisabled,
-.cellGreenSelectedDisabled {
+.cellGreenDark
+{
     background-color: #CCFF90;
     font-size: 12px;
     font-family: Calibri, serif;
     padding: 0 0 0 3px;
     color: #1B5E20;
-
 }
 
 .cellGreenOver,
-.cellGreenSelectedOver,
-.cellGreenSelected,
-.cellGreenSelectedOver,
 .cellGreenOverDark,
-.cellGreenSelectedDisabled {
+.cellGreenSelected,
+.cellGreenSelectedDark,
+.cellGreenSelectedOver,
+.cellGreenSelectedOverDark,
+.cellGreenSelectedDisabled,
+.cellGreenSelectedDisabledDark
+{
     background-color:  #90caf9;
     font-size: 12px;
     font-family: Calibri, serif;
@@ -405,7 +405,10 @@ div.dummy {
 }
 
 .cellGreenDown,
-.cellGreenSelectedDown {
+.cellGreenDownDark,
+.cellGreenSelectedDown,
+.cellGreenSelectedDownDark
+{
     color: #90caf9;
     font-size: 12px;
     font-family: Calibri, serif;
@@ -413,10 +416,8 @@ div.dummy {
 }
 
 .cellRed,
-.cellRedSelected,
-.cellRedDisabled,
-.cellRedDark,
-.cellRedSelectedDisabled {
+.cellRedDark
+{
     background-color: #FFCCBC;
     font-size: 12px;
     font-family: Calibri, serif;
@@ -426,13 +427,13 @@ div.dummy {
 
 .cellRedOver,
 .cellRedOverDark,
-.cellRedSelectedOver,
 .cellRedSelected,
+.cellRedSelectedDark,
 .cellRedSelectedOver,
-.cellRedDisabled ,
-.cellRedDisabledDark,
 .cellRedSelectedOverDark,
-.cellRedSelectedDisabled {
+.cellRedSelectedDisabled,
+.cellRedSelectedDisabledDark
+{
     background-color:  #90caf9;
     font-size: 12px;
     font-family: Calibri, serif;
@@ -449,4 +450,3 @@ div.dummy {
     font-family: Calibri, serif;
     padding: 0 0 0 3px;
 }
-

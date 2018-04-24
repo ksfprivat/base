@@ -188,7 +188,7 @@ ContactsForm ={
     },
 
     selectionChanged: function() {
-      ContactsForm.contactsGrid.endEditing();
+        ContactsForm.contactsGrid.endEditing();
     },
 
     cardExpand: function () {
@@ -224,7 +224,7 @@ ContactsForm ={
             contact.customerId = ContactsForm.changeCache[i].customerId;
 
             updateContact(contact, function(success) {
-               // if (success) changeNodeTitle(contact.id, contact.name);
+                // if (success) changeNodeTitle(contact.id, contact.name);
             });
             changeNodeTitle(contact.id, contact.name);
             navContactsGrid.updateItem(contact.id, contact.name, customerCard.getData().title);
@@ -270,8 +270,8 @@ ContactsForm ={
     },
 
     addContact: function () {
-       var contactWindow = ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title);
-       contactWindow.setData({}, ContactsForm.customerId );
+        var contactWindow = ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title);
+        contactWindow.setData({}, ContactsForm.customerId );
     },
 
     deleteContact: function () {
@@ -325,13 +325,13 @@ ContactsForm ={
         // Required navContactsGrid.listGrid.showAllRecords: true. ! NO USE because this decrease performance
         // ==================================================================================================
 
-         if (getNavigationFrameMode() == VM_CONTACTS) {
-             var navContactsGridItem = navContactsGrid.getItemById(record.id);
-             navContactsGrid.listGrid.deselectAllRecords();
-             navContactsGrid.listGrid.selectRecord(navContactsGridItem);
-             var index =  navContactsGrid.listGrid.getRecordIndex(navContactsGridItem);
-             navContactsGrid.listGrid.scrollToRow(index);
-         }
+        if (getNavigationFrameMode() == VM_CONTACTS) {
+            var navContactsGridItem = navContactsGrid.getItemById(record.id);
+            navContactsGrid.listGrid.deselectAllRecords();
+            navContactsGrid.listGrid.selectRecord(navContactsGridItem);
+            var index =  navContactsGrid.listGrid.getRecordIndex(navContactsGridItem);
+            navContactsGrid.listGrid.scrollToRow(index);
+        }
     },
 
     mailTo: function () {
@@ -349,11 +349,11 @@ ContactsForm ={
             var result = "";
             var fields = ['post', 'district', 'region', 'city', 'street', 'building'];
             for (var i = 0; i < fields.length; i++) {
-              if (typeof data[fields[i]] != "undefined")
-                if (data[fields[i]].length > 0) {
-                    result = result + data[fields[i]]+" ";
-                    if (i != fields.length) result = result+",";
-                }
+                if (typeof data[fields[i]] != "undefined")
+                    if (data[fields[i]].length > 0) {
+                        result = result + data[fields[i]]+" ";
+                        if (i != fields.length) result = result+",";
+                    }
             }
             return result.substring(0, result.length-1);
         }
@@ -364,24 +364,24 @@ ContactsForm ={
                 {text: 'Организация', fontSize: 15,  margin: 5 },
 
                 {table: {
-                    headerRows: 1,
-                    widths: [ '*', '*'],
-                    body: [
-                        ['Наименование', customer.title],
-                        ['Полное наименование', customer.titleFull],
-                        ['ИНН', customer.inn],
-                        ['Адрес', formatAddress(customer)]
-                    ]
-                }},
+                        headerRows: 1,
+                        widths: [ '*', '*'],
+                        body: [
+                            ['Наименование', customer.title],
+                            ['Полное наименование', customer.titleFull],
+                            ['ИНН', customer.inn],
+                            ['Адрес', formatAddress(customer)]
+                        ]
+                    }},
                 {text: 'Контакты', fontSize: 15,  margin: 5 },
 
                 {table: {
-                    headerRows: 1,
-                    widths: [ 110, 90, 90, 90, 90],
-                    body: [
-                        ['Имя', "Должность", "Телефон", "Мобильный", "E-mail"]
-                    ]
-                }}
+                        headerRows: 1,
+                        widths: [ 110, 90, 90, 90, 90],
+                        body: [
+                            ['Имя', "Должность", "Телефон", "Мобильный", "E-mail"]
+                        ]
+                    }}
             ]
 
         };
@@ -399,17 +399,17 @@ ContactsForm ={
     },
 
     setPageViewMode: function () {
-       ContactsForm.btnMaximize.hide();
-       ContactsForm.btnMinimize.show();
+        ContactsForm.btnMaximize.hide();
+        ContactsForm.btnMinimize.show();
         if (!ContactsForm.expanded)
             ContactsForm.cardExpand();
         ContactsForm.btnExpand.hide();
         ContactsForm.setCustomerTitle();
         ContactsForm.customerTitle.show();
         browserFrame.members.forEach(function (member) {
-           if (member !=  ContactsForm.content) {
-               member.hide();
-           }
+            if (member !=  ContactsForm.content) {
+                member.hide();
+            }
         });
         ContactsForm.content.setHeight("100%");
     },

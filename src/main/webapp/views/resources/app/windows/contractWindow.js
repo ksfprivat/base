@@ -151,7 +151,6 @@ ContractWindow = {
         }
     },
 
-
     validate: function () {
 
         for (var i = 0; i < ContractWindow.contractDataBlock.fields.length; i++) {
@@ -185,6 +184,7 @@ ContractWindow = {
         ContractWindow.contractDataBlock.setValues(contract);
         ContractWindow.contractDataBlock.setValue("date", new Date(contract.date));
         ContractWindow.contractDataBlock.setValue("dateFinal", new Date(contract.dateFinal));
+        ContractWindow.contractDataBlock.setValue(null);
     },
 
     clearData: function () {

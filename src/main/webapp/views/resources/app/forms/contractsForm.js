@@ -106,10 +106,11 @@ ContractsForm ={
             showHeaderContextMenu: false,
             canEdit:true,
             autoDraw: false,
+            canAutoFitFields:false,
             baseStyle:"cell",
             fields: [
                 {name: "id",  primaryKey: true},
-                {name: "title", title:"Наименование", width: 250, align:"left", changed :this.fieldChanged},
+                {name: "title", title:"Наименование", minWidth:150, align:"left", changed :this.fieldChanged},
                 {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
                     formatCellValue: function (value) {
                         return ((isDate(value)) || (value == null) ? value : formatDateString(value));
@@ -126,13 +127,16 @@ ContractsForm ={
                         return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                     }
                 },
-                {name: "amount", title:"Сумма", type:"float", format: ",0.00;",align:"left", changed :this.fieldChanged},
-                {name: "type", title:"Тип", align:"left", changed :this.fieldChanged,
+                {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+                {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+                {name: "datePayment", title:"Оплата", type:"date", align:"left", changed :this.fieldChanged},
+
+                {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
                     valueMap: {
                         0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
                     }
                 },
-                {name: "status", title:"Состояние", align:"left", changed :this.fieldChanged,
+                {name: "status", title:"Состояние", align:"left", minWidth:100, changed :this.fieldChanged,
                     valueMap: {
                         0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
                     }
@@ -146,15 +150,15 @@ ContractsForm ={
                 if ((record.status === "Исполнение") || (record.status === "1"))  {
                     if ((new Date()) > (new Date(record.dateFinal)))
                     return "cellRed";
-                     else return"cellGreen"
+                     else return "cellGreen"
                 }
-                else
-                return this.baseStyle;
+                else return this.baseStyle;
             },
 
             selectionChanged  : this.selectionChanged,
             cellChanged: this.ContractsChanged
         });
+
 
         this.sortState = this.listGrid.getSort();
 
@@ -265,7 +269,7 @@ ContractsForm ={
 
     addContract: function () {
         var contractWindow = ContractWindow.create(TRANSACTION_INSERT, customerCard.getData().title);
-        contractWindow.setData({}, ContractsForm.customerId );
+        contractWindow.setData({date:new Date(), dateFinal: new Date()}, ContractsForm.customerId );
     },
 
     deleteContract: function () {

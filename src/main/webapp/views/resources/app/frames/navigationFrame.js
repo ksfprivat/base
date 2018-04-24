@@ -104,6 +104,22 @@ function onNavTreeOpenFolder(node) {
                     }
                 });
                 break;
+            case "contractsFolder":
+                getContractNodesByCustomerId(node.parentId, function (contracts) {
+                    // Add type property for each objects in array
+                    contracts.forEach(function (contract) {
+                        contract.name = contract.name+"\t"+contract.date;
+                        contract.type="contract";
+                        contract.customerId = node.parentId;
+                    });
+                    if (!navTreeIsFiltered()) {
+                        navTreeData.unloadChildren(node);
+                        navTreeData.addList(contracts, node);
+                    } else {
+                        openFilteredNode(node,contracts);
+                    }
+                });
+                break;
         }
     navTree.getData().openFolder(node);
 }

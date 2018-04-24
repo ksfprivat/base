@@ -42,7 +42,7 @@ CustomerForm = {
 
         this.btnMenu = createButton("ic_menu.png", "visible", null, function(){CustomerForm.menuBar.showMenu()});
         this.btnHideNotes = createButton("ic_expand.png", "hidden", null, CustomerForm.showNotes);
-        this.btnNotesAlert = createButton("ic_info.png", "hidden", null, CustomerForm.showNotes);
+        this.btnNotesAlert = createButton("ic_note_alert.png", "hidden", null, CustomerForm.showNotes);
         this.btnMaximize = createButton("ic_resize_max.png", "visible", null, CustomerForm.setPageViewMode);
         this.btnMinimize = createButton("ic_resize_min.png", "hidden", null,  CustomerForm.setCardViewMode);
 
@@ -195,7 +195,9 @@ CustomerForm = {
         CustomerForm.addressBlock.setValues(this.data);
         CustomerForm.notesBlock.setValue("note", this.data.note);
         CustomerForm.setChangeBlockState("hidden");
-        if (this.data.note != null) { CustomerForm.btnNotesAlert.show();}
+        if (CustomerForm.data.note !== "" && CustomerForm.data.note !== null) {
+            CustomerForm.btnNotesAlert.show();
+        }
         else {CustomerForm.btnNotesAlert.hide();}
     },
 
@@ -211,7 +213,7 @@ CustomerForm = {
     },
 
     fieldsChanged: function (item, newValue, oldValue) {
-        if (newValue != oldValue) {
+        if (newValue !== oldValue) {
             CustomerForm.changed = true;
             CustomerForm.setChangeBlockState("visible");
         }
@@ -310,7 +312,6 @@ CustomerForm = {
             CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_goto.png' style='vertical-align:middle'>");
             CustomerForm.btnShowNotes.setWidth("150");
             if (CustomerForm.viewMode == "page") {
-                console.log("gfgdf");
                 CustomerForm.footer.setHeight("100%");
             } else CustomerForm.footer.setHeight("12");
         }
@@ -324,7 +325,7 @@ CustomerForm = {
              CustomerForm.cardExpand();
          CustomerForm.btnExpand.hide();
          browserFrame.members.forEach(function (member) {
-             if (member !=  CustomerForm.content) {
+             if (member !==  CustomerForm.content) {
                  member.hide();
              }
          });
@@ -341,7 +342,7 @@ CustomerForm = {
             CustomerForm.cardExpand();
         CustomerForm.btnExpand.show();
         browserFrame.members.forEach(function (member) {
-            if (member !=  CustomerForm.content) {
+            if (member !==  CustomerForm.content) {
                 member.show();
             }
         });

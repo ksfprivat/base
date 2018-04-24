@@ -1,5 +1,10 @@
 package ru.base.orm.dao.impl;
 
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import ru.base.orm.dao.CustomerDao;
 import ru.base.orm.entities.Contact;
 import ru.base.orm.entities.Contract;
@@ -113,9 +118,21 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Contract> getContractsById(int customerId) {
-        Customer customer = (Customer) sessionFactory.getCurrentSession().get(Customer.class, customerId);
-        return new ArrayList<Contract>(customer.getContractsById());
+//        Customer customer = (Customer) sessionFactory.getCurrentSession().get(Customer.class, customerId);
+//        return new ArrayList<Contract>(customer.getContractsById());
+//        return sessionFactory.getCurrentSession().createQuery("from Contract where customerId='"+customerId+"' order by date(dateFinal) desc").list();
+//        Session session = sessionFactory.getCurrentSession();
+//        Query query = session.createQuery("from Contract where customerId='"+customerId+"' order by date(dateFinal) asc");
+//        return query.list();
+
+        Session session=sessionFactory.openSession();
+        Criteria criteria=session.createCriteria(Contract.class)
+        .add(Restrictions.eq("customerId", customerId))
+        .addOrder(Order.desc("dateFinal"));
+        List<Contract> contracts=(List<Contract>)criteria.list();
+        return contracts;
     }
 
 }
