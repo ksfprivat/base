@@ -129,8 +129,6 @@ ContractsForm ={
                 },
                 {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-                {name: "datePayment", title:"Оплата", type:"date", align:"left", changed :this.fieldChanged},
-
                 {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
                     valueMap: {
                         0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
@@ -139,6 +137,14 @@ ContractsForm ={
                 {name: "status", title:"Состояние", align:"left", minWidth:100, changed :this.fieldChanged,
                     valueMap: {
                         0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
+                    }
+                },
+                {name: "datePayment", title:"Дата оплаты", type:"date", align:"left", changed :this.fieldChanged,
+                    formatCellValue: function (value) {
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    },
+                    formatEditorValue: function (value) {
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                     }
                 }
             ],
@@ -152,7 +158,10 @@ ContractsForm ={
                     return "cellRed";
                      else return "cellGreen"
                 }
-                else return this.baseStyle;
+                else
+                    if (record.status === "0") return "cellAmber";
+                else
+                    return this.baseStyle;
             },
 
             selectionChanged  : this.selectionChanged,
@@ -220,10 +229,14 @@ ContractsForm ={
                     dateToDateString(ContractsForm.changeCache[i].dateFinal) : ContractsForm.changeCache[i].dateFinal;
                 contract.status = ContractsForm.changeCache[i].status;
                 contract.amount = ContractsForm.changeCache[i].amount;
+                contract.costs= ContractsForm.changeCache[i].costs;
                 contract.type = ContractsForm.changeCache[i].type;
                 contract.department = ContractsForm.changeCache[i].department;
                 contract.object = 0;
-                contract.department = ContractsForm.changeCache[i].customerId;
+                // contract.department = ContractsForm.changeCache[i].customerId;
+                contract.datePayment = isDate(ContractsForm.changeCache[i].datePayment) ?
+                    dateToDateString(ContractsForm.changeCache[i].datePayment) : ContractsForm.changeCache[i].datePayment;
+
             updateContract(contract, function(success) { });
 
         }

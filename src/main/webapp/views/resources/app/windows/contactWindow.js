@@ -2,6 +2,7 @@ ContactWindow = {
 
     create: function (transactionType, customerTitle) {
         this.transactionType = transactionType;
+        this.customerTitle = customerTitle;
         this.title = "Новый контакт";
         if (transactionType === TRANSACTION_UPDATE) this.title = "Контакт";
 
@@ -94,6 +95,7 @@ ContactWindow = {
 
     insert: function () {
         var contact = ContactWindow.getData();
+        contact.favorite = 0;
         if (ContactWindow.validate()) {
             insertContact(contact, function (newContactId) {
                     contact.id = newContactId;
@@ -108,7 +110,8 @@ ContactWindow = {
     update: function () {
         if (ContactWindow.validate()) {
             var contact = ContactWindow.getData();
-            var customerTitle = contact.customer.title;
+            // var customerTitle = contact.customer.title;
+            var customerTitle = ContactWindow.customerTitle;
             // Prepare contact entity for transfer into REST controller (remove "customer" property)
             delete contact["customer"];
 

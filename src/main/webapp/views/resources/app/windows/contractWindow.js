@@ -116,10 +116,10 @@ ContractWindow = {
             contract.dateFinal = isDate(contract.dateFinal) ?
                 dateToDateString(contract.dateFinal) : contract.dateFinal;
             contract.customerId = ContractWindow.customerId;
-            delete contract["costs"];
             insertContract(contract, function (newContractId) {
                 contract.id = newContractId;
                 contractsCard.listGrid.addData(contract);
+                contractsCard.setCurrentRecord(contract);
             });
             ContractWindow.close();
         }
@@ -137,7 +137,7 @@ ContractWindow = {
                     dateToDateString(contract.dateFinal) : contract.dateFinal;
             contract.department = null;
             contract.object = null;
-            delete contract["costs"];
+            // delete contract["costs"];
             delete contract["customerByCustomerId"];
 
             updateContract(contract, function (success) {

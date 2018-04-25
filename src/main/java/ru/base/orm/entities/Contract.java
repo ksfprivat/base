@@ -20,9 +20,11 @@ public class Contract {
     private Date dateFinal;
     private String status;
     private Double amount;
+    private Double costs;
     private String department;
     private String type;
     private Integer object;
+    private Date datePayment;
     private Integer customerId;
     private Customer customerByCustomerId;
 
@@ -98,6 +100,16 @@ public class Contract {
     }
 
     @Basic
+    @Column(name = "costs", nullable = true, precision = 4)
+    public Double getCosts() {
+        return costs;
+    }
+
+    public void setCosts(Double costs) {
+        this.costs = costs;
+    }
+    
+    @Basic
     @Column(name = "department", nullable = true, length = 255)
     public String getDepartment() {
         return department;
@@ -125,6 +137,21 @@ public class Contract {
 
     public void setObject(Integer object) {
         this.object = object;
+    }
+
+    @Basic
+    @Column(name = "datePayment", nullable = true)
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
+    public Date getDatePayment() {
+        return datePayment;
+    }
+
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public void setDatePayment(Date datePayment) {
+        this.datePayment = datePayment;
     }
 
     @Basic

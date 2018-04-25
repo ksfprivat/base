@@ -450,3 +450,39 @@ div.dummy {
     font-family: Calibri, serif;
     padding: 0 0 0 3px;
 }
+
+.cellAmber,
+.cellAmberDark
+{
+    background-color: #FFECB3;
+    font-size: 12px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+    color: #FF6F00;
+}
+
+.cellAmberOver,
+.cellAmberOverDark,
+.cellAmberSelected,
+.cellAmberSelectedDark,
+.cellAmberSelectedOver,
+.cellAmberSelectedOverDark,
+.cellAmberSelectedDisabled,
+.cellAmberSelectedDisabledDark
+{
+    background-color:  #90caf9;
+    font-size: 12px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+}
+
+.cellAmberDown,
+.cellAmberDownDark,
+.cellAmberSelectedDown,
+.cellAmberSelectedDownDark
+{
+    color: #90caf9;
+    font-size: 12px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+}

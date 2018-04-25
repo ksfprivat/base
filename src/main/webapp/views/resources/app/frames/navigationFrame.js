@@ -107,9 +107,11 @@ function onNavTreeOpenFolder(node) {
             case "contractsFolder":
                 getContractNodesByCustomerId(node.parentId, function (contracts) {
                     // Add type property for each objects in array
+                    console.log(contracts);
                     contracts.forEach(function (contract) {
                         contract.name = contract.name+"\t"+contract.date;
                         contract.type="contract";
+                        contract.icon = imgDir+"/ic_contract.png";
                         contract.customerId = node.parentId;
                     });
                     if (!navTreeIsFiltered()) {
@@ -276,7 +278,7 @@ function createNavTree() {
         openFolder: onNavTreeOpenFolder
     });
 
-    // navContactsGrid = NavContactsGrid.create();
+    navContactsGrid = NavContactsGrid.create();
 
     navTreeTabSet = TabSet.create({
         width: "100%",
@@ -290,7 +292,7 @@ function createNavTree() {
         paneMargin:0,
             tabs: [
              {title: "ОРГАНИЗАЦИИ", pane: navTree},
-             // {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
+             {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
              {title: "КОНТРАКТЫ", pane: null}]
      });
 
