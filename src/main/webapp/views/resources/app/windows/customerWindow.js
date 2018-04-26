@@ -122,6 +122,7 @@ CustomerWindow = {
             updateCustomer(CustomerWindow.getData(), function (success) {
                 if (success) {
                     refreshCustomerNode(CustomerWindow.getData());
+                    if (CustomerWindow.getData().id === customerCard.getData().id) customerCard.setData(CustomerWindow.getData());
                 }
             });
             CustomerWindow.window.close();
