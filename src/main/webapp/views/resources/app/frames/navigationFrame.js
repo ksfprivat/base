@@ -211,7 +211,7 @@ function createBaseFolders(customer) {
             },
             {
                 id: "contracts_" + customer.id, parentId: customer.id, customerId: customer.id,
-                title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false
+                title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false, sortField:0
             },
             {
                 id: "objects_" + customer.id, parentId: customer.id, customerId: customer.id,
@@ -273,7 +273,7 @@ function createNavTree() {
         showLoadingIcons:false,
         showHeader: false,
         loadDataOnDemand: false,
-        sortField: "title",
+        // sortField: "title",
         nodeClick: onNodeClick,
         openFolder: onNavTreeOpenFolder
     });

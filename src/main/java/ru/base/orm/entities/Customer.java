@@ -184,6 +184,7 @@ public class Customer {
     }
 
     @OneToMany(mappedBy = "customer")
+    @OrderBy("name ASC")
     @JsonIgnore
     public Collection<Contact> getContactsById() {
         return contactsById;

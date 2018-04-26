@@ -86,7 +86,7 @@ ContractWindow = {
             "П/ВТ", "П/ВП", "П/ОИ",
             "У/ВТ", "У/ВП", "У/ОИ"
         ];
-        var valueMap = {};
+        var valueMap = [];
         var year = (((new Date()).getFullYear()).toString());
 
         getNewContractNumber(year, function (number) {
