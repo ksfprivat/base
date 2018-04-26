@@ -108,6 +108,7 @@ CustomerWindow = {
                       id: newCustomerId,
                       isFolder: true,
                       type: "customer",
+                      sortField: customer.title,
                       children: createBaseFolders(customer)
                   };
                   navTreeAddCustomerNode(node);

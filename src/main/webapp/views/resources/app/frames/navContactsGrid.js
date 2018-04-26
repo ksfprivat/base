@@ -141,7 +141,7 @@ NavContactsGrid =  {
 
     updateItem: function (id, title, customerTitle) {
          var record = NavContactsGrid.getItemById(id);
-         if (typeof record != "undefined") {
+         if (typeof record !== "undefined") {
              record.title = NavContactsGrid.createItemBlock(title, customerTitle);
              NavContactsGrid.listGrid.dataSource.updateData(record);
              NavContactsGrid.listGrid.refreshRow(NavContactsGrid.listGrid.getRowNum(record))

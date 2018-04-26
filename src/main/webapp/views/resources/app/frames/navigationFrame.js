@@ -94,6 +94,7 @@ function onNavTreeOpenFolder(node) {
                     // Add type property for each objects in array
                     contacts.forEach(function (contact) {
                         contact.type="contact";
+                        contact.sortField = contact.title;
                         contact.customerId = node.parentId;
                     });
                     if (!navTreeIsFiltered()) {
@@ -135,7 +136,8 @@ function addContactNode(customerId, contact) {
             customerId: customerId,
             title: contact.name,
             name: contact.name,
-            type :"contact"
+            type :"contact",
+            sortField: contact.name
         };
         navTreeData.add(node, folder);
     }
@@ -154,6 +156,7 @@ function changeNodeTitle(id, title) {
     if (typeof node !== "undefined") {
          if (navTree.getRowNum(node) > 0) {
             node.title = title;
+            node.sortField = title;
             navTree.refreshRow(navTree.getRowNum(node));
          }
     }
@@ -171,15 +174,25 @@ function selectNode(id) {
 function refreshCustomerNode(data) {
     if (navTreeSelectedNode.type === "customer") {
         navTreeSelectedNode.title = data.title;
+        navTreeSelectedNode.sortField = data.title;
         navTree.refreshRow(navTree.getRowNum(navTreeSelectedNode));
-    } else {
-        var customerNode = navTreeData.findById(navTreeSelectedNode.customerId);
+        var customerNode = navTreeData.findById(data.id);
         customerNode.title = data.title;
+        customerNode.name = data.title;
         navTree.refreshRow(navTree.getRowNum(customerNode));
+        console.log(navTree.getRowNum(customerNode));
+        console.log(customerNode);
+    }
+    else {
+        // var customerNode = navTreeData.findById(navTreeSelectedNode.customerId);
+        // customerNode.title = data.title;
+        // navTreeSelectedNode.sortField = data.title;
+        // navTree.refreshRow(navTree.getRowNum(customerNode));
     }
 }
 
 function onNodeClick(viewer, node, recordNum) {
+    //console.log(node);
     navTreeSelectedNode = node;
     if (!browserFrame.isVisible()) browserFrame.show();
     if (node.type === "customer") {
@@ -231,6 +244,7 @@ function loadNavTreeData() {
                 name: customers[i].title,
                 id: customers[i].id,
                 isFolder: true,
+                sortField: customers[i].title,
                 type: "customer",
                 children: createBaseFolders(customers[i])
             };
@@ -273,7 +287,7 @@ function createNavTree() {
         showLoadingIcons:false,
         showHeader: false,
         loadDataOnDemand: false,
-        // sortField: "title",
+        sortField: "title",
         nodeClick: onNodeClick,
         openFolder: onNavTreeOpenFolder
     });

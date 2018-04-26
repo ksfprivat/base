@@ -251,7 +251,7 @@ CustomerForm = {
     },
 
     setChangeBlockState: function (state) {
-        if (state == "visible") {
+        if (state === "visible") {
             CustomerForm.btnCommit.show();
             CustomerForm.btnRollback.show();
         } else {
@@ -271,10 +271,10 @@ CustomerForm = {
             var result = "";
             var fields = ['post', 'district', 'region', 'city', 'street', 'building'];
             for (var i = 0; i < fields.length; i++) {
-                if (typeof data[fields[i]] != "undefined")
+                if (typeof data[fields[i]] !== "undefined")
                     if (data[fields[i]].length > 0) {
                         result = result + data[fields[i]]+" ";
-                        if (i != fields.length) result = result+",";
+                        if (i !== fields.length) result = result+",";
                     }
             }
             return result.substring(0, result.length-1);
@@ -301,7 +301,7 @@ CustomerForm = {
     },
 
     showNotes: function () {
-        if (CustomerForm.notesBlock.visibility != "inherit") {
+        if (CustomerForm.notesBlock.visibility !== "inherit") {
             CustomerForm.btnHideNotes.show();
             CustomerForm.notesBlock.show();
             CustomerForm.btnShowNotes.setTitle("Коментарии");
@@ -311,7 +311,7 @@ CustomerForm = {
             CustomerForm.notesBlock.hide();
             CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_goto.png' style='vertical-align:middle'>");
             CustomerForm.btnShowNotes.setWidth("150");
-            if (CustomerForm.viewMode == "page") {
+            if (CustomerForm.viewMode === "page") {
                 CustomerForm.footer.setHeight("100%");
             } else CustomerForm.footer.setHeight("12");
         }
