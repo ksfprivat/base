@@ -10,6 +10,12 @@ function dateToDateString(value) {
        );
 }
 
+// Revers date timestamp for descending sort in ascending sorted treeView
+// Input value format: String date format "yyy.MM.dd"
+function reversTimestamp(value) {
+    return 2000000000000-Number(new Date(value).getTime());
+}
+
 
 function isDateString (value) {
     return (value.indexOf(".") !== -1)

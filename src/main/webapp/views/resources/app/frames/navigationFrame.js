@@ -7,8 +7,9 @@ var  navContactsGrid;
 var  navTreeCurrentCustomerId;
 
 // View modes (Customers/Contacts/Contracts)
-const VM_CUSTOMERS   = 7777;
-const VM_CONTACTS    = 7778;
+const VM_CUSTOMERS       = 7777;
+const VM_CONTACTS        = 7778;
+const VM_CONTRACTS       = 7779;
 
 
 function createNavigationFrame() {
@@ -30,9 +31,8 @@ function createNavigationFrame() {
 function getNavigationFrameMode() {
     switch (navTreeTabSet.getSelectedTabNumber()) {
         case 0: return VM_CUSTOMERS;
-            break;
         case 1: return VM_CONTACTS;
-            break;
+        case 2: return VM_CONTRACTS;
     }
 }
 
@@ -93,7 +93,7 @@ function onNavTreeOpenFolder(node) {
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
                     // Add type property for each objects in array
                     contacts.forEach(function (contact) {
-                        contact.type="contact";
+                        contact.type = "contact";
                         contact.sortField = contact.title;
                         contact.customerId = node.parentId;
                     });
@@ -110,9 +110,9 @@ function onNavTreeOpenFolder(node) {
                     // Add type property for each objects in array
                     console.log(contracts);
                     contracts.forEach(function (contract) {
-                        contract.name = contract.name+"\t"+contract.date;
                         contract.type="contract";
                         contract.icon = imgDir+"/ic_contract.png";
+                        contract.sortField = reversTimestamp(contract.date);
                         contract.customerId = node.parentId;
                     });
                     if (!navTreeIsFiltered()) {
@@ -170,29 +170,22 @@ function selectNode(id) {
     }
 }
 
-
 function refreshCustomerNode(data) {
     if (navTreeSelectedNode.type === "customer") {
-        navTreeSelectedNode.title = data.title;
-        navTreeSelectedNode.sortField = data.title;
-        navTree.refreshRow(navTree.getRowNum(navTreeSelectedNode));
-        var customerNode = navTreeData.findById(data.id);
+//  Refresh for TreeData
+        var customerNode = navTree.data.findById(data.id);
         customerNode.title = data.title;
-        customerNode.name = data.title;
+        customerNode.sortField = data.title;
         navTree.refreshRow(navTree.getRowNum(customerNode));
-        console.log(navTree.getRowNum(customerNode));
-        console.log(customerNode);
-    }
-    else {
-        // var customerNode = navTreeData.findById(navTreeSelectedNode.customerId);
-        // customerNode.title = data.title;
-        // navTreeSelectedNode.sortField = data.title;
-        // navTree.refreshRow(navTree.getRowNum(customerNode));
+//  Refresh for TreeCache
+        customerNode = navTreeData.findById(data.id);
+        customerNode.title = data.title;
+        customerNode.sortField = data.title;
+        navTree.refreshRow(navTree.getRowNum(customerNode));
     }
 }
 
 function onNodeClick(viewer, node, recordNum) {
-    //console.log(node);
     navTreeSelectedNode = node;
     if (!browserFrame.isVisible()) browserFrame.show();
     if (node.type === "customer") {
@@ -208,27 +201,30 @@ function onNodeClick(viewer, node, recordNum) {
 
         switch (navTreeSelectedNode.type) {
             case "contact":
-                ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
+                 ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
+                break;
+            case "contract":
+                console.log("contracts here");
+                ContractsForm.setCurrentRecord(ContractsForm.getRecordById(navTreeSelectedNode.id));
                 break;
         }
     }
 }
-
 
 function createBaseFolders(customer) {
     return(
         [
             {
                 id: "contacts_" + customer.id, parentId: customer.id, customerId: customer.id,
-                title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false
+                title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false, sortField:0
             },
             {
                 id: "contracts_" + customer.id, parentId: customer.id, customerId: customer.id,
-                title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false, sortField:0
+                title: "Контракты", name: "Контракты", isFolder: true, type: "contractsFolder", search: false, sortField:1
             },
             {
                 id: "objects_" + customer.id, parentId: customer.id, customerId: customer.id,
-                title: "Объекты", name: "Объекты", isFolder: true, type: "objectsFolder", search: false
+                title: "Объекты", name: "Объекты", isFolder: true, type: "objectsFolder", search: false,  sortField:2
             }
         ]
     );
@@ -273,7 +269,10 @@ function createNavTree() {
     loadNavTreeData();
     navTree = TreeGrid.create({
         height: "100%",
-        fields: [{name:"title", title:"Наименование"}],
+        fields: [
+                {name:"title", title:"Наименование"},
+                {name: "sortField", title:"sortField", hidden:true}
+            ],
         iconSize: 22,
         autoDraw: false,
         border:0,
@@ -287,7 +286,7 @@ function createNavTree() {
         showLoadingIcons:false,
         showHeader: false,
         loadDataOnDemand: false,
-        sortField: "title",
+        sortField: "sortField",
         nodeClick: onNodeClick,
         openFolder: onNavTreeOpenFolder
     });

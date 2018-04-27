@@ -4,10 +4,12 @@ package ru.base.controllers.nodes;
 public class ContractNode {
     private int id;
     private String title;
+    private String date;
 
-    public ContractNode(int id, String title) {
+    public ContractNode(int id, String title, String date) {
         this.id = id;
         this.title = title;
+        this.date = date;
     }
 
     public int getId() {
@@ -24,5 +26,13 @@ public class ContractNode {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

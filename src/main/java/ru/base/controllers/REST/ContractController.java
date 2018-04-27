@@ -11,6 +11,8 @@ import ru.base.orm.entities.Contact;
 import ru.base.orm.entities.Contract;
 import ru.base.orm.services.CustomerService;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,14 +33,12 @@ public class ContractController {
     @RequestMapping(value = "getContractNodesByCustomerId", method = RequestMethod.POST)
     @ResponseBody
     public List<ContractNode> getContractNodeByCustomerId(@RequestParam(value = "id") int customerId) {
-
         List<Contract> contracts = customerService.getContractsById(customerId);
         List<ContractNode> contractNodes = new ArrayList<ContractNode>();
-
+        DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
         for (Contract contract : contracts) {
-            contractNodes.add(new ContractNode(contract.getId(), contract.getTitle()));
+            contractNodes.add(new ContractNode(contract.getId(), contract.getTitle(), df.format(contract.getDate())));
         }
-
         return contractNodes;
     }
     
