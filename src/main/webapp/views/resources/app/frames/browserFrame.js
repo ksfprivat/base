@@ -34,13 +34,15 @@ function createBrowserFrame() {
 function refreshBrowserFrame(customerId) {
     getCustomerById(customerId, function (customer) {
         customerCard.setData(customer);
+        // Load contacts
         getContactsByCustomerId(customer.id, function(contacts){
             contactsCard.setData(contacts, customer.id);
             switch (getNavigationFrameMode()){
                 case VM_CUSTOMERS: // Customers (navTree event initiator)
-                    if (typeof navTreeSelectedNode !== "undefined")
+                    if (typeof navTreeSelectedNode !== "undefined") {
                         if (navTreeSelectedNode.type === "contact")
                             ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
+                    }
                     break;
 
                 case VM_CONTACTS: // Customers (navContactsGrid event initiator)
@@ -50,8 +52,14 @@ function refreshBrowserFrame(customerId) {
             }
 
         });
+
+        // Load Contracts
         getContractsByCustomerId(customer.id, function (contracts) {
             contractsCard.setData(contracts, customer.id);
+            if (typeof navTreeSelectedNode !== "undefined") {
+                if (navTreeSelectedNode.type === "contract")
+                    ContractsForm.setCurrentRecord(ContractsForm.getRecordById(navTreeSelectedNode.id));
+            }
         });
     });
 }

@@ -99,6 +99,9 @@ ContactsForm ={
             height: "100%",
             padding: 6,
             margin: 8,
+            // autoFetchData:true,
+            // dataPageSize: 100,
+            showAllRecords:true,
             alternateRecordStyles: true,
             alternateFieldStyles: false,
             showHeaderMenuButton:false,
@@ -111,7 +114,9 @@ ContactsForm ={
             fields: [
                 {name: "id",  primaryKey: true, hidden :true},
                 {name: "favorite", hidden: true},
-                {name:"fav", title:" ", width:22, align: "center"},
+                {name:"fav", title:" ", width:22, align: "center"
+                    // , autoFitWidth:true
+                },
                 {name: "name", title:"Имя", width: 250, changed :this.fieldChanged},
                 {name: "position", title:"Должность", changed :this.fieldChanged},
                 {name: "phone", title:"Телефон", changed :this.fieldChanged},
@@ -183,7 +188,6 @@ ContactsForm ={
     },
 
     fieldChanged: function(form, item, value) {
-        //console.log('cell is changed:'+ContactsForm.contactsGrid.getSelectedRecord());
         ContactsForm.contactsChanged(ContactsForm.contactsGrid.getSelectedRecord());
     },
 
@@ -283,7 +287,7 @@ ContactsForm ={
                         deleteContact(record.id, function (success) {
                             if (success) {
                                 ContactsForm.contactsGrid.removeSelectedData();
-                                deleteContactNode(record.id);
+                                deleteNode(record.id);
                                 navContactsGrid.deleteItemById(record.id);
                             }
                         });
@@ -324,8 +328,9 @@ ContactsForm ={
         // Change navContactsGrid.listGrid record when select contactsGrid in contactsForm
         // Required navContactsGrid.listGrid.showAllRecords: true. ! NO USE because this decrease performance
         // ==================================================================================================
+        selectNode(record.id);
 
-        if (getNavigationFrameMode() == VM_CONTACTS) {
+        if (getNavigationFrameMode() === VM_CONTACTS) {
             var navContactsGridItem = navContactsGrid.getItemById(record.id);
             navContactsGrid.listGrid.deselectAllRecords();
             navContactsGrid.listGrid.selectRecord(navContactsGridItem);
@@ -336,7 +341,7 @@ ContactsForm ={
 
     mailTo: function () {
         var record= ContactsForm.contactsGrid.getSelectedRecord();
-        if (record == null || (record.email.length == 0) || (typeof record.email == "undefined") ) {
+        if (record == null || (record.email.length === 0) || (typeof record.email === "undefined") ) {
             isc.warn("Невозможно оставить сообщение для адресата - нет корректного адреса email");
         } else {
             window.location.href = "mailto:"+record.email;

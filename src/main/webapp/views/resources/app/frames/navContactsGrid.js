@@ -111,7 +111,7 @@ NavContactsGrid =  {
                      yesClick: function() {
                              deleteContact(record.id, function (success) {
                                      if (success) {
-                                         deleteContactNode(record.id);
+                                         deleteNode(record.id);
                                             NavContactsGrid.listGrid.removeData(record);
                                             ContactsForm.contactsGrid.removeData(ContactsForm.getRecordById(record.id));
                                      }

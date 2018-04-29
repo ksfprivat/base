@@ -120,6 +120,7 @@ ContractWindow = {
                 contract.id = newContractId;
                 contractsCard.listGrid.addData(contract);
                 contractsCard.setCurrentRecord(contract);
+                addContractNode(contract)
             });
             ContractWindow.close();
         }
@@ -145,6 +146,7 @@ ContractWindow = {
                     var rowNum = contractsCard.listGrid.getRowNum(contractsCard.listGrid.getSelectedRecord());
                     contractsCard.listGrid.setEditValues(rowNum, contract);
                     contractsCard.listGrid.refreshRow(rowNum);
+                    changeNodeTitle(contract.id, contract.title);
                 }
             });
             ContractWindow.close();

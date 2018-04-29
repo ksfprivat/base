@@ -30,6 +30,12 @@ public class ContractController {
         return customerService.getContractsById(customerId);
     }
 
+    @RequestMapping(value = "getContractById", method = RequestMethod.GET)
+    @ResponseBody
+    public Contract getContractById(@RequestParam(value = "id") int id) {
+        return customerService.getContractById(id);
+    }
+
     @RequestMapping(value = "getContractNodesByCustomerId", method = RequestMethod.POST)
     @ResponseBody
     public List<ContractNode> getContractNodeByCustomerId(@RequestParam(value = "id") int customerId) {
@@ -70,7 +76,6 @@ public class ContractController {
     @RequestMapping(value = "updateContract", method = RequestMethod.GET)
     @ResponseBody
     void updateContract(Contract contract) {
-        System.out.println(contract.getTitle());
         contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
         customerService.updateContract(contract);
     }
@@ -85,7 +90,6 @@ public class ContractController {
     @RequestMapping(value = "insertContract", method = RequestMethod.GET)
     @ResponseBody
     Integer insertContact(Contract contract) {
-        System.out.println("Controller:"+contract.getTitle());
         contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
         return customerService.insertContract(contract);
     }

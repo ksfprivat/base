@@ -1,3 +1,16 @@
+function getContractById(contractId, callback) {
+    var result;
+    $.ajax({
+        type: 'GET',
+        url: 'getContractById',
+        data: 'id='+contractId,
+        success: function (data) {
+            result = data;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+
 function getContractsByCustomerId(customerId, callback) {
     var result;
     $.ajax({

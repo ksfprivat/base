@@ -108,7 +108,6 @@ function onNavTreeOpenFolder(node) {
             case "contractsFolder":
                 getContractNodesByCustomerId(node.parentId, function (contracts) {
                     // Add type property for each objects in array
-                    console.log(contracts);
                     contracts.forEach(function (contract) {
                         contract.type="contract";
                         contract.icon = imgDir+"/ic_contract.png";
@@ -143,7 +142,24 @@ function addContactNode(customerId, contact) {
     }
 }
 
-function deleteContactNode(id) {
+function addContractNode(contract) {
+    var folder = navTreeData.findById("contracts_"+contract.customerId);
+
+    if (typeof folder !== "undefined") {
+        var node={
+            id: contract.id,
+            customerId: contract.customerId,
+            title: contract.title,
+            name: contract.title,
+            icon : imgDir+"/ic_contract.png",
+            type :"contract",
+            sortField: reversTimestamp(contract.date)
+        };
+        navTreeData.add(node, folder);
+    }
+}
+
+function deleteNode(id) {
     var node =  navTreeData.findById(id);
 
     if (typeof node !== "undefined") {
@@ -165,7 +181,8 @@ function changeNodeTitle(id, title) {
 function selectNode(id) {
     var node = navTreeData.findById(id);
     if (typeof node !== "undefined") {
-        navTree.selectRecord(parent);
+        navTree.deselectAllRecords();
+        navTree.selectRecord(node);
         navTree.scrollToRow(navTree.getFocusRow());
     }
 }
@@ -204,7 +221,6 @@ function onNodeClick(viewer, node, recordNum) {
                  ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
                 break;
             case "contract":
-                console.log("contracts here");
                 ContractsForm.setCurrentRecord(ContractsForm.getRecordById(navTreeSelectedNode.id));
                 break;
         }
@@ -350,6 +366,12 @@ function navTreeAddButtonClick() {
                 ContactWindow.create(TRANSACTION_INSERT, customerCard.getData().title)
                     .setData({}, navTreeSelectedNode.customerId);
                 break;
+            case "contractsFolder":
+            case "contract":
+                ContractWindow.create(TRANSACTION_INSERT, customerCard.getData().title)
+                    .setData({date:new Date(), dateFinal: new Date()}, ContractsForm.customerId );
+                break;
+
     }
 
     if (getNavigationFrameMode() === VM_CONTACTS) {
@@ -389,9 +411,19 @@ function deleteNavTreeNode() {
                         deleteContact(navTreeSelectedNode.id, function (success) {
                             if (success) {
                                 var record  = ContactsForm.getRecordById(navTreeSelectedNode.id);
-                                deleteContactNode(navTreeSelectedNode.id);
+                                deleteNode(navTreeSelectedNode.id);
                                 if (!!record)
                                     ContactsForm.contactsGrid.removeData(record);
+                            }
+                        });
+                        break;
+                    case "contract":
+                        deleteContract(navTreeSelectedNode.id, function (success) {
+                            if (success) {
+                                var record  = ContractsForm.getRecordById(navTreeSelectedNode.id);
+                                deleteNode(navTreeSelectedNode.id);
+                                if (!!record)
+                                    ContractsForm.listGrid.removeData(record);
                             }
                         });
                         break;
@@ -429,7 +461,13 @@ function editNavTreeNode() {
             getContactById(navTreeSelectedNode.id, function (contact) {
                 contactWindow.setData(contact, navTreeSelectedNode.customerId);
             });
-            break;
+        break;
+        case "contract":
+            var contractWindow = ContractWindow.create(TRANSACTION_UPDATE, customerCard.getData().title);
+            getContractById(navTreeSelectedNode.id, function (contract) {
+                contractWindow.setData(contract, navTreeSelectedNode.customerId);
+            });
+        break;
     }
 }
 

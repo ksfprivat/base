@@ -6,7 +6,7 @@ CustomerWindow = {
     create: function (transactionType) {
         this.transactionType = transactionType;
         this.title = "Новая организация";
-        if (transactionType == TRANSACTION_UPDATE) this.title = "Организация";
+        if (transactionType === TRANSACTION_UPDATE) this.title = "Организация";
         this.header = HTMLFlow.create({
             width: "100%",
             contents: "<table class='cardBoxTitle'><tr>" +
@@ -122,6 +122,7 @@ CustomerWindow = {
             updateCustomer(CustomerWindow.getData(), function (success) {
                 if (success) {
                     refreshCustomerNode(CustomerWindow.getData());
+
                     if (CustomerWindow.getData().id === customerCard.getData().id) customerCard.setData(CustomerWindow.getData());
                 }
             });
@@ -151,7 +152,7 @@ CustomerWindow = {
     },
 
     validate: function () {
-        if (CustomerWindow.titleBlock.getValue("title") == undefined) {
+        if (CustomerWindow.titleBlock.getValue("title") === undefined) {
             isc.warn("Необходимо ввести наименование организаци !");
             return false
         }

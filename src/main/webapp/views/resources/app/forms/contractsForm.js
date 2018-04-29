@@ -25,7 +25,6 @@ ContractsForm ={
                 }));
         }
 
-
         this.contextMenu  = Menu.create({
             autoDraw: false,
             showShadow: false,
@@ -240,6 +239,8 @@ ContractsForm ={
             updateContract(contract, function(success) { });
 
         }
+        changeNodeTitle(contract.id, contract.title);
+
         ContractsForm.changeCache = [];
         ContractsForm.setChangeBlockState("hidden");
     },
@@ -295,6 +296,7 @@ ContractsForm ={
                             if (success) {
                                 ContractsForm.listGrid.removeSelectedData();
                                 // Another operation
+                                deleteNode(record.id);
                             }
                         });
                         return this.Super('yesClick', arguments);}}
@@ -329,7 +331,7 @@ ContractsForm ={
     },
 
     rowClick: function (record, recordNum, fieldNum) {
-
+        selectNode(record.id);
     },
 
     exportToPDF: function() {
