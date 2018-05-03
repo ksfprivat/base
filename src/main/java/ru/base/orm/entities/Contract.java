@@ -212,6 +212,14 @@ public class Contract {
         } else return "-";
     }
 
+    @JsonProperty("customerTitle")
+    public String customerTitle() {
+        Customer customer = getCustomerByCustomerId();
+        if ((customer != null) && (customer.getTitle() !=null))
+            return getCustomerByCustomerId().getTitle();
+        else return "-";
+    }
+
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     @JsonIgnore

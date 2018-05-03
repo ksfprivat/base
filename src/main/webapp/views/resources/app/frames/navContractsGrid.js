@@ -6,7 +6,7 @@ NavContractsGrid = {
             height: "100%",
             border:0,
             cellHeight: 44,
-            alternateRecordStyles: false,
+            alternateRecordStyles: true,
             alternateFieldStyles: true,
             showHeader: false,
             autoDraw: false,
@@ -20,18 +20,10 @@ NavContractsGrid = {
                 {name: "title"},
                 {name: "date", hidden: true},
                 {name: "year"},
-                {name: "amount", hidden: true}
+                {name: "amount", hidden: true},
+                {name: "dateFormat",hidden: true},
+                {name: "customerTitle", hidden:true}
             ],
-            // data:[
-            //     {id:"1", title:"1", date:"2017.12.31", year:"2017", amount:"1"},
-            //     {id:"2", title:"1", date:"2017.12.31", year:"2016", amount:"1"},
-            //     {id:"3", title:"1", date:"2017.12.31", year:"2016", amount:"1"},
-            //     {id:"4", title:"1", date:"2017.12.31", year:"2015", amount:"1"},
-            //     {id:"5", title:"1", date:"2017.12.31", year:"2015", amount:"1"},
-            //     {id:"6", title:"1", date:"2017.12.31", year:"2014", amount:"1"}
-            // ],
-            groupStartOpen:"all",
-            groupByField: "year",
             rowClick: this.onRowClick
         });
 
@@ -42,39 +34,55 @@ NavContractsGrid = {
 
     init: function () {
 
-        getAllContracts(function (contracts) {
+        getAllContracts(function (contracts, success) {
             var dataSource = DataSource.create({
                 fields: [
                     {name: "id", primaryKey: true, hidden: true},
                     {name: "title"},
                     {name: "date", hidden:true},
-                    {name: "year", hidden:false} ,
-                    {name: "amount", hidden:true}
+                    {name: "year", hidden:true} ,
+                    {name: "amount", hidden:true},
+                    {name: "customerTitle", hidden:true}
                 ],
                 clientOnly: true
             });
-            dataSource.setCacheData(contracts);
+            // dataSource.setCacheData(contracts);
+
+            for (var i = 0; i < contracts.length; i++) {
+                var title = NavContractsGrid.createItemBlock(contracts[i]);
+                dataSource.addData({id: contracts[i].id, title: title,
+                    date: contracts[i].date, year: contracts[i].year, amount: contracts[i].amount,
+                    customerTitle:contracts[i].customerTitle});
+            }
             NavContractsGrid.listGrid.setDataSource(dataSource);
-            NavContractsGrid.listGrid.regroup();
-            NavContractsGrid.listGrid.setGroupState("year");
-            NavContractsGrid.listGrid.groupBy(["year"]);
         });
     },
 
     onRowClick: function (record, recordNum, fieldNum) {
-        console.log(record);
+        // console.log(record);
 
     },
 
-
-    createItemBlock: function(contract, customerTitle) {
+    createItemBlock: function(contract) {
         return (
             "<table class='listItem'><tr>"+
-            "<td colspan='2'><img src='"+imgDir+"/ic_contract.png'></td>"+
-            "<td width='100%'>"+contract.title+"" +
-            "<br><small style='color: #0D47A1'>"+customerTitle+"<small/></td>"+
+                 "<td><img src='"+imgDir+"/ic_currency.png'></td>"+
+                 "<td >"+contract.title+"</td>" +
+                 "<td align='right' style='color: #009688' >"+formatStringDoubleToCurrency(contract.amount)+"&nbsp;₽</td>" +
+            "</tr></table>" +
+            "<table width='100%'><tr>" +
+                 "<td align='left'><small style='color: #0D47A1'>"+contract.customerTitle+"<small/></td>" +
+                 "<td align='right'><small style='color: #2962FF'>"+formatDateString(contract.date)+"<small/></td>"+
             "</tr></table>"
         );
+    },
+
+    setFilter: function (filter) {
+        this.listGrid.filterData([filter]);
+    },
+
+    clearFilter: function () {
+        this.listGrid.filterData(null);
     }
 
 

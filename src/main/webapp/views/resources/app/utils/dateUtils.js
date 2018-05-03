@@ -1,5 +1,7 @@
 function formatDateString(value) {
-    return (value.substr(8,2)+"."+value.substr(5,2)+"."+value.substr(0,4));
+    if (value != null)
+        return (value.substr(8, 2) + "." + value.substr(5, 2) + "." + value.substr(0, 4));
+    else return"-";
 }
 
 function dateToDateString(value) {
@@ -28,4 +30,10 @@ function isDate(value) {
 function isDigit(str) {
     if (Number(str) === 0) return true;
     else return str && !/[^\d]/.test(str);
+}
+
+function formatStringDoubleToCurrency(value) {
+    if (value != null)
+        return String(value).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+    else return "0.00";
 }

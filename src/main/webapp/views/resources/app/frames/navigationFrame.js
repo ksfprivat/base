@@ -225,7 +225,7 @@ function onNodeClick(viewer, node, recordNum) {
             case "contract":
                 ContractsForm.setCurrentRecord(ContractsForm.getRecordById(navTreeSelectedNode.id));
                 break;
-        }0
+        }
     }
 }
 
@@ -340,6 +340,9 @@ function setFilterNavTree(filter) {
         case 1: // Contacts
             navContactsGrid.setFilter(filter);
             break;
+        case 2: // Contracts
+            navContractsGrid.setFilter(filter);
+            break;
     }
 }
 
@@ -351,6 +354,7 @@ function clearFilterNavTree() {
     $("#navBarSearchTextClearButton").attr("style", "visibility:hidden");
     navTree.setData(navTreeData);
     navContactsGrid.clearFilter();
+    navContractsGrid.clearFilter();
 }
 
 function navTreeIsFiltered() {
