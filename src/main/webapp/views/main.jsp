@@ -49,6 +49,7 @@
     <script src="<c:url value="resources/app/windows/splashWindow.js" />"></script>
 
     <script src="<c:url value="resources/app/frames/navContactsGrid.js"/>"></script>
+	<script src="<c:url value="resources/app/frames/navContractsGrid.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/sideBarFrame.js" />"></script>

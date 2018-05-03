@@ -4,6 +4,7 @@ var  navTreeCache;
 var  navTreeTabSet;
 var  navTreeSelectedNode;
 var  navContactsGrid;
+var  navContractsGrid;
 var  navTreeCurrentCustomerId;
 
 // View modes (Customers/Contacts/Contracts)
@@ -308,6 +309,7 @@ function createNavTree() {
     });
 
     navContactsGrid = NavContactsGrid.create();
+    navContractsGrid = NavContractsGrid.create();
 
     navTreeTabSet = TabSet.create({
         width: "100%",
@@ -322,7 +324,7 @@ function createNavTree() {
             tabs: [
              {title: "ОРГАНИЗАЦИИ", pane: navTree},
              {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
-             {title: "КОНТРАКТЫ", pane: null}]
+             {title: "КОНТРАКТЫ", pane: navContractsGrid.listGrid}]
      });
 
    return navTreeTabSet;
