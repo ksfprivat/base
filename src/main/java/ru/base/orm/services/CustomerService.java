@@ -38,6 +38,7 @@ public interface CustomerService {
     List<Contact> getContacts();
 
     List<Contract> getContracts();
+
     List<Contract> getContractsByYear(int year);
 
     List<Contact> getContactsById(int customersId);

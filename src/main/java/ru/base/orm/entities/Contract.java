@@ -2,6 +2,8 @@ package ru.base.orm.entities;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,6 +11,7 @@ import ru.base.utils.JsonDateDeserializer;
 import ru.base.utils.JsonDateSerializer;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -200,8 +203,18 @@ public class Contract {
         return result;
     }
 
+
+    @JsonProperty("year")
+    public String contractYear(){
+        if (date != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+            return dateFormat.format(date);
+        } else return "-";
+    }
+
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JsonIgnore
     public Customer getCustomerByCustomerId() {
         return customerByCustomerId;
     }

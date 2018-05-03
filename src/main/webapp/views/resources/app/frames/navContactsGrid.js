@@ -33,7 +33,6 @@ NavContactsGrid =  {
     },
 
     init: function () {
-       var listGrid = this.listGrid;
         getAllContactsNodes(function (contacts)  {
             var dataSource = DataSource.create({
                 fields: [
@@ -52,8 +51,8 @@ NavContactsGrid =  {
                 dataSource.addData({id:contacts[i].id, title: title, name: contacts[i].title,
                                         customerId: contacts[i].customerId, customerTitle: contacts[i].customerTitle});
             }
-            listGrid.setDataSource(dataSource);
-            listGrid.hideFields(["id", "name"]);
+            NavContactsGrid.listGrid.setDataSource(dataSource);
+            NavContactsGrid.listGrid.hideFields(["id", "name"]);
             afterLoad();
         });
     },
@@ -83,11 +82,11 @@ NavContactsGrid =  {
     },
 
     getItemById: function (id) {
-         return $.grep(NavContactsGrid.listGrid.dataSource.cacheData, function(item) { return item.id == id })[0];
+         return $.grep(NavContactsGrid.listGrid.dataSource.cacheData, function(item) { return item.id === id })[0];
     },
 
     getItemsByCustomerId: function(customerId) {
-        return $.grep(NavContactsGrid.listGrid.dataSource.cacheData, function(item) { return item.customerId == customerId });
+        return $.grep(NavContactsGrid.listGrid.dataSource.cacheData, function(item) { return item.customerId === customerId });
     },
 
     insertItem: function(contact, customerTitle) {
@@ -125,7 +124,7 @@ NavContactsGrid =  {
 
     deleteItemById: function (id) {
         var record = NavContactsGrid.getItemById(id);
-        if (typeof record != "undefined")
+        if (typeof record !== "undefined")
             NavContactsGrid.listGrid.dataSource.removeData(record);
     },
 

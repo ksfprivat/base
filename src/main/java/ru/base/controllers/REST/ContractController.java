@@ -93,5 +93,12 @@ public class ContractController {
         contract.setCustomerByCustomerId(customerService.getCustomerById(contract.getCustomerId()));
         return customerService.insertContract(contract);
     }
+
+
+    @RequestMapping(value = "getAllContracts", method = RequestMethod.POST)
+    @ResponseBody
+    List<Contract> getAllContracts() {
+        return customerService.getContracts();
+    }
 }
 

@@ -1,5 +1,7 @@
 package ru.base.orm.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 
@@ -141,6 +143,7 @@ public class Contact {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JsonIgnore
     public Customer getCustomer() {
         return customer;
     }

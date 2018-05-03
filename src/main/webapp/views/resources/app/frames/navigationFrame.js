@@ -204,6 +204,7 @@ function refreshCustomerNode(data) {
 }
 
 function onNodeClick(viewer, node, recordNum) {
+
     navTreeSelectedNode = node;
     if (!browserFrame.isVisible()) browserFrame.show();
     if (node.type === "customer") {
@@ -224,7 +225,7 @@ function onNodeClick(viewer, node, recordNum) {
             case "contract":
                 ContractsForm.setCurrentRecord(ContractsForm.getRecordById(navTreeSelectedNode.id));
                 break;
-        }
+        }0
     }
 }
 

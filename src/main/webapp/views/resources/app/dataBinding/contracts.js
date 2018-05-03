@@ -24,6 +24,19 @@ function getContractsByCustomerId(customerId, callback) {
     });
 }
 
+function getAllContracts(callback) {
+    var result;
+    $.ajax({
+        type: 'POST',
+        url: 'getAllContracts',
+        success: function (data) {
+            result = data;
+            if (typeof callback === "function") callback(result);
+        }
+    });
+}
+
+
 function getContractNodesByCustomerId(customerId, callback) {
     var result;
     $.ajax({
