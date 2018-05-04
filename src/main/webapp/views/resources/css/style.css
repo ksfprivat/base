@@ -396,20 +396,13 @@ div.dummy {
 .cellGreenSelectedOver,
 .cellGreenSelectedOverDark,
 .cellGreenSelectedDisabled,
-.cellGreenSelectedDisabledDark
-{
-    background-color:  #90caf9;
-    font-size: 12px;
-    font-family: Calibri, serif;
-    padding: 0 0 0 3px;
-}
-
+.cellGreenSelectedDisabledDark,
 .cellGreenDown,
 .cellGreenDownDark,
 .cellGreenSelectedDown,
 .cellGreenSelectedDownDark
 {
-    color: #90caf9;
+    background-color:  #90caf9;
     font-size: 12px;
     font-family: Calibri, serif;
     padding: 0 0 0 3px;
@@ -432,20 +425,13 @@ div.dummy {
 .cellRedSelectedOver,
 .cellRedSelectedOverDark,
 .cellRedSelectedDisabled,
-.cellRedSelectedDisabledDark
-{
-    background-color:  #90caf9;
-    font-size: 12px;
-    font-family: Calibri, serif;
-    padding: 0 0 0 3px;
-}
-
+.cellRedSelectedDisabledDark,
 .cellRedDown,
 .cellRedDownDark,
 .cellRedSelectedDown,
 .cellRedSelectedDownDark
 {
-    color: #90caf9;
+    background-color:  #90caf9;
     font-size: 12px;
     font-family: Calibri, serif;
     padding: 0 0 0 3px;
@@ -468,21 +454,94 @@ div.dummy {
 .cellAmberSelectedOver,
 .cellAmberSelectedOverDark,
 .cellAmberSelectedDisabled,
-.cellAmberSelectedDisabledDark
-{
-    background-color:  #90caf9;
-    font-size: 12px;
-    font-family: Calibri, serif;
-    padding: 0 0 0 3px;
-}
-
+.cellAmberSelectedDisabledDark,
 .cellAmberDown,
 .cellAmberDownDark,
 .cellAmberSelectedDown,
 .cellAmberSelectedDownDark
 {
-    color: #90caf9;
+    background-color:  #B3E5FC;
     font-size: 12px;
     font-family: Calibri, serif;
     padding: 0 0 0 3px;
+}
+
+
+.cellLightGreen,
+.cellLightGreenDark
+{
+    background-color: #E8F5E9;
+    font-size: 12px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+    color: #388E3C;
+}
+
+.cellLightGreenOver,
+.cellLightGreenOverDark,
+.cellLightGreenSelected,
+.cellLightGreenSelectedDark,
+.cellLightGreenSelectedOver,
+.cellLightGreenSelectedOverDark,
+.cellLightGreenSelectedDisabled,
+.cellLightGreenSelectedDisabledDark,
+.cellLightGreenDown,
+.cellLightGreenDownDark,
+.cellLightGreenSelectedDown,
+.cellLightGreenSelectedDownDark
+{
+    background-color:  #B3E5FC;
+    font-size: 12px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+}
+
+.cellLightYellow,
+.cellLightYellowDark
+{
+    background-color: #E0F7FA;
+    font-size: 12px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+    color: #388E3C;
+}
+
+.cellLightYellowOver,
+.cellLightYellowOverDark,
+.cellLightYellowSelected,
+.cellLightYellowSelectedDark,
+.cellLightYellowSelectedOver,
+.cellLightYellowSelectedOverDark,
+.cellLightYellowSelectedDisabled,
+.cellLightYellowSelectedDisabledDark,
+.cellLightYellowDown,
+.cellLightYellowDownDark,
+.cellLightYellowSelectedDown,
+.cellLightYellowSelectedDownDark
+{
+    background-color:  #B3E5FC;
+    font-size: 12px;
+    font-family: Calibri, serif;
+    padding: 0 0 0 3px;
+}
+
+.cellContractRow,
+.cellContractRowDark
+{
+}
+
+.cellContractRowOver,
+.cellContractRowOverDark,
+.cellContractRowSelected,
+.cellContractRowSelectedDark,
+.cellContractRowSelectedOver,
+.cellContractRowSelectedOverDark,
+.cellContractRowSelectedDisabled,
+.cellContractRowSelectedDisabledDark,
+.cellContractRowDown,
+.cellContractRowDownDark,
+.cellContractRowSelectedDown,
+.cellContractRowSelectedDownDark
+{
+    background-color:  #E1F5FE;
 }
