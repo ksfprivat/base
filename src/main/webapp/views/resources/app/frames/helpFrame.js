@@ -8,14 +8,14 @@ HelpFrame = {
             overflow:"hidden",
             align:"center",
             members:[
-                this.page404()
+                this.mainForm()
             ]
         });
 
         return Object.create(this);
     },
 
-    page404: function () {
+    mainForm: function () {
         return (
             HTMLFlow.create({
                 width: "100%", height:"100%",

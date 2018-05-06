@@ -4,6 +4,7 @@ var   sideBar;
 var   mainFrame;
 var   crmFrame;
 var   dashboardFrame;
+var   reportsFrame;
 var   helpFrame;
 
 function createLayout() {
@@ -20,6 +21,7 @@ function createLayout() {
     crmFrame.content = crmFrame;
 
     dashboardFrame = DashboardFrame.create();
+    reportsFrame = ReportsFrame.create();
     helpFrame = HelpFrame.create();
 
     mainFrame = HLayout.create({
@@ -30,7 +32,7 @@ function createLayout() {
             sideBar.content,
             dashboardFrame.content,
             crmFrame.content,
-            DummyFrame.create().content,
+            reportsFrame.content,
             DummyFrame.create().content,
             DummyFrame.create().content,
             helpFrame.content

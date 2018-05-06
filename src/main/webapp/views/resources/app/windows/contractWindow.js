@@ -65,6 +65,7 @@ ContractWindow = {
             autoSize: true,
             showHeader: false,
             showModalMask: true,
+            modalMaskOpacity:80,
             canDragReposition: false,
             items: [
                 this.header,
