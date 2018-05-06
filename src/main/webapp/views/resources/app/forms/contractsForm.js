@@ -147,11 +147,16 @@ ContractsForm ={
                     }
                 }
             ],
-            sortField: 2,
-            sortDirection:"descending",
+            // sortField: 2,
+            // sortDirection:"descending",
+            initialSort: [
+                {property: "date", direction: "descending"},
+                {property: "title", direction: "descending"}
+            ],
             rowClick: this.rowClick,
 
             getBaseStyle:function (record, rowNum, colNum) {
+                if (typeof record === "undefined") return this.baseStyle;
                 if ((record.status === "Исполнение") || (record.status === "1"))  {
                     if ((new Date()) > (new Date(record.dateFinal)))
                     return "cellRed";
@@ -238,8 +243,10 @@ ContractsForm ={
 
             updateContract(contract, function(success) { });
 
+            changeNodeTitle(contract.id, contract.title);
+            navContractsGrid.updateItem(contract);
         }
-        changeNodeTitle(contract.id, contract.title);
+
 
         ContractsForm.changeCache = [];
         ContractsForm.setChangeBlockState("hidden");
@@ -296,6 +303,7 @@ ContractsForm ={
                             if (success) {
                                 ContractsForm.listGrid.removeSelectedData();
                                 // Another operation
+                                navContractsGrid.listGrid.removeData(navContractsGrid.getItemById(record.id));
                                 deleteNode(record.id);
                             }
                         });
@@ -312,11 +320,12 @@ ContractsForm ={
     },
 
     getRecordById: function (id) {
-        var records = ContractsForm.listGrid.data;
-        for (var i = 0; i < records.length; i++) {
-            if (records[i].id === id) return records[i];
-        }
-        return false;
+        // var records = ContractsForm.listGrid.data;
+        // for (var i = 0; i < records.length; i++) {
+        //     if (records[i].id === id) return records[i];
+        // }
+        // return false;
+        return $.grep(ContractsForm.listGrid.data, function(item) { return item.id === id })[0];
     },
 
     setCurrentRecord: function(record) {
@@ -332,6 +341,12 @@ ContractsForm ={
 
     rowClick: function (record, recordNum, fieldNum) {
         selectNode(record.id);
+        if (getNavigationFrameMode() === VM_CONTRACTS) {
+            var item = navContractsGrid.getItemById(record.id);
+            navContractsGrid.listGrid.deselectAllRecords();
+            navContractsGrid.listGrid.selectRecord(item);
+            navContractsGrid.listGrid.scrollToRow(navContractsGrid.listGrid.getRecordIndex(item));
+        }
     },
 
     exportToPDF: function() {

@@ -135,7 +135,6 @@ NavContactsGrid =  {
                  contactWindow.setData(contact, NavContactsGrid.currentRecord.customerId);
              });
          }
-
     },
 
     updateItem: function (id, title, customerTitle) {

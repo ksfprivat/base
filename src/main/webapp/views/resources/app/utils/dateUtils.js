@@ -37,3 +37,13 @@ function formatStringDoubleToCurrency(value) {
         return String(value).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
     else return "0.00";
 }
+
+function getContractNumber(contractTitle) {
+    var result = "";
+    var i = 0;
+    while (isDigit(contractTitle[i])) {
+        result += contractTitle[i];
+        i++;
+    }
+    return Number(result);
+}

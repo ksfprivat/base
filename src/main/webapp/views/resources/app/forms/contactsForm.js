@@ -304,11 +304,12 @@ ContactsForm ={
     },
 
     getRecordById: function (id) {
-        var records = ContactsForm.contactsGrid.data;
-        for (var i = 0; i < records.length; i++) {
-            if (records[i].id === id) return records[i];
-        }
-        return false;
+        // var records = ContactsForm.contactsGrid.data;
+        // for (var i = 0; i < records.length; i++) {
+        //     if (records[i].id === id) return records[i];
+        // }
+        // return false;
+        return $.grep(ContactsForm.contactsGrid.data, function(item) { return item.id === id })[0];
     },
 
     setCurrentRecord: function(record) {
@@ -354,10 +355,10 @@ ContactsForm ={
             var result = "";
             var fields = ['post', 'district', 'region', 'city', 'street', 'building'];
             for (var i = 0; i < fields.length; i++) {
-                if (typeof data[fields[i]] != "undefined")
+                if (typeof data[fields[i]] !== "undefined")
                     if (data[fields[i]].length > 0) {
                         result = result + data[fields[i]]+" ";
-                        if (i != fields.length) result = result+",";
+                        if (i !== fields.length) result = result+",";
                     }
             }
             return result.substring(0, result.length-1);
@@ -412,7 +413,7 @@ ContactsForm ={
         ContactsForm.setCustomerTitle();
         ContactsForm.customerTitle.show();
         browserFrame.members.forEach(function (member) {
-            if (member !=  ContactsForm.content) {
+            if (member !==  ContactsForm.content) {
                 member.hide();
             }
         });
@@ -425,7 +426,7 @@ ContactsForm ={
         ContactsForm.btnExpand.show();
         ContactsForm.customerTitle.hide();
         browserFrame.members.forEach(function (member) {
-            if (member !=  ContactsForm.content) {
+            if (member !==  ContactsForm.content) {
                 member.show();
             }
         });

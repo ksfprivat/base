@@ -3,7 +3,7 @@ ContractWindow = {
     create: function (transactionType, customerTitle) {
         this.transactionType = transactionType;
         this.title = "Новый контракт";
-        if (transactionType === TRANSACTION_UPDATE) this.title = "Контакт";
+        if (transactionType === TRANSACTION_UPDATE) this.title = "Контракт";
 
         this.header = HTMLFlow.create({
             width: "100%",
@@ -120,6 +120,7 @@ ContractWindow = {
                 contract.id = newContractId;
                 contractsCard.listGrid.addData(contract);
                 contractsCard.setCurrentRecord(contract);
+                navContractsGrid.insertItem(contract);
                 addContractNode(contract)
             });
             ContractWindow.close();
@@ -138,15 +139,19 @@ ContractWindow = {
                     dateToDateString(contract.dateFinal) : contract.dateFinal;
             contract.department = null;
             contract.object = null;
-            // delete contract["costs"];
             delete contract["customerByCustomerId"];
+
+            // Update current record of listGrid
+            var currentRecord = contractsCard.getRecordById(contract.id);
+            Object.assign(currentRecord,  contract);
+
 
             updateContract(contract, function (success) {
                 if (success) {
                     var rowNum = contractsCard.listGrid.getRowNum(contractsCard.listGrid.getSelectedRecord());
                     contractsCard.listGrid.setEditValues(rowNum, contract);
                     contractsCard.listGrid.refreshRow(rowNum);
-                    changeNodeTitle(contract.id, contract.title);
+                    navContractsGrid.updateItem(contract);
                 }
             });
             ContractWindow.close();

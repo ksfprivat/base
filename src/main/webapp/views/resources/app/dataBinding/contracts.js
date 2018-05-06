@@ -57,7 +57,6 @@ function updateContract(contract, callback) {
         url: "updateContract",
         data: contract,
         success: function () {
-            console.log("Success: Update contract:" + contract.title);
             result = true;
             if (typeof callback === "function") callback(result);
         },
@@ -71,14 +70,12 @@ function updateContract(contract, callback) {
 
 
 function insertContract(contract, callback) {
-    console.log(contract);
     var result;
     $.ajax({
         type: "GET",
         url: "insertContract",
         data: contract,
         success: function (data) {
-            console.log("Success: Insert contract:" + contract.name);
             result = data;
             if (typeof callback === "function") callback(result);
         },
@@ -91,14 +88,12 @@ function insertContract(contract, callback) {
 }
 
 function deleteContract(contractId, callback) {
-    console.log("Delete:"+contractId);
     var result;
     $.ajax({
         type: "GET",
         url: "deleteContract",
         data: 'id='+contractId,
         success: function () {
-            console.log("Success: Delete contact:" + contractId);
             result = true;
             if (typeof callback === "function") callback(result);
         },

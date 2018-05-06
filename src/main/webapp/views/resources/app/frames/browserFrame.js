@@ -37,11 +37,19 @@ function refreshBrowserFrame(customerId) {
         // Load contacts
         getContactsByCustomerId(customer.id, function(contacts){
             contactsCard.setData(contacts, customer.id);
+            if ((getNavigationFrameMode() === VM_CUSTOMERS) &&
+                (typeof navTreeSelectedNode !== "undefined" ) &&
+                (navTreeSelectedNode.type === "contact"))
+                    ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
+            // Load contracts
+            getContractsByCustomerId(customer.id, function (contracts) {
+                contractsCard.setData(contracts, customer.id);
+
             switch (getNavigationFrameMode()){
                 case VM_CUSTOMERS: // Customers (navTree event initiator)
                     if (typeof navTreeSelectedNode !== "undefined") {
-                        if (navTreeSelectedNode.type === "contact")
-                            ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navTreeSelectedNode.id));
+                        if (navTreeSelectedNode.type === "contract")
+                            ContractsForm.setCurrentRecord(ContractsForm.getRecordById(navTreeSelectedNode.id));
                     }
                     break;
 
@@ -49,17 +57,13 @@ function refreshBrowserFrame(customerId) {
                     if (navContactsGrid.currentRecord != null)
                         ContactsForm.setCurrentRecord(ContactsForm.getRecordById(navContactsGrid.currentRecord.id));
                     break;
-            }
 
-        });
+                case VM_CONTRACTS: // Customers (navContractsGrid event initiator)
+                    if (navContractsGrid.currentRecord != null)
 
-        // Load Contracts
-        getContractsByCustomerId(customer.id, function (contracts) {
-            contractsCard.setData(contracts, customer.id);
-            if (typeof navTreeSelectedNode !== "undefined") {
-                if (navTreeSelectedNode.type === "contract")
-                    ContractsForm.setCurrentRecord(ContractsForm.getRecordById(navTreeSelectedNode.id));
+                        ContractsForm.setCurrentRecord(ContractsForm.getRecordById(navContractsGrid.currentRecord.id));
+                    break;
             }
+            });
         });
-    });
-}
+});}

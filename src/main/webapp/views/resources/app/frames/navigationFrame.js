@@ -387,6 +387,13 @@ function navTreeAddButtonClick() {
                 .setData({}, ContactsForm.customerId );
         } else isc.warn("Организация не выбрана");
     }
+
+    if (getNavigationFrameMode() === VM_CONTRACTS) {
+        if (customerCard.data != null) {
+            ContractWindow.create(TRANSACTION_INSERT, customerCard.getData().title)
+                .setData({date:new Date(), dateFinal: new Date()}, ContractsForm.customerId );
+        } else isc.warn("Организация не выбрана");
+    }
 }
 
 function deleteNavTreeNode() {
@@ -447,6 +454,10 @@ function navTreeDeleteButtonClick() {
         case VM_CONTACTS:
             navContactsGrid.deleteItem();
             break;
+        case VM_CONTRACTS:
+            navContractsGrid.deleteItem();
+            break;
+
     }
 }
 
@@ -484,6 +495,9 @@ function navTreeEditButtonClick() {
             break;
         case VM_CONTACTS:
             navContactsGrid.editItem();
+            break;
+        case VM_CONTRACTS:
+            navContractsGrid.editItem();
             break;
     }
 }
