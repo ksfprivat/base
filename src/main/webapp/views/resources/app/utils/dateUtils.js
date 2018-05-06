@@ -47,3 +47,27 @@ function getContractNumber(contractTitle) {
     }
     return Number(result);
 }
+
+function getStatusFieldTextValue(value) {
+    var result = "";
+        switch  (value) {
+            case "Подписание":
+            case "0":
+                result = "Подписание";
+                break;
+            case "Исполнение":
+            case "1":
+                result = "Исполнение";
+                break;
+            case "Выполнен":
+            case "Выполнено":
+            case "2":
+                result = "Подписание";
+                break;
+            case "Не действителен":
+            case "3":
+                result = "Не действителен";
+                break;
+        }
+        return result;
+}

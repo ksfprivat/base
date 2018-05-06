@@ -14,8 +14,10 @@
         <intercept-url pattern="/resources/img/**" access="permitAll"/>
         <intercept-url pattern="/resources/icons/**" access="permitAll"/>
         <intercept-url pattern="/resources/lib/**" access="permitAll"/>
+        <intercept-url pattern="/resources/html/**" access="permitAll"/>
+
         <!--Deactivate this for debug build-->
-        <!--<intercept-url pattern="/**" access="isAuthenticated()" />-->
+        <intercept-url pattern="/**" access="isAuthenticated()" />
 
         <!--<intercept-url pattern="/resources/app/**" access="isAuthenticated()" />-->
         <!--<intercept-url pattern="/**" access="hasRole('ADMIN')" />-->

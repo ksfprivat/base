@@ -62,7 +62,7 @@ NavContractsGrid = {
             for (var i = 0; i < contracts.length; i++) {
                 title = NavContractsGrid.createItemBlock(contracts[i]);
                 NavContractsGrid.dataSource.addData({id: contracts[i].id, title: title,
-                    date: contracts[i].date, year: contracts[i].year, status: contracts[i].status,
+                    date: contracts[i].date, year: contracts[i].year, status: getStatusFieldTextValue(contracts[i].status),
                     customerTitle:contracts[i].customerTitle, customerId: contracts[i].customerId,
                     contractNumber: getContractNumber(contracts[i].title)});
             }
@@ -91,7 +91,6 @@ NavContractsGrid = {
 
 
     createItemBlock: function(contract) {
-
         var bgColor = "#757575";
         var keyWord = "Недействителен";
         var message = (new Date() >= new Date(contract.dateFinal) && ((contract.status === "Исполнение") || (contract.status === "1")) )?
@@ -128,11 +127,18 @@ NavContractsGrid = {
                  "<td align='right' style='color: #00b956; padding-right: 6px'>"+formatStringDoubleToCurrency(contract.amount)+"&nbsp;₽</td>" +
             "</tr></table>" +
             "<table width='100%'><tr>" +
-                 "<td align='left'><small style='color: #0D47A1'>"+contract.customerTitle+"<small/></td>" +
+                 "<td align='left'>" +
+                 "<a href='#' class='smallLink' " +
+                    "data-filter='"+contract.customerTitle+"' " +
+                    "onclick='NavContractsGrid.filterLinkClick(this.dataset.filter)'>" +
+                    "<small style='color: #0D47A1;'>"+contract.customerTitle+"<small/></a></td>" +
                  "<td align='right'><small style='color: #2962FF; padding-right: 6px'>"+formatDateString(contract.date)+"<small/></td>"+
             "</tr>" +
             "<tr ><td>" +
-                "<a id ='statusButton' href='#' style='text-decoration: none' onclick='NavContractsGrid.statusButtonClick()'><small " +
+                "<a  href='#' style='text-decoration: none' " +
+                    "data-filter='"+keyWord+"' "+
+                    "onclick='NavContractsGrid.filterLinkClick(this.dataset.filter)'>"+
+                "<small " +
                     "style='color: white; " +
                     "font-family: RobotoLight; " +
                     "background-color:"+ bgColor+";"+
@@ -146,14 +152,23 @@ NavContractsGrid = {
     },
 
     setFilter: function (filter) {
-       NavContractsGrid.listGrid.filterData(filter);
-
+        var criterion = {
+            _constructor:"AdvancedCriteria",
+            operator:"or",
+            criteria:[
+                { fieldName:"customerTitle", operator:"iContains", value:filter.title },
+                { fieldName:"status", operator:"iContains", value:filter.title },
+                { fieldName:"contractNumber", operator:"iContains", value:filter.title },
+                { fieldName:"year", operator:"iContains", value:filter.title }
+            ]
+        };
+       NavContractsGrid.listGrid.filterData(criterion);
     },
 
-    statusButtonClick: function (record) {
-
-        // console.log(NavContractsGrid.listGrid.getFocusRow());
-
+    filterLinkClick: function (filter) {
+        $("#searchText").val(filter);
+        $("#navBarSearchTextClearButton").attr("style", "visibility:visible");
+        NavContractsGrid.listGrid.filterData({title:filter});
     },
 
     clearFilter: function () {
