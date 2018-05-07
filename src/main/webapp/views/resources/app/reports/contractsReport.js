@@ -40,47 +40,49 @@ ContractReport = {
             ]
         });
 
-        this.dataSource = DataSource.create({
-            fields: [
-                {name: "id",  primaryKey: true, hidden: true},
-                {name: "title", title:"Наименование", minWidth:150, align:"left", changed :this.fieldChanged},
-                {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
-                    formatCellValue: function (value) {
-                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                    },
-                    formatEditorValue: function (value) {
-                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                    }
+        this.fieldMap = [
+            {name: "id",  primaryKey: true, hidden: true},
+            {name: "title", title:"Наименование", minWidth:150, align:"left", changed :this.fieldChanged},
+            {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
+                formatCellValue: function (value) {
+                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                 },
-                {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged,
-                    formatCellValue: function (value) {
-                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                    },
-                    formatEditorValue: function (value) {
-                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                    }
-                },
-                {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-                {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-                {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
-                    valueMap: {
-                        0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
-                    }
-                },
-                {name: "status", title:"Состояние", align:"left", minWidth:100, changed :this.fieldChanged,
-                    valueMap: {
-                        0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
-                    }
-                },
-                {name: "datePayment", title:"Дата оплаты", type:"date", align:"left", changed :this.fieldChanged,
-                    formatCellValue: function (value) {
-                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                    },
-                    formatEditorValue: function (value) {
-                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                    }
+                formatEditorValue: function (value) {
+                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                 }
-            ],
+            },
+            {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged,
+                formatCellValue: function (value) {
+                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                },
+                formatEditorValue: function (value) {
+                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                }
+            },
+            {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+            {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+            {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
+                valueMap: {
+                    0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
+                }
+            },
+            {name: "status", title:"Состояние", align:"left", minWidth:100, changed :this.fieldChanged,
+                valueMap: {
+                    0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
+                }
+            },
+            {name: "datePayment", title:"Дата оплаты", type:"date", align:"left", changed :this.fieldChanged,
+                formatCellValue: function (value) {
+                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                },
+                formatEditorValue: function (value) {
+                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                }
+            }
+        ];
+
+        this.dataSource = DataSource.create({
+            fields:this.fieldMap,
             clientOnly: true
         });
 
@@ -94,20 +96,13 @@ ContractReport = {
             showHeaderMenuButton:false,
             showSortNumerals: false,
             showHeaderContextMenu: false,
+            showFilterEditor: true,
+            filterOnKeypress: true,
             canEdit:false,
             autoDraw: false,
             canAutoFitFields:false,
             baseStyle:"cell",
-            fields: [
-                {name: "title"},
-                {name: "date"},
-                {name: "dateFinal"},
-                {name: "amount"},
-                {name: "costs"},
-                {name: "type"},
-                {name: "status"},
-                {name: "datePayment"}
-            ],
+            fields: this.fieldMap,
             initialSort: [
                 {property: "date", direction: "descending"},
                 {property: "title", direction: "descending"}

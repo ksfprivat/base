@@ -42,7 +42,7 @@ public class ContactController {
       List<ContactNode> contactNodes = new ArrayList<ContactNode>();
 
       for (Contact contact: contacts) {
-         contactNodes.add(new ContactNode(contact.getId(), contact.getName()));
+         contactNodes.add(new ContactNode(contact.getId(), contact.getName(), contact.getFavorite()));
       }
 
       return contactNodes;

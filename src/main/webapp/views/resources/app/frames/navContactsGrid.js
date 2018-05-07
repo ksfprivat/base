@@ -53,7 +53,6 @@ NavContactsGrid =  {
             }
             NavContactsGrid.listGrid.setDataSource(dataSource);
             NavContactsGrid.listGrid.hideFields(["id", "name"]);
-            afterLoad();
         });
     },
 

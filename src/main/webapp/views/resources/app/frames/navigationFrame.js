@@ -95,6 +95,7 @@ function onNavTreeOpenFolder(node) {
                     // Add type property for each objects in array
                     contacts.forEach(function (contact) {
                         contact.type = "contact";
+                        if (contact.favorite === 1) contact.icon = imgDir+"/ic_contact_star.png";
                         contact.sortField = contact.title;
                         contact.customerId = node.parentId;
                     });

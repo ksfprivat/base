@@ -67,6 +67,7 @@ NavContractsGrid = {
                     contractNumber: getContractNumber(contracts[i].title)});
             }
             NavContractsGrid.listGrid.setDataSource(NavContractsGrid.dataSource);
+            afterLoad();
         });
     },
 

@@ -2,12 +2,14 @@ package ru.base.controllers.nodes;
 
 
 public class ContactNode {
-    int id;
-    String title;
+    private int id;
+    private String title;
+    private Integer favorite;
 
-    public ContactNode(int id, String title) {
+    public ContactNode(int id, String title, Integer favorite) {
         this.id = id;
         this.title = title;
+        this.favorite = favorite;
     }
 
     public int getId() {
@@ -25,4 +27,7 @@ public class ContactNode {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public Integer getFavorite() {return favorite;};
+    public void  setFavorite(Integer favorite) {this.favorite = favorite;}
 }
