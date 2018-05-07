@@ -70,6 +70,7 @@ ContactWindow = {
             autoSize: true,
             showHeader: false,
             showModalMask: true,
+            modalMaskOpacity:60,
             canDragReposition: false,
             items: [
                 this.header,

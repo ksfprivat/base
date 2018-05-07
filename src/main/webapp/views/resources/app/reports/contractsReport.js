@@ -43,6 +43,7 @@ ContractReport = {
         this.fieldMap = [
             {name: "id",  primaryKey: true, hidden: true},
             {name: "title", title:"Наименование", minWidth:150, align:"left", changed :this.fieldChanged},
+            {name: "customerTitle", title: "Организация", minWidth: 250, align:"left", changed: this.fieldChanged},
             {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
                 formatCellValue: function (value) {
                     return ((isDate(value)) || (value == null) ? value : formatDateString(value));
@@ -59,24 +60,24 @@ ContractReport = {
                     return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                 }
             },
-            {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-            {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-            {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
-                valueMap: {
-                    0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
-                }
-            },
-            {name: "status", title:"Состояние", align:"left", minWidth:100, changed :this.fieldChanged,
+            {name: "status", title:"Статус", align:"left", minWidth:100, changed :this.fieldChanged,
                 valueMap: {
                     0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
                 }
             },
-            {name: "datePayment", title:"Дата оплаты", type:"date", align:"left", changed :this.fieldChanged,
+            {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+            {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+            {name: "datePayment", title:"Дата оплаты", minWidth:90, type:"date", align:"left", changed :this.fieldChanged,
                 formatCellValue: function (value) {
                     return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                 },
                 formatEditorValue: function (value) {
                     return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                }
+            },
+            {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
+                valueMap: {
+                    0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
                 }
             }
         ];
@@ -98,9 +99,16 @@ ContractReport = {
             showHeaderContextMenu: false,
             showFilterEditor: true,
             filterOnKeypress: true,
+            filterEditorProperties: {
+                 // filterImg: imgDir+"/ic_star.png"
+                filterImg: null,
+                actionButtonProperties:{selected: false, visibility:"hidden"}
+
+                // baseStyle:"filterEditor"
+            },
             canEdit:false,
             autoDraw: false,
-            canAutoFitFields:false,
+            // canAutoFitFields:false,
             baseStyle:"cell",
             fields: this.fieldMap,
             initialSort: [
@@ -152,7 +160,12 @@ ContractReport = {
     },
 
     resizeLayout: function () {
-        (reportsFrame.navReports.isVisible()) ?
-            reportsFrame.navReports.hide() : reportsFrame.navReports.show();
+        if (reportsFrame.navReports.isVisible()) {
+            reportsFrame.navReports.hide();
+            ContractReport.btnResize.setIcon(imgDir+"/ic_resize_min.png");
+        } else {
+            reportsFrame.navReports.show();
+            ContractReport.btnResize.setIcon(imgDir+"/ic_resize_max.png");
+        }
     }
 };

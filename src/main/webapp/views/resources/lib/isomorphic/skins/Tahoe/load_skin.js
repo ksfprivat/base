@@ -514,9 +514,9 @@ with (theWindow) {
         isc.Window.changeDefaults("closeButtonDefaults", {
             showDown:false,
             showRollOver:true,
-            src:"[SKIN]/headerIcons/close.png",
+            src:"[SKIN]/headerIcons/ic_close.png",
             imageType:"stretch",
-            width:21, height:21,
+            width:20, height:20,
             margin:5
         });
 

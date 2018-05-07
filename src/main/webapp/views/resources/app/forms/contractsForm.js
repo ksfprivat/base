@@ -126,24 +126,24 @@ ContractsForm ={
                         return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                     }
                 },
-                {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-                {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-                {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
-                    valueMap: {
-                        0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
-                    }
-                },
                 {name: "status", title:"Состояние", align:"left", minWidth:100, changed :this.fieldChanged,
                     valueMap: {
                         0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
                     }
                 },
+                {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+                {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "datePayment", title:"Дата оплаты", type:"date", align:"left", changed :this.fieldChanged,
                     formatCellValue: function (value) {
                         return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                     },
                     formatEditorValue: function (value) {
                         return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    }
+                },
+                {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
+                    valueMap: {
+                        0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
                     }
                 }
             ],

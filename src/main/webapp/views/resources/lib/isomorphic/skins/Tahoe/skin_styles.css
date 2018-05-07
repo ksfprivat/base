@@ -2470,7 +2470,7 @@ into the listGrid filterEditor  */
 /* Window and Dialog*/
 .windowBackground,
 .dialogBackground {
-  border: 1px solid #dddddd;
+  /*border: 1px solid #dddddd;*/
   -moz-box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, 0.05);
   box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, 0.05);
@@ -2728,12 +2728,12 @@ ul {
 .filterOperatorIconDown {
   background-color: #157fcc;
   border-radius: 5px;
-  border: 2px solid #157fcc;
+  /*border: 2px solid #157fcc;*/
   padding: 5px 10px;
   outline: 0px;
   color: white;
   font-size: 11px;
-  font-family: corbel;
+  font-family: corbel; /*In Original RobotoLight*/
 }
 
 /* CSS3 Mode */
@@ -4884,12 +4884,12 @@ select[disabled] option {
 .textAreaItemLiteDisabledHint,
 .textAreaItemLiteDisabledHintRTL {
   color: #282828;
-  font-size: 14px;
+  font-size: 12px;
   padding: 2px 9px;
   outline: none;
   text-decoration: none;
   text-align: left;
-  font-family: RobotoLight;
+  font-family: Calibri;
   border-radius: 0px;
 }
 
@@ -6739,7 +6739,7 @@ select[disabled] option {
 .filterOperatorIconSelectedFocusedOver {
   font-family: RobotoLight;
   font-size: 9px;
-  line-height: 14px;
+  line-height: 14px;*/
   text-align: center;
   padding: 0px;
   margin: 0px;
