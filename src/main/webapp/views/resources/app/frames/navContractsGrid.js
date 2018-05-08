@@ -82,6 +82,7 @@ NavContractsGrid = {
             navTree.scrollToRow(navTree.getFocusRow());
 
             navTreeCurrentCustomerId = record.customerId;
+
         }
         ContractsForm.setCurrentRecord(ContractsForm.getRecordById(record.id));
     },

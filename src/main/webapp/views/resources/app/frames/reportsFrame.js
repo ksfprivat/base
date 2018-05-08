@@ -11,7 +11,10 @@ ReportsFrame = {
                       {id: 0.1, title:"Отчет по контрактам"},
                       {id: 0.2, title:"Отчет по платежам"}
                      ]
-                }
+                },
+                {id: 0, title:"Объекты", isFolder: true
+
+                 }
             ]}];
 
         this.navTree = TreeGrid.create({
@@ -25,7 +28,7 @@ ReportsFrame = {
             autoDraw: false,
             border:0,
             folderIcon: imgDir+"/ic_folder.png",
-            nodeIcon: imgDir+"/ic_contract.png",
+            nodeIcon: imgDir+"/ic_table.png",
             showOpenIcons:false,
             showDropIcons:false,
             closedIconSuffix:"",
@@ -40,7 +43,7 @@ ReportsFrame = {
         });
 
         this.navReports = VLayout.create({
-            width: 300, height: "100%",
+            width: 280, height: "100%",
             showResizeBar: true,
             members:[this.navTree]
         });

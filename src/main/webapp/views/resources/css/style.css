@@ -577,3 +577,21 @@ div.dummy {
 {
     font-size: 9px;
 }
+
+.greenAlertBox{
+    border-radius:3px;
+    color: white;
+    background-color: #47cc8a;
+}
+
+.orangeAlertBox{
+     border-radius:3px;
+     color: white;
+     background-color: #FF8F00;
+ }
+
+.redAlertBox{
+    border-radius:3px;
+    color: white;
+    background-color: #d93651;
+}

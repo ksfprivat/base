@@ -45,33 +45,40 @@ ContractReport = {
             {name: "title", title:"Наименование", minWidth:150, align:"left", changed :this.fieldChanged},
             {name: "customerTitle", title: "Организация", minWidth: 250, align:"left", changed: this.fieldChanged},
             {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
-                formatCellValue: function (value) {
-                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                },
-                formatEditorValue: function (value) {
+                formatCellValue: function (value, record) {
                     return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                 }
             },
             {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged,
                 formatCellValue: function (value) {
-                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                },
-                formatEditorValue: function (value) {
-                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    //return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+
+                    if ((isDate(value)) || (value == null)) {
+                        if ((new Date() > new Date(value)) && getStatusFieldTextValue(record.status === "Исполнение"))
+                            return "<div class='redAlertBox'>"+formatDateString(value)+"</div>";
+                        else  formatDateString(value);
+                    }
                 }
             },
             {name: "status", title:"Статус", align:"left", minWidth:100, changed :this.fieldChanged,
                 valueMap: {
                     0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
+                },
+                formatCellValue: function(value) {
+                    switch (getStatusFieldTextValue(value)) {
+                        case "Исполнение":
+                            return "<div style='border-radius:3px; color: white; background-color: #47cc8a;'>&nbsp;Исполнение&nbsp;</div>";
+                        case "Подписание":
+                            return "<div style='border-radius: 3px; color: white; background-color: #FF8F00;'>&nbsp;Подписание&nbsp;</div>";
+                        default:
+                            return value;
+                    }
                 }
             },
             {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
             {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
             {name: "datePayment", title:"Дата оплаты", minWidth:90, type:"date", align:"left", changed :this.fieldChanged,
                 formatCellValue: function (value) {
-                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                },
-                formatEditorValue: function (value) {
                     return ((isDate(value)) || (value == null) ? value : formatDateString(value));
                 }
             },
@@ -100,15 +107,12 @@ ContractReport = {
             showFilterEditor: true,
             filterOnKeypress: true,
             filterEditorProperties: {
-                 // filterImg: imgDir+"/ic_star.png"
                 filterImg: null,
                 actionButtonProperties:{selected: false, visibility:"hidden"}
-
-                // baseStyle:"filterEditor"
             },
             canEdit:false,
             autoDraw: false,
-            // canAutoFitFields:false,
+            canAutoFitFields:true,
             baseStyle:"cell",
             fields: this.fieldMap,
             initialSort: [
@@ -116,20 +120,20 @@ ContractReport = {
                 {property: "title", direction: "descending"}
             ],
 
-            rowClick: this.rowClick,
+            rowClick: this.rowClick
 
-            getBaseStyle:function (record, rowNum, colNum) {
-                if (typeof record === "undefined") return this.baseStyle;
-                if ((record.status === "Исполнение") || (record.status === "1"))  {
-                    if ((new Date()) > (new Date(record.dateFinal)))
-                        return "cellRed";
-                    else return "cellGreen"
-                }
-                else
-                if (record.status === "0") return "cellAmber";
-                else
-                    return this.baseStyle;
-            }
+            // getBaseStyle:function (record, rowNum, colNum) {
+            //     if (typeof record === "undefined") return this.baseStyle;
+            //     if ((record.status === "Исполнение") || (record.status === "1"))  {
+            //         if ((new Date()) > (new Date(record.dateFinal)))
+            //             return "cellRed";
+            //         else return "cellGreen"
+            //     }
+            //     else
+            //     if (record.status === "0") return "cellAmber";
+            //     else
+            //         return this.baseStyle;
+            // }
         });
 
         this.content = VLayout.create({

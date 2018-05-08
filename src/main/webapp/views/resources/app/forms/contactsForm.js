@@ -304,12 +304,12 @@ ContactsForm ={
     },
 
     getRecordById: function (id) {
-        // var records = ContactsForm.contactsGrid.data;
-        // for (var i = 0; i < records.length; i++) {
-        //     if (records[i].id === id) return records[i];
-        // }
-        // return false;
-        return $.grep(ContactsForm.contactsGrid.data, function(item) { return item.id === id })[0];
+        var records = ContactsForm.contactsGrid.data;
+        for (var i = 0; i < records.length; i++) {
+            if (records[i].id === id) return records[i];
+        }
+        return false;
+        // return $.grep(ContactsForm.contactsGrid.data, function(item) { return item.id === id })[0];
     },
 
     setCurrentRecord: function(record) {
