@@ -46,18 +46,16 @@ ContractReport = {
             {name: "customerTitle", title: "Организация", minWidth: 250, align:"left", changed: this.fieldChanged},
             {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
                 formatCellValue: function (value, record) {
-                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                return (new Date(value));
+                // return ((isDate(value)) || (value == null) ? value :new Date(value));
+                    //formatDateString(value));
                 }
             },
             {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged,
-                formatCellValue: function (value) {
-                    //return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-
-                    if ((isDate(value)) || (value == null)) {
-                        if ((new Date() > new Date(value)) && getStatusFieldTextValue(record.status === "Исполнение"))
-                            return "<div class='redAlertBox'>"+formatDateString(value)+"</div>";
-                        else  formatDateString(value);
-                    }
+                formatCellValue: function (value, record) {
+                    if ((new Date() > new Date(value)) && (getStatusFieldTextValue(record.status)=== "Исполнение"))
+                        return "<div class='redAlertBox'>&nbsp;"+formatDateString(value)+"&nbsp;</div>";
+                    else return (new Date(value));
                 }
             },
             {name: "status", title:"Статус", align:"left", minWidth:100, changed :this.fieldChanged,
@@ -67,13 +65,13 @@ ContractReport = {
                 formatCellValue: function(value) {
                     switch (getStatusFieldTextValue(value)) {
                         case "Исполнение":
-                            return "<div style='border-radius:3px; color: white; background-color: #47cc8a;'>&nbsp;Исполнение&nbsp;</div>";
+                            return  "<div class='greenAlertBox'>&nbsp;Исполнение&nbsp;</div>";
                         case "Подписание":
-                            return "<div style='border-radius: 3px; color: white; background-color: #FF8F00;'>&nbsp;Подписание&nbsp;</div>";
+                            return "<div class='orangeAlertBox'>&nbsp;Подписание&nbsp;</div>";
                         default:
-                            return value;
+                            return getStatusFieldTextValue(value);
+                        }
                     }
-                }
             },
             {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
             {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},

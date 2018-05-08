@@ -62,12 +62,13 @@ function getStatusFieldTextValue(value) {
             case "Выполнен":
             case "Выполнено":
             case "2":
-                result = "Подписание";
+                result = "Выполнен";
                 break;
             case "Не действителен":
             case "3":
-                result = "Не действителен";
+                result = "Недействителен";
                 break;
+            default: result = "Недействителен";
         }
         return result;
 }

@@ -582,16 +582,34 @@ div.dummy {
     border-radius:3px;
     color: white;
     background-color: #47cc8a;
+    text-align: center;
 }
 
 .orangeAlertBox{
      border-radius:3px;
      color: white;
      background-color: #FF8F00;
+     text-align: center;
  }
 
 .redAlertBox{
     border-radius:3px;
     color: white;
     background-color: #d93651;
+    text-align: center;
+}
+
+.blueAlertBox{
+    border-radius:3px;
+    color: white;
+    background-color: #0288D1;
+    text-align: center;
+}
+
+
+.grayAlertBox{
+    border-radius:3px;
+    color: white;
+    background-color: #757575;
+    text-align: center;
 }
