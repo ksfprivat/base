@@ -24,6 +24,32 @@ ContractReport = {
         this.btnMenu = createButton(null, "ic_menu.png", "visible",24, null);
         this.btnResize = createButton(null, "ic_resize_max.png", "visible",24, ContractReport.resizeLayout);
 
+        this.btnRefresh = createButton("Обновить", "ic_report_refresh.png", "visible",24, null);
+        this.btnFilterRemove = createButton("Сбросить", "ic_report_filter_remove.png", "visible",24, null);
+        this.btnGroup = createButton("Группировать", "ic_report_group.png", "visible",24, null);
+        this.btnReportEdit = createButton("Изменить", "ic_report_edit.png", "visible",24, null);
+        this.btnReportDelete= createButton("Удалить", "ic_report_delete.png", "visible",24, null);
+        this.btnTotal = createButton("Итоги", "ic_report_sigma.png", "visible",24, null);
+        this.btnExport = createButton("Экспорт", "ic_report_export_excel.png", "visible",24, null);
+
+
+
+
+        this.toolBar = HLayout.create({
+            width: "100%",
+            margin:6,
+            height: 32,
+            members:[
+                this.btnRefresh,
+                this.btnFilterRemove,
+                this.btnGroup,
+                this.btnReportEdit,
+                this.btnReportDelete,
+                this.btnTotal,
+                this.btnExport
+        ]});
+
+
         this.spacer = VLayout.create({width:"6"});
 
         this.header = HLayout.create({
@@ -44,24 +70,20 @@ ContractReport = {
             {name: "id",  primaryKey: true, hidden: true},
             {name: "title", title:"Наименование", minWidth:150, align:"left", changed :this.fieldChanged},
             {name: "customerTitle", title: "Организация", minWidth: 250, align:"left", changed: this.fieldChanged},
-            {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
-                formatCellValue: function (value, record) {
-                return (new Date(value));
-                // return ((isDate(value)) || (value == null) ? value :new Date(value));
-                    //formatDateString(value));
-                }
-            },
+            {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged},
+
             {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged,
                 formatCellValue: function (value, record) {
-                    if ((new Date() > new Date(value)) && (getStatusFieldTextValue(record.status)=== "Исполнение"))
-                        return "<div class='redAlertBox'>&nbsp;"+formatDateString(value)+"&nbsp;</div>";
-                    else return (new Date(value));
+                    if ((new Date() >= value) && (getStatusFieldTextValue(record.status)=== "Исполнение"))
+                        return "<div class='redAlertBox'>&nbsp;"+formatDateString(dateToDateString(value))+"&nbsp;</div>";
+                    else return value;
+                    // return value;
                 }
             },
             {name: "status", title:"Статус", align:"left", minWidth:100, changed :this.fieldChanged,
-                valueMap: {
-                    0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
-                },
+                valueMap: [
+                    "Подписание", "Исполнение", "Выполнен", "Не действителен"
+                ],
                 formatCellValue: function(value) {
                     switch (getStatusFieldTextValue(value)) {
                         case "Исполнение":
@@ -75,11 +97,7 @@ ContractReport = {
             },
             {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
             {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-            {name: "datePayment", title:"Дата оплаты", minWidth:90, type:"date", align:"left", changed :this.fieldChanged,
-                formatCellValue: function (value) {
-                    return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-                }
-            },
+            {name: "datePayment", title:"Дата оплаты", minWidth:90, type:"date", align:"left", changed :this.fieldChanged },
             {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
                 valueMap: {
                     0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
@@ -91,6 +109,7 @@ ContractReport = {
             fields:this.fieldMap,
             clientOnly: true
         });
+
 
         this.listGrid = ListGrid.create({
             width: "100%",
@@ -108,7 +127,14 @@ ContractReport = {
                 filterImg: null,
                 actionButtonProperties:{selected: false, visibility:"hidden"}
             },
+
+            filterEditorSubmit: function (criteria) {
+                console.log(criteria);
+                this.filterData(this.getFilterEditorCriteria(),
+                    null, {textMatchStyle:this.autoFetchTextMatchStyle});
+            },
             canEdit:false,
+            dataFetchMode: "local",
             autoDraw: false,
             canAutoFitFields:true,
             baseStyle:"cell",
@@ -117,22 +143,13 @@ ContractReport = {
                 {property: "date", direction: "descending"},
                 {property: "title", direction: "descending"}
             ],
-
-            rowClick: this.rowClick
-
-            // getBaseStyle:function (record, rowNum, colNum) {
-            //     if (typeof record === "undefined") return this.baseStyle;
-            //     if ((record.status === "Исполнение") || (record.status === "1"))  {
-            //         if ((new Date()) > (new Date(record.dateFinal)))
-            //             return "cellRed";
-            //         else return "cellGreen"
-            //     }
-            //     else
-            //     if (record.status === "0") return "cellAmber";
-            //     else
-            //         return this.baseStyle;
-            // }
+            rowClick: this.rowClick,
+            // groupStartOpen:"all",
+            // groupByField: 'date',
+            // groupByMaxRecords: "10000",
+            // autoFetchData: true
         });
+
 
         this.content = VLayout.create({
             width: "100%",
@@ -140,7 +157,10 @@ ContractReport = {
             autoDraw: false,
             styleName: "cardBox",
             members: [
-             this.header, this.listGrid
+             this.header,
+             this.toolBar,
+             this.listGrid,
+             Button.create({title:"Test", click:ContractReport.resetFilter})
             ]
         });
 
@@ -151,6 +171,12 @@ ContractReport = {
 
     init: function () {
        getAllContracts(function (contracts) {
+           contracts.forEach(function (contract) {
+               contract.date = (contract.date !== null)? new Date(contract.date): contract.date;
+               contract.dateFinal = (contract.dateFinal !== null)? new Date(contract.dateFinal): contract.dateFinal;
+               contract.datePayment = (contract.datePayment !== null)? new Date(contract.datePayment): contract.datePayment;
+               contract.status = getStatusFieldTextValue(contract.status);
+           });
            ContractReport.dataSource.setCacheData(contracts);
            ContractReport.listGrid.setDataSource(ContractReport.dataSource);
            ContractReport.listGrid.filterData(null);
@@ -158,7 +184,7 @@ ContractReport = {
     },
 
     rowClick: function (record) {
-        console.log(record)
+        console.log(record);
     },
 
     resizeLayout: function () {
@@ -169,5 +195,20 @@ ContractReport = {
             reportsFrame.navReports.show();
             ContractReport.btnResize.setIcon(imgDir+"/ic_resize_max.png");
         }
+    },
+
+    resetFilter: function () {
+        var greater = new Date("2018.01.01");
+        var less = new Date("2018.05.30");
+        console.log(greater+"\n"+less);
+        var criterion = {
+            _constructor:"AdvancedCriteria",
+            operator:"and",
+            criteria:[
+                { fieldName:"date", operator:"greaterOrEqual", value:greater },
+                { fieldName:"date", operator:"lessOrEqual", value: less }
+            ]
+        };
+        ContractReport.listGrid.filterData(criterion);
     }
 };
