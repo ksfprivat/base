@@ -120,8 +120,8 @@ ContractReport = {
                     }
             },
             {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-            {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-            {name: "datePayment", title:"Дата оплаты", minWidth:90, type:"date", align:"left", changed :this.fieldChanged },
+            {name: "costs", title:"Затраты", type:"float",  format: ",0.00;",align:"left", changed :this.fieldChanged},
+            {name: "datePayment", title:"Дата оплаты",minWidth:90, type:"date", align:"left", changed :this.fieldChanged },
             {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
                 valueMap: {
                     0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
@@ -133,6 +133,21 @@ ContractReport = {
             fields:this.fieldMap,
             clientOnly: true
         });
+
+
+        // this.filterEditor = ListGrid.create({
+        //     width: "100%",
+        //     padding: 0,
+        //     margin: 0,
+        //     border: 0,
+        //     alwaysShowEditors:true,
+        //     canAutoFitFields:true,
+        //     showHeader: false,
+        //     fields: this.fieldMap,
+        //     data:[
+        //         {id:0, title:"", customerTitle:"", date:null, dateFinal:null, datePayment:null, amount:"", status:"", type:"", costs:""}
+        //     ]
+        // });
 
 
         this.listGrid = ListGrid.create({
@@ -151,7 +166,6 @@ ContractReport = {
                 filterImg: null,
                 actionButtonProperties:{selected: false, visibility:"hidden"}
             },
-
             filterEditorSubmit: function (criteria) {
                 console.log(criteria);
                 this.filterData(this.getFilterEditorCriteria(),
@@ -162,7 +176,16 @@ ContractReport = {
             autoDraw: false,
             canAutoFitFields:true,
             baseStyle:"cell",
+            gridComponents:[ "header",
+                // this.filterEditor,
+                "filterEditor",
+                "body"],
             fields: this.fieldMap,
+            // scrolled: function () {
+            //   console.log("scroll:"+this.getScrollWidth());
+            //   ContractReport.filterEditor.scrollTo(this.getScrollRight());
+            //
+            // },
             initialSort: [
                 {property: "date", direction: "descending"},
                 {property: "title", direction: "descending"}
@@ -174,7 +197,6 @@ ContractReport = {
             // autoFetchData: true
         });
 
-
         this.content = VLayout.create({
             width: "100%",
             height: "100%",
@@ -183,6 +205,7 @@ ContractReport = {
             members: [
              this.header,
              this.toolBar,
+             this.filterEditor,
              this.listGrid,
              Button.create({title:"Test", click:ContractReport.resetFilter})
             ]
