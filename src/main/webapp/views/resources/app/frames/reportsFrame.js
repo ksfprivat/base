@@ -9,7 +9,6 @@ ReportsFrame = {
                 {id: 0, title:"Контракты", isFolder: true,
                     children:[
                       {id: 0.1, title:"Отчет по контрактам"},
-                      {id: 0.2, title:"Отчет по платежам"}
                      ]
                 },
                 {id: 0, title:"Объекты", isFolder: true
@@ -28,7 +27,7 @@ ReportsFrame = {
             autoDraw: false,
             border:0,
             folderIcon: imgDir+"/ic_folder.png",
-            nodeIcon: imgDir+"/ic_table.png",
+            nodeIcon: imgDir+"/ic_contract.png",
             showOpenIcons:false,
             showDropIcons:false,
             closedIconSuffix:"",

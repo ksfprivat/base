@@ -6,45 +6,62 @@ ContractReport = {
             return (
                 IButton.create({
                     layoutAlign:"center",
-                    iconAlign:"left",
-                    align:"left",
+                    iconAlign:"center",
+                    align:"center",
                     iconSize: 24,
                     width: size,
-                    height: 24,
+                    height: 48,
                     visibility: visible,
                     showDownIcon: false,
-                    title:title,
+                    title:"<br>"+title,
                     icon: imgDir+"/"+icon,
                     showFocused: false,
-                    baseStyle:"cardBoxToolButton",
+                    baseStyle:"reportToolButton",
                     click: event
-                }));
+                })
+            );
+        }
+
+        function createToolButton(title, icon, event) {
+           return (
+               HTMLFlow.create({
+                   width:100,
+                   contents: "<div align='center' class='reportToolButton'>"
+                   +"<img src="+imgDir+"/"+icon+"><br>"+title+
+                   "</div>"
+               })
+           );
         }
 
         this.btnMenu = createButton(null, "ic_menu.png", "visible",24, null);
         this.btnResize = createButton(null, "ic_resize_max.png", "visible",24, ContractReport.resizeLayout);
 
-        this.btnRefresh = createButton("Обновить", "ic_report_refresh.png", "visible",24, null);
-        this.btnFilterRemove = createButton("Сбросить", "ic_report_filter_remove.png", "visible",24, null);
-        this.btnGroup = createButton("Группировать", "ic_report_group.png", "visible",24, null);
-        this.btnReportEdit = createButton("Изменить", "ic_report_edit.png", "visible",24, null);
-        this.btnReportDelete= createButton("Удалить", "ic_report_delete.png", "visible",24, null);
-        this.btnTotal = createButton("Итоги", "ic_report_sigma.png", "visible",24, null);
-        this.btnExport = createButton("Экспорт", "ic_report_export_excel.png", "visible",24, null);
+
+        this.separator = HTMLFlow.create({width:1, backgroundColor: "#757575", contents:"<div>&nbsp;</div>"});
+        this.btnRefresh = createToolButton("Обновить", "ic_report_refresh.png", "visible",130, null);
+        this.btnFilterRemove = createToolButton("Сбросить", "ic_report_filter_remove.png", "visible",130, null);
+        this.btnGroup = createToolButton("Группировать", "ic_report_group.png", "visible",130, null);
+        this.btnReportEdit = createToolButton("Изменить", "ic_report_edit.png", "visible",130, null);
+        this.btnReportDelete= createToolButton("Удалить", "ic_report_delete.png", "visible",130, null);
+        this.btnTotal = createToolButton("Итоги", "ic_report_sigma.png", "visible",130, null);
+        this.btnExport = createToolButton("Экспорт", "ic_report_export_excel.png", "visible",130, null);
 
 
 
 
         this.toolBar = HLayout.create({
             width: "100%",
-            margin:6,
+            align:"left",
+            layoutLeftMargin: 6,
             height: 32,
             members:[
                 this.btnRefresh,
                 this.btnFilterRemove,
                 this.btnGroup,
+                this.separator,
                 this.btnReportEdit,
                 this.btnReportDelete,
+                this.separator,
                 this.btnTotal,
                 this.btnExport
         ]});
@@ -143,7 +160,7 @@ ContractReport = {
                 {property: "date", direction: "descending"},
                 {property: "title", direction: "descending"}
             ],
-            rowClick: this.rowClick,
+            rowClick: this.rowClick
             // groupStartOpen:"all",
             // groupByField: 'date',
             // groupByMaxRecords: "10000",

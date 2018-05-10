@@ -220,6 +220,30 @@ div.dummy {
     color: #2962ff;
 }
 
+
+.reportToolButton {
+    display: table-cell;
+    color: #757575;
+    height: 66px;
+    width: 100px;
+    background-color: white;
+    cursor: pointer;
+    padding: 3px;
+    vertical-align: middle;
+}
+
+.reportToolButton:hover {
+    color:  #757575;
+    background-color: #EEEEEE;
+    border-radius: 3px;
+}
+
+.reportToolButton:active {
+    color:  #757575;
+    background-color: white;
+    border-radius: 3px;
+}
+
 .browserArea {
     background-color: #EEEEEE;
     display: block;
