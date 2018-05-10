@@ -184,6 +184,14 @@ div.dummy {
     background-color: #E0E0E0;
 }
 
+.headerLine {
+    height: 1px;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+    background-color: #E0E0E0;
+}
+
 .cardBoxHeaderButton {
     display: block;
     margin: auto;
@@ -220,12 +228,11 @@ div.dummy {
     color: #2962ff;
 }
 
-
 .reportToolButton {
     display: table-cell;
     color: #757575;
-    height: 66px;
-    width: 100px;
+    height: 60px;
+    width:100px;
     background-color: white;
     cursor: pointer;
     padding: 3px;

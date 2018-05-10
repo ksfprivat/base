@@ -10,44 +10,49 @@ ContractReport = {
                     align:"center",
                     iconSize: 24,
                     width: size,
-                    height: 48,
-                    visibility: visible,
+                    height: 24,
+                    visibility: "visible",
                     showDownIcon: false,
-                    title:"<br>"+title,
+                    title:title,
                     icon: imgDir+"/"+icon,
                     showFocused: false,
-                    baseStyle:"reportToolButton",
+                    baseStyle:"cardBoxToolButton",
                     click: event
                 })
             );
         }
 
-        function createToolButton(title, icon, event) {
+        function createToolButton(title, icon, visibility, event, menu) {
            return (
                HTMLFlow.create({
                    width:100,
-                   contents: "<div align='center' class='reportToolButton'>"
-                   +"<img src="+imgDir+"/"+icon+"><br>"+title+
+                   visibility: visibility,
+                   click: function () {
+                     console.log(title)
+                   },
+                   contents:
+                   "<div align='center' class='reportToolButton'>"
+                           +"<img src="+imgDir+"/"+icon+"><br>"+title+
+                           ((typeof menu !== "undefined") ? "&#9662;":"&nbsp;")+
                    "</div>"
                })
            );
         }
 
+        function separator() {
+            return (VLayout.create({width:1, height: 60, margin:3, backgroundColor:"#e0e0e0"}));
+        }
+
         this.btnMenu = createButton(null, "ic_menu.png", "visible",24, null);
         this.btnResize = createButton(null, "ic_resize_max.png", "visible",24, ContractReport.resizeLayout);
 
-
-        this.separator = HTMLFlow.create({width:1, backgroundColor: "#757575", contents:"<div>&nbsp;</div>"});
-        this.btnRefresh = createToolButton("Обновить", "ic_report_refresh.png", "visible",130, null);
-        this.btnFilterRemove = createToolButton("Сбросить", "ic_report_filter_remove.png", "visible",130, null);
-        this.btnGroup = createToolButton("Группировать", "ic_report_group.png", "visible",130, null);
-        this.btnReportEdit = createToolButton("Изменить", "ic_report_edit.png", "visible",130, null);
-        this.btnReportDelete= createToolButton("Удалить", "ic_report_delete.png", "visible",130, null);
-        this.btnTotal = createToolButton("Итоги", "ic_report_sigma.png", "visible",130, null);
-        this.btnExport = createToolButton("Экспорт", "ic_report_export_excel.png", "visible",130, null);
-
-
-
+        this.btnRefresh = createToolButton("Обновить", "ic_report_refresh.png", "visible", null);
+        this.btnFilterRemove = createToolButton("Сбросить", "ic_report_filter_remove.png", "visible", null);
+        this.btnGroup = createToolButton("Группировать", "ic_report_group.png", "visible", null, true);
+        this.btnReportEdit = createToolButton("Изменить", "ic_report_edit.png", "visible", null);
+        this.btnReportDelete= createToolButton("Удалить", "ic_report_delete.png", "visible", null);
+        this.btnTotal = createToolButton("Итоги", "ic_report_sigma.png", "visible", null);
+        this.btnExport = createToolButton("Экспорт", "ic_report_export_excel.png", "visible", null);
 
         this.toolBar = HLayout.create({
             width: "100%",
@@ -58,20 +63,22 @@ ContractReport = {
                 this.btnRefresh,
                 this.btnFilterRemove,
                 this.btnGroup,
-                this.separator,
+                separator(),
                 this.btnReportEdit,
                 this.btnReportDelete,
-                this.separator,
+                separator(),
                 this.btnTotal,
                 this.btnExport
         ]});
 
-
-        this.spacer = VLayout.create({width:"6"});
+        this.spacer = VLayout.create({width:"6", margin:2});
 
         this.header = HLayout.create({
             width:"100%",
-            padding:10,
+            // padding:10,
+            layoutLeftMargin:10,
+            layoutTopMargin:10,
+            layoutRightMargin:10,
             members: [
                 HTMLFlow.create({
                     width:"100%",
