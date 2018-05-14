@@ -1,7 +1,7 @@
 ContractReport = {
 
     create: function () {
-
+        this.currentFilter = null;
         function createButton(title, icon, visible, size, event){
             return (
                 IButton.create({
@@ -27,9 +27,8 @@ ContractReport = {
                HTMLFlow.create({
                    width:100,
                    visibility: visibility,
-                   click: function () {
-                     console.log(title)
-                   },
+                   click: event,
+                   contextMenu: (typeof menu !== "undefined") ? menu : null,
                    contents:
                    "<div align='center' class='reportToolButton'>"
                            +"<img src="+imgDir+"/"+icon+"><br>"+title+
@@ -43,16 +42,41 @@ ContractReport = {
             return (VLayout.create({width:1, height: 60, margin:3, backgroundColor:"#e0e0e0"}));
         }
 
+
+        this.groupMenu  = isc.Menu.create({
+            autoDraw: false,
+            showShadow: true,
+            imageSize:24,
+            shadowDepth: 10,
+            valueIconSize:24,
+            checkmarkImage: imgDir+"/ic_commit.png",
+            data: [
+                {id: "reset", title: "Сбросить", click:ContractReport.groupData},
+                {id: "customerTitle",title: "по Организации", click:ContractReport.groupData},
+                {id: "date",title: "по Дате", click:ContractReport.groupData},
+                {id: "dateFinal",title: "по Дате окончания", click:ContractReport.groupData},
+                {id: "status",title: "по Статусу", click:ContractReport.groupData},
+                {id: "type",title: "по Типу", click:ContractReport.groupData}
+            ]
+        });
+
         this.btnMenu = createButton(null, "ic_menu.png", "visible",24, null);
         this.btnResize = createButton(null, "ic_resize_max.png", "visible",24, ContractReport.resizeLayout);
 
-        this.btnRefresh = createToolButton("Обновить", "ic_report_refresh.png", "visible", null);
-        this.btnFilterRemove = createToolButton("Сбросить", "ic_report_filter_remove.png", "visible", null);
-        this.btnGroup = createToolButton("Группировать", "ic_report_group.png", "visible", null, true);
+        this.btnRefresh = createToolButton("Обновить", "ic_report_refresh.png", "visible", function () {
+            ContractReport.init();
+        });
+        this.btnFilterRemove = createToolButton("Сбросить", "ic_report_filter_remove.png", "visible", function () {
+            ContractReport.listGrid.clearCriteria();
+        });
+        this.btnGroup = createToolButton("Группировать", "ic_report_group.png", "visible", function () {
+           ContractReport.btnGroup.showContextMenu();
+        }, ContractReport.groupMenu);
         this.btnReportEdit = createToolButton("Изменить", "ic_report_edit.png", "visible", null);
         this.btnReportDelete= createToolButton("Удалить", "ic_report_delete.png", "visible", null);
         this.btnTotal = createToolButton("Итоги", "ic_report_sigma.png", "visible", null);
         this.btnExport = createToolButton("Экспорт", "ic_report_export_excel.png", "visible", null);
+
 
         this.toolBar = HLayout.create({
             width: "100%",
@@ -75,7 +99,6 @@ ContractReport = {
 
         this.header = HLayout.create({
             width:"100%",
-            // padding:10,
             layoutLeftMargin:10,
             layoutTopMargin:10,
             layoutRightMargin:10,
@@ -92,19 +115,18 @@ ContractReport = {
 
         this.fieldMap = [
             {name: "id",  primaryKey: true, hidden: true},
-            {name: "title", title:"Наименование", minWidth:150, align:"left", changed :this.fieldChanged},
-            {name: "customerTitle", title: "Организация", minWidth: 250, align:"left", changed: this.fieldChanged},
-            {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged},
+            {name: "title", title:"Наименование", minWidth:150, align:"left"},
+            {name: "customerTitle", title: "Организация", minWidth: 250, align:"left"},
+            {name: "date", title:"Дата", type:"date", align:"left"},
 
-            {name: "dateFinal", title:"Окончание", type:"date", align:"left", changed :this.fieldChanged,
+            {name: "dateFinal", title:"Окончание", type:"date", align:"left",
                 formatCellValue: function (value, record) {
                     if ((new Date() >= value) && (getStatusFieldTextValue(record.status)=== "Исполнение"))
                         return "<div class='redAlertBox'>&nbsp;"+formatDateString(dateToDateString(value))+"&nbsp;</div>";
                     else return value;
-                    // return value;
                 }
             },
-            {name: "status", title:"Статус", align:"left", minWidth:100, changed :this.fieldChanged,
+            {name: "status", title:"Статус", align:"left", minWidth:100,
                 valueMap: [
                     "Подписание", "Исполнение", "Выполнен", "Не действителен"
                 ],
@@ -119,10 +141,10 @@ ContractReport = {
                         }
                     }
             },
-            {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-            {name: "costs", title:"Затраты", type:"float",  format: ",0.00;",align:"left", changed :this.fieldChanged},
-            {name: "datePayment", title:"Дата оплаты",minWidth:90, type:"date", align:"left", changed :this.fieldChanged },
-            {name: "type", title:"Тип", align:"left", minWidth:100,changed :this.fieldChanged,
+            {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left"},
+            {name: "costs", title:"Затраты", type:"float",   minWidth:100, format: ",0.00;",align:"left"},
+            {name: "datePayment", title:"Дата оплаты",minWidth:90, type:"date", align:"left" },
+            {name: "type", title:"Тип", align:"left", minWidth:100,
                 valueMap: {
                     0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
                 }
@@ -133,21 +155,6 @@ ContractReport = {
             fields:this.fieldMap,
             clientOnly: true
         });
-
-
-        // this.filterEditor = ListGrid.create({
-        //     width: "100%",
-        //     padding: 0,
-        //     margin: 0,
-        //     border: 0,
-        //     alwaysShowEditors:true,
-        //     canAutoFitFields:true,
-        //     showHeader: false,
-        //     fields: this.fieldMap,
-        //     data:[
-        //         {id:0, title:"", customerTitle:"", date:null, dateFinal:null, datePayment:null, amount:"", status:"", type:"", costs:""}
-        //     ]
-        // });
 
 
         this.listGrid = ListGrid.create({
@@ -167,34 +174,27 @@ ContractReport = {
                 actionButtonProperties:{selected: false, visibility:"hidden"}
             },
             filterEditorSubmit: function (criteria) {
-                console.log(criteria);
-                this.filterData(this.getFilterEditorCriteria(),
-                    null, {textMatchStyle:this.autoFetchTextMatchStyle});
+                // console.log(criteria);
+                if (criteria !== null)
+                    if (criteria._constructor === "AdvancedCriteria") {
+                        this.setCriteria(criteria);
+                        return false;
+                    } else ContractReport.currentFilter = criteria;
             },
             canEdit:false,
             dataFetchMode: "local",
             autoDraw: false,
-            canAutoFitFields:true,
             baseStyle:"cell",
-            gridComponents:[ "header",
-                // this.filterEditor,
-                "filterEditor",
-                "body"],
+            gridComponents:[ "header", "filterEditor", "body"],
             fields: this.fieldMap,
-            // scrolled: function () {
-            //   console.log("scroll:"+this.getScrollWidth());
-            //   ContractReport.filterEditor.scrollTo(this.getScrollRight());
-            //
-            // },
             initialSort: [
                 {property: "date", direction: "descending"},
                 {property: "title", direction: "descending"}
             ],
-            rowClick: this.rowClick
-            // groupStartOpen:"all",
-            // groupByField: 'date',
-            // groupByMaxRecords: "10000",
-            // autoFetchData: true
+            rowClick: this.rowClick,
+            groupStartOpen:"first",
+            // groupByField: 'status',
+            groupByMaxRecords: "10000"
         });
 
         this.content = VLayout.create({
@@ -206,8 +206,7 @@ ContractReport = {
              this.header,
              this.toolBar,
              this.filterEditor,
-             this.listGrid,
-             Button.create({title:"Test", click:ContractReport.resetFilter})
+             this.listGrid
             ]
         });
 
@@ -231,7 +230,7 @@ ContractReport = {
     },
 
     rowClick: function (record) {
-        console.log(record);
+        // console.log(record);
     },
 
     resizeLayout: function () {
@@ -244,18 +243,15 @@ ContractReport = {
         }
     },
 
-    resetFilter: function () {
-        var greater = new Date("2018.01.01");
-        var less = new Date("2018.05.30");
-        console.log(greater+"\n"+less);
-        var criterion = {
-            _constructor:"AdvancedCriteria",
-            operator:"and",
-            criteria:[
-                { fieldName:"date", operator:"greaterOrEqual", value:greater },
-                { fieldName:"date", operator:"lessOrEqual", value: less }
-            ]
-        };
-        ContractReport.listGrid.filterData(criterion);
+    groupData: function(traget, item) {
+        for (var i =  0; i < ContractReport.groupMenu.data.length; i++)
+            ContractReport.groupMenu.setItemChecked(ContractReport.groupMenu.data[i], false);
+
+        if (item.id === "reset") ContractReport.listGrid.ungroup();
+        else {
+            ContractReport.groupMenu.setItemChecked(item);
+            ContractReport.listGrid.setGroupState(item.id);
+        }
     }
+
 };
