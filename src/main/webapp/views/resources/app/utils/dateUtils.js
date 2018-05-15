@@ -1,3 +1,7 @@
+const months = [
+  "Январь", "Февраль", "Мар", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь","Декабрь"
+];
+
 function formatDateString(value) {
     if (value != null)
         return (value.substr(8, 2) + "." + value.substr(5, 2) + "." + value.substr(0, 4));

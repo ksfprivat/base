@@ -47,16 +47,46 @@ ContractReport = {
             autoDraw: false,
             showShadow: true,
             imageSize:24,
-            shadowDepth: 10,
+            shadowDepth: 0,
             valueIconSize:24,
+            submenuImage:  {src:imgDir+"/ic_goto.png", height:24, width:24},
             checkmarkImage: imgDir+"/ic_commit.png",
             data: [
-                {id: "reset", title: "Сбросить", click:ContractReport.groupData},
                 {id: "customerTitle",title: "по Организации", click:ContractReport.groupData},
-                {id: "date",title: "по Дате", click:ContractReport.groupData},
-                {id: "dateFinal",title: "по Дате окончания", click:ContractReport.groupData},
+                {id: "date",title: "по Дате", click:ContractReport.groupData,
+                    submenu: isc.Menu.create({
+                        imageSize:24, valueIconSize:24, shadowDepth: 5, checkmarkImage: imgDir+"/ic_commit.png",
+                        data:[
+                            {id: "day", parent:"date", title: "по Дням", click:ContractReport.groupData},
+                            {id: "month", parent:"date", title: "по Месяцам", click:ContractReport.groupData},
+                            {id: "year", parent:"date", title: "по Году", click:ContractReport.groupData}
+                        ]
+                    })
+                },
+                {id: "dateFinal",title: "по Дате окончания", click:ContractReport.groupData,
+                    submenu: isc.Menu.create({
+                        imageSize:24, valueIconSize:24, shadowDepth: 5, checkmarkImage: imgDir+"/ic_commit.png",
+                        data:[
+                            {id: "day", parent:"dateFinal", title: "по Дням", click:ContractReport.groupData},
+                            {id: "month", parent:"dateFinal", title: "по Месяцам", click:ContractReport.groupData},
+                            {id: "year", parent:"dateFinal", title: "по Году", click:ContractReport.groupData}
+                        ]
+                    })
+                },
+                {id: "datePayment",title: "по Дате оплаты", click:ContractReport.groupData,
+                    submenu: isc.Menu.create({
+                        imageSize:24, valueIconSize:24, shadowDepth: 5, checkmarkImage: imgDir+"/ic_commit.png",
+                        data:[
+                            {id: "day", parent:"datePayment", title: "по Дням", click:ContractReport.groupData},
+                            {id: "month", parent:"datePayment", title: "по Месяцам", click:ContractReport.groupData},
+                            {id: "year", parent:"datePayment", title: "по Году", click:ContractReport.groupData}
+                        ]
+                    })
+                },
                 {id: "status",title: "по Статусу", click:ContractReport.groupData},
-                {id: "type",title: "по Типу", click:ContractReport.groupData}
+                {id: "type",title: "по Типу", click:ContractReport.groupData},
+                {isSeparator: true},
+                {id: "reset", title: "Очистить", icon:imgDir+"/ic_report_delete.png", click:ContractReport.groupData}
             ]
         });
 
@@ -115,9 +145,22 @@ ContractReport = {
 
         this.fieldMap = [
             {name: "id",  primaryKey: true, hidden: true},
-            {name: "title", title:"Наименование", minWidth:150, align:"left"},
+            {name: "title", title:"Наименование", minWidth:150, align:"left",showGroupSummary:true,  summaryFunction:"count"
+                // getGridSummary:function (records, summaryField) {
+                //     return (records.length + " контрактов");
+                // }
+            },
             {name: "customerTitle", title: "Организация", minWidth: 250, align:"left"},
-            {name: "date", title:"Дата", type:"date", align:"left"},
+            {name: "date", title:"Дата", type:"date", align:"left", groupingModes: ["day", "month", "year"], defaultGroupingMode: "day",
+                getGroupValue : function (value) {
+                    if (!isDate(value)) return "Неизвестно";
+                    switch (this.groupingMode) {
+                        case "year":return value.getFullYear();
+                        case "month":return (months[Number(value.getMonth())]+" "+String(value.getFullYear()));
+                        case "day": return formatDateString(dateToDateString(value));
+                    }
+                }
+            },
 
             {name: "dateFinal", title:"Окончание", type:"date", align:"left",
                 formatCellValue: function (value, record) {
@@ -141,8 +184,8 @@ ContractReport = {
                         }
                     }
             },
-            {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left"},
-            {name: "costs", title:"Затраты", type:"float",   minWidth:100, format: ",0.00;",align:"left"},
+            {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true, summaryFunction:"sum"},
+            {name: "costs", title:"Затраты", type:"float",   minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true, summaryFunction:"sum"},
             {name: "datePayment", title:"Дата оплаты",minWidth:90, type:"date", align:"left" },
             {name: "type", title:"Тип", align:"left", minWidth:100,
                 valueMap: {
@@ -156,7 +199,6 @@ ContractReport = {
             clientOnly: true
         });
 
-
         this.listGrid = ListGrid.create({
             width: "100%",
             height: "100%",
@@ -169,6 +211,7 @@ ContractReport = {
             showHeaderContextMenu: false,
             showFilterEditor: true,
             filterOnKeypress: true,
+            showGroupSummary:true,
             filterEditorProperties: {
                 filterImg: null,
                 actionButtonProperties:{selected: false, visibility:"hidden"}
@@ -182,7 +225,7 @@ ContractReport = {
                     } else ContractReport.currentFilter = criteria;
             },
             canEdit:false,
-            dataFetchMode: "local",
+            // dataFetchMode: "local",
             autoDraw: false,
             baseStyle:"cell",
             gridComponents:[ "header", "filterEditor", "body"],
@@ -191,10 +234,11 @@ ContractReport = {
                 {property: "date", direction: "descending"},
                 {property: "title", direction: "descending"}
             ],
-            rowClick: this.rowClick,
+            // rowClick: this.rowClick,
             groupStartOpen:"first",
             // groupByField: 'status',
             groupByMaxRecords: "10000"
+            // autoFetchData: true
         });
 
         this.content = VLayout.create({
@@ -230,7 +274,7 @@ ContractReport = {
     },
 
     rowClick: function (record) {
-        // console.log(record);
+         console.log(record);
     },
 
     resizeLayout: function () {
@@ -244,13 +288,30 @@ ContractReport = {
     },
 
     groupData: function(traget, item) {
-        for (var i =  0; i < ContractReport.groupMenu.data.length; i++)
-            ContractReport.groupMenu.setItemChecked(ContractReport.groupMenu.data[i], false);
+        // Uncheck all items
+        for (var i =  0; i < ContractReport.groupMenu.data.length; i++) {
+            if (item.parent === ContractReport.groupMenu.data[i].id)
+                ContractReport.groupMenu.setItemChecked(ContractReport.groupMenu.data[i], true);
+            else
+                ContractReport.groupMenu.setItemChecked(ContractReport.groupMenu.data[i], false);
+            if (typeof ContractReport.groupMenu.data[i].submenu !== "undefined")
+                for (var j = 0; j <  ContractReport.groupMenu.data[i].submenu.data.length; j++)
+                    ContractReport.groupMenu.setItemChecked(ContractReport.groupMenu.data[i].submenu.data[j], false);
+        }
 
-        if (item.id === "reset") ContractReport.listGrid.ungroup();
+        if (item.id === "reset")
+            ContractReport.listGrid.ungroup();
+
+
         else {
-            ContractReport.groupMenu.setItemChecked(item);
-            ContractReport.listGrid.setGroupState(item.id);
+            if (typeof item.parent === "undefined") {
+                ContractReport.groupMenu.setItemChecked(item);
+                ContractReport.listGrid.setGroupState(item.id);
+            } else {
+                ContractReport.groupMenu.setItemChecked(item);
+                ContractReport.listGrid.getFieldByName(item.parent).groupingMode = item.id;
+                ContractReport.listGrid.setGroupState(item.parent);
+            }
         }
     }
 
