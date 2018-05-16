@@ -144,13 +144,16 @@ ContractReport = {
         });
 
         this.fieldMap = [
-            {name: "id",  primaryKey: true, hidden: true},
-            {name: "title", title:"Наименование", minWidth:150, align:"left",showGroupSummary:true,  summaryFunction:"count"
-                // getGridSummary:function (records, summaryField) {
-                //     return (records.length + " контрактов");
-                // }
+
+            {name: "id",  primaryKey: true, hidden: true, includeInRecordSummary:false},
+            {name: "title", type:"text",title:"Наименование", minWidth:150, align:"left"
             },
-            {name: "customerTitle", title: "Организация", minWidth: 250, align:"left"},
+            {name: "customerTitle", type:"text", title: "Организация", minWidth: 250, align:"left",showGridSummary:true,//  summaryFunction:"count"
+                getGroupSummary :function (records, summaryField) {
+                    if (records.length === 1) return (records.length)+" Контракт";
+                    if ((records.length  > 1) && (records.length  < 5))  return (records.length)+" Контракта";
+                    if (records.length >= 5) return (records.length)+" Контрактов";
+                }},
             {name: "date", title:"Дата", type:"date", align:"left", groupingModes: ["day", "month", "year"], defaultGroupingMode: "day",
                 getGroupValue : function (value) {
                     if (!isDate(value)) return "Неизвестно";
@@ -193,9 +196,9 @@ ContractReport = {
                 }
             }
         ];
-
         this.dataSource = DataSource.create({
             fields:this.fieldMap,
+            serverType:"sql",
             clientOnly: true
         });
 
@@ -212,18 +215,22 @@ ContractReport = {
             showFilterEditor: true,
             filterOnKeypress: true,
             showGroupSummary:true,
+
+            // showGroupSummaryInHeader:true,
             filterEditorProperties: {
                 filterImg: null,
                 actionButtonProperties:{selected: false, visibility:"hidden"}
             },
-            filterEditorSubmit: function (criteria) {
-                // console.log(criteria);
-                if (criteria !== null)
-                    if (criteria._constructor === "AdvancedCriteria") {
-                        this.setCriteria(criteria);
-                        return false;
-                    } else ContractReport.currentFilter = criteria;
-            },
+            // filterEditorSubmit: function (criteria) {
+            //     console.log(criteria);
+            //     if (criteria !== null)
+            //         if (criteria._constructor === "AdvancedCriteria") {
+            //             // this.setCriteria(criteria);
+            //
+            //             ContractReport.listGrid.setFilterEditorCriteria(criteria);
+            //             return false;
+            //         } else ContractReport.currentFilter = criteria;
+            // },
             canEdit:false,
             // dataFetchMode: "local",
             autoDraw: false,
@@ -235,9 +242,11 @@ ContractReport = {
                 {property: "title", direction: "descending"}
             ],
             // rowClick: this.rowClick,
+            dataPageSize: 10000,
             groupStartOpen:"first",
             // groupByField: 'status',
-            groupByMaxRecords: "10000"
+            groupByMaxRecords: "10000",
+            showCollapsedGroupSummary: true
             // autoFetchData: true
         });
 
