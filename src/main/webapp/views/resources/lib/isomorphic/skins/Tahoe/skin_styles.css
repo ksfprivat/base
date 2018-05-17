@@ -6829,8 +6829,8 @@ select[disabled] option {
 .gridSummaryCell,
 .gridSummaryCellDisabled {
   background-color: #e7f6ff;
-  border-bottom: 1px solid #005491;
-  border-top: 1px solid #005491;
+  border-bottom: 1px solid #90caf9;
+  border-top: 1px solid #90caf9;
 }
 
 .tallCellDark {
@@ -6895,8 +6895,9 @@ select[disabled] option {
 
 .gridSummaryCell,
 .gridSummaryCellDisabled {
-  font-weight: bold;
-  color: #005491;
+  /*font-weight: bold;*/
+  font-family: RobotoLight;
+  color: #2962FF;;
 }
 
 .cellDisabled,
@@ -6917,11 +6918,13 @@ select[disabled] option {
 
 /* for grouping */
 .groupNode {
-  border-bottom: 1px solid #8C8C8C;
-  color: #005491;
-  font-family: calibri;
-  font-weight: bold;
-  font-size: 12.5px;
+  /*border-bottom: 1px solid #8C8C8C;*/
+  /*border-bottom: 1px solid #2962FF;;*/
+  color:#2962FF;
+  /*font-family: calibri;*/
+  font-family: RobotoLight;
+  /*font-weight: bold;*/
+  font-size: 14px;
 }
 
 /*Tree styling*/

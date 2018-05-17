@@ -145,15 +145,15 @@ ContractReport = {
 
         this.fieldMap = [
 
-            {name: "id",  primaryKey: true, hidden: true, includeInRecordSummary:false},
-            {name: "title", type:"text",title:"Наименование", minWidth:150, align:"left"
-            },
-            {name: "customerTitle", type:"text", title: "Организация", minWidth: 250, align:"left",showGridSummary:true,//  summaryFunction:"count"
-                getGroupSummary :function (records, summaryField) {
-                    if (records.length === 1) return (records.length)+" Контракт";
-                    if ((records.length  > 1) && (records.length  < 5))  return (records.length)+" Контракта";
-                    if (records.length >= 5) return (records.length)+" Контрактов";
-                }},
+            {name: "id",  primaryKey: true, hidden: true},
+            {name: "title", type:"text",title:"Наименование", minWidth:150, align:"left", showGridSummary:true,
+            getGroupSummary :function (records, summaryField) {
+                   var prefix = "";
+                   if (records.length === 1) return prefix + (records.length)+" Контракт";
+                   if ((records.length  > 1) && (records.length  < 5))  return prefix + (records.length)+" Контракта";
+                   if (records.length >= 5) return prefix + (records.length)+" Контрактов";
+        }},
+            {name: "customerTitle", type:"text", title: "Организация", minWidth: 250, align:"left"},
             {name: "date", title:"Дата", type:"date", align:"left", groupingModes: ["day", "month", "year"], defaultGroupingMode: "day",
                 getGroupValue : function (value) {
                     if (!isDate(value)) return "Неизвестно";
@@ -215,8 +215,7 @@ ContractReport = {
             showFilterEditor: true,
             filterOnKeypress: true,
             showGroupSummary:true,
-
-            // showGroupSummaryInHeader:true,
+            canAutoFitFields: true,
             filterEditorProperties: {
                 filterImg: null,
                 actionButtonProperties:{selected: false, visibility:"hidden"}
