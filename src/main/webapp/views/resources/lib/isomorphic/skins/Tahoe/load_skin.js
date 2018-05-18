@@ -515,8 +515,8 @@ with (theWindow) {
             showDown:false,
             showRollOver:true,
             src:"[SKIN]/headerIcons/ic_close.png",
-            imageType:"stretch",
-            width:20, height:20,
+           // imageType:"stretch",
+            width:24, height:24,
             margin:5
         });
 

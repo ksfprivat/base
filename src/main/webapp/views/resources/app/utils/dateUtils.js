@@ -43,7 +43,7 @@ function formatStringDoubleToCurrency(value) {
 }
 
 function getContractNumber(contractTitle) {
-    var result = "";
+    var result = 0;
     var i = 0;
     while (isDigit(contractTitle[i])) {
         result += contractTitle[i];

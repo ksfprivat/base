@@ -64,7 +64,7 @@
 	<script  type="text/javascript">
 
         function initApplication() {
-            isc.Canvas.resizeFonts(3);
+     	    isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);
             SplashWindow.create();
             createLayout();
@@ -75,6 +75,7 @@
 </head>
 
 <body onLoad="initApplication()">
+
 
 </body>
 </html>

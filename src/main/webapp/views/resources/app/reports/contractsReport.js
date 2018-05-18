@@ -146,14 +146,26 @@ ContractReport = {
         this.fieldMap = [
 
             {name: "id",  primaryKey: true, hidden: true},
-            {name: "title", type:"text",title:"Наименование", minWidth:150, align:"left", showGridSummary:true,
-            getGroupSummary :function (records, summaryField) {
-                   var prefix = "";
-                   if (records.length === 1) return prefix + (records.length)+" Контракт";
-                   if ((records.length  > 1) && (records.length  < 5))  return prefix + (records.length)+" Контракта";
-                   if (records.length >= 5) return prefix + (records.length)+" Контрактов";
-        }},
-            {name: "customerTitle", type:"text", title: "Организация", minWidth: 250, align:"left"},
+
+            {name: "number", title:"Контракт",type:"text", minWidth:150, align:"left", showGroupSummary:true, showGridSummary:true,  //summaryFunction:"count",
+                formatGroupSummary: function () {
+                  return "Итого:";
+                },
+
+                formatCellValue: function (value, record) {
+                     return record.title;
+            }
+
+            },
+            {name: "customerTitle", type:"text", title: "Организация", minWidth: 250, align:"left", showGridSummary:true, showGroupSummary:true,
+
+                getGroupSummary :function (records, summaryField) {
+                    var prefix = "";
+                    if (records.length === 1) return prefix + (records.length)+" Контракт";
+                    if ((records.length  > 1) && (records.length  < 5))  return prefix + (records.length)+" Контракта";
+                    if (records.length >= 5) return prefix + (records.length)+" Контрактов";
+                }
+            },
             {name: "date", title:"Дата", type:"date", align:"left", groupingModes: ["day", "month", "year"], defaultGroupingMode: "day",
                 getGroupValue : function (value) {
                     if (!isDate(value)) return "Неизвестно";
@@ -238,7 +250,7 @@ ContractReport = {
             fields: this.fieldMap,
             initialSort: [
                 {property: "date", direction: "descending"},
-                {property: "title", direction: "descending"}
+                {property: "number", direction: "descending"}
             ],
             // rowClick: this.rowClick,
             dataPageSize: 10000,
@@ -270,6 +282,7 @@ ContractReport = {
     init: function () {
        getAllContracts(function (contracts) {
            contracts.forEach(function (contract) {
+               contract.number = getContractNumber(contract.title);
                contract.date = (contract.date !== null)? new Date(contract.date): contract.date;
                contract.dateFinal = (contract.dateFinal !== null)? new Date(contract.dateFinal): contract.dateFinal;
                contract.datePayment = (contract.datePayment !== null)? new Date(contract.datePayment): contract.datePayment;
