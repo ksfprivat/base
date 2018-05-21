@@ -144,18 +144,14 @@ ContractReport = {
         });
 
         this.fieldMap = [
-
             {name: "id",  primaryKey: true, hidden: true},
-
             {name: "number", title:"Контракт",type:"text", minWidth:150, align:"left", showGroupSummary:true, showGridSummary:true,  //summaryFunction:"count",
                 formatGroupSummary: function () {
                   return "Итого:";
                 },
-
                 formatCellValue: function (value, record) {
                      return record.title;
-            }
-
+                }
             },
             {name: "customerTitle", type:"text", title: "Организация", minWidth: 250, align:"left", showGridSummary:true, showGroupSummary:true,
 
@@ -176,18 +172,25 @@ ContractReport = {
                     }
                 }
             },
-
             {name: "dateFinal", title:"Окончание", type:"date", align:"left",
                 formatCellValue: function (value, record) {
                     if ((new Date() >= value) && (getStatusFieldTextValue(record.status)=== "Исполнение"))
                         return "<div class='redAlertBox'>&nbsp;"+formatDateString(dateToDateString(value))+"&nbsp;</div>";
                     else return value;
+                },
+                getGroupValue : function (value) {
+                    if (!isDate(value)) return "Неизвестно";
+                    switch (this.groupingMode) {
+                        case "year":return value.getFullYear();
+                        case "month":return (months[Number(value.getMonth())]+" "+String(value.getFullYear()));
+                        case "day": return formatDateString(dateToDateString(value));
+                    }
                 }
             },
             {name: "status", title:"Статус", align:"left", minWidth:100,
-                valueMap: [
-                    "Подписание", "Исполнение", "Выполнен", "Не действителен"
-                ],
+                valueMap: {
+                    0: "Подписание", 1: "Исполнение", 2: "Выполнен", 3: "Не действителен"
+                },
                 formatCellValue: function(value) {
                     switch (getStatusFieldTextValue(value)) {
                         case "Исполнение":
@@ -199,9 +202,35 @@ ContractReport = {
                         }
                     }
             },
-            {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true, summaryFunction:"sum"},
-            {name: "costs", title:"Затраты", type:"float",   minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true, summaryFunction:"sum"},
-            {name: "datePayment", title:"Дата оплаты",minWidth:90, type:"date", align:"left" },
+            {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true,
+                getGroupSummary :function (records, summaryField) {
+                    var amount = 0;
+                    for (var i = 0; i < records.length; i++) {
+                        if (records[i].status !== "3") amount += records[i].amount;
+                    }
+                    return  formatStringDoubleToCurrency(amount,"₽");
+                }
+
+            },
+            {name: "costs", title:"Затраты", type:"float",   minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true,
+                getGroupSummary :function (records, summaryField) {
+                    var costs = 0;
+                    for (var i = 0; i < records.length; i++) {
+                        if (records[i].status !== "3") costs += records[i].costs;
+                    }
+                    return  formatStringDoubleToCurrency(costs, "₽");
+                }
+            },
+            {name: "datePayment", title:"Дата оплаты",minWidth:90, type:"date", align:"left", showGroupSummary:true,
+                getGroupValue : function (value) {
+                    if (!isDate(value)) return "Неизвестно";
+                    switch (this.groupingMode) {
+                        case "year":return value.getFullYear();
+                        case "month":return (months[Number(value.getMonth())]+" "+String(value.getFullYear()));
+                        case "day": return formatDateString(dateToDateString(value));
+                    }
+                }
+            },
             {name: "type", title:"Тип", align:"left", minWidth:100,
                 valueMap: {
                     0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
@@ -219,6 +248,7 @@ ContractReport = {
             height: "100%",
             padding: 6,
             margin: 8,
+            animateFolders:false,
             alternateRecordStyles: true,
             alternateFieldStyles: false,
             showHeaderMenuButton:false,
@@ -275,7 +305,7 @@ ContractReport = {
         });
 
         this.init();
-
+        this.listGrid.setSortByGroupFirst(false);
         return Object.create(this);
     },
 
@@ -286,7 +316,9 @@ ContractReport = {
                contract.date = (contract.date !== null)? new Date(contract.date): contract.date;
                contract.dateFinal = (contract.dateFinal !== null)? new Date(contract.dateFinal): contract.dateFinal;
                contract.datePayment = (contract.datePayment !== null)? new Date(contract.datePayment): contract.datePayment;
-               contract.status = getStatusFieldTextValue(contract.status);
+               // contract.status = getStatusFieldTextValue(contract.status);
+               contract.status = getStatusFieldNumberValue(contract.status);
+
            });
            ContractReport.dataSource.setCacheData(contracts);
            ContractReport.listGrid.setDataSource(ContractReport.dataSource);

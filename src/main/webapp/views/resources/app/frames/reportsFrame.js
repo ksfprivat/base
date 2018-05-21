@@ -9,7 +9,14 @@ ReportsFrame = {
                 {id: 0, title:"Контракты", isFolder: true,
                     children:[
                       {id: 0.1, title:"Отчет по контрактам"},
-                     ]
+                      {id: 0.2, title:"Шаблоны", isFolder: true, icon: imgDir+"/ic_folder_green.png", children:[
+                              {id: 0.21, title:"Котракты за текущий год"},
+                              {id: 0.22, title:"Котракты по месяцам"},
+                              {id: 0.23, title:"Исполнение&Подписание"}
+                          ]
+                      }
+
+                    ]
                 },
                 {id: 0, title:"Объекты", isFolder: true
 
@@ -42,7 +49,7 @@ ReportsFrame = {
         });
 
         this.navReports = VLayout.create({
-            width: 280, height: "100%",
+            width: 320, height: "100%",
             showResizeBar: true,
             members:[this.navTree]
         });

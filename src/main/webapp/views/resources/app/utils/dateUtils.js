@@ -36,10 +36,10 @@ function isDigit(str) {
     else return str && !/[^\d]/.test(str);
 }
 
-function formatStringDoubleToCurrency(value) {
+function formatStringDoubleToCurrency(value, symbol) {
     if (value != null)
-        return String(value).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-    else return "0.00";
+        return String(value).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')+",00"+((typeof symbol !== "undefined")? " "+symbol:"");
+    else return "0.00"+((typeof symbol !== "undefined")? " "+symbol:"");
 }
 
 function getContractNumber(contractTitle) {
@@ -75,4 +75,29 @@ function getStatusFieldTextValue(value) {
             default: result = "Недействителен";
         }
         return result;
+}
+
+function getStatusFieldNumberValue(value) {
+    var result = "";
+    switch  (value) {
+        case "Подписание":
+        case "0":
+            result = "0";
+            break;
+        case "Исполнение":
+        case "1":
+            result = "1";
+            break;
+        case "Выполнен":
+        case "Выполнено":
+        case "2":
+            result = "2";
+            break;
+        case "Не действителен":
+        case "3":
+            result = "3";
+            break;
+        default: result = "3";
+    }
+    return result;
 }
