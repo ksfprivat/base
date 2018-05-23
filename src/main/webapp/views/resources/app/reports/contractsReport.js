@@ -1,6 +1,6 @@
 ContractReport = {
 
-    create: function () {
+    create: function (config) {
         this.currentFilter = null;
         function createButton(title, icon, visible, size, event){
             return (
@@ -189,7 +189,7 @@ ContractReport = {
             },
             {name: "status", title:"Статус", align:"left", minWidth:100,
                 valueMap: {
-                    0: "Подписание", 1: "Исполнение", 2: "Выполнен", 3: "Не действителен"
+                    0: "Подписание", 1: "Исполнение", 2: "Выполнен", 3: "Недействителен"
                 },
                 formatCellValue: function(value) {
                     switch (getStatusFieldTextValue(value)) {
@@ -197,6 +197,10 @@ ContractReport = {
                             return  "<div class='greenAlertBox'>&nbsp;Исполнение&nbsp;</div>";
                         case "Подписание":
                             return "<div class='orangeAlertBox'>&nbsp;Подписание&nbsp;</div>";
+
+                        case "Недействителен":
+                            return "<div class='grayAlertBox'>&nbsp;Недействителен&nbsp;</div>";
+
                         default:
                             return getStatusFieldTextValue(value);
                         }
@@ -229,13 +233,23 @@ ContractReport = {
                         case "month":return (months[Number(value.getMonth())]+" "+String(value.getFullYear()));
                         case "day": return formatDateString(dateToDateString(value));
                     }
+                },
+                formatCellValue: function(value, record) {
+                    var result = value;
+                    if ((record.status === "2") && (record.amount !== 0)) {
+                        if ((value === null) || (typeof value === "undefined"))
+                            result = "<div class='redAlertBox'>&nbsp;Нет оплаты&nbsp;</div>";
+                    }
+                    return result;
                 }
             },
             {name: "type", title:"Тип", align:"left", minWidth:100,
                 valueMap: {
                     0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
                 }
-            }
+            },
+            {name: "year", title:" ",width:0, type:"text", hidden: true}
+
         ];
         this.dataSource = DataSource.create({
             fields:this.fieldMap,
@@ -304,12 +318,12 @@ ContractReport = {
             ]
         });
 
-        this.init();
-        this.listGrid.setSortByGroupFirst(false);
+        this.init(config);
+
         return Object.create(this);
     },
 
-    init: function () {
+    init: function (config) {
        getAllContracts(function (contracts) {
            contracts.forEach(function (contract) {
                contract.number = getContractNumber(contract.title);
@@ -323,6 +337,16 @@ ContractReport = {
            ContractReport.dataSource.setCacheData(contracts);
            ContractReport.listGrid.setDataSource(ContractReport.dataSource);
            ContractReport.listGrid.filterData(null);
+           // Configure
+           if (typeof config !== "undefined") {
+               if (typeof config.criteria !== "undefined")
+                   ContractReport.listGrid.filterData(config.criteria);
+
+               if (typeof config.group !== "undefined")
+                   if (typeof config.groupMode !== "undefined")
+                       ContractReport.listGrid.getFieldByName(config.group).groupingMode = config.groupMode;
+                   ContractReport.listGrid.setGroupState(config.group);
+           }
        })
     },
 

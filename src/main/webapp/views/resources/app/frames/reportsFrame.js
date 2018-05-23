@@ -1,5 +1,35 @@
 ReportsFrame = {
+
     create: function () {
+
+        this.templates = {
+          byYear : {
+              _constructor:"AdvancedCriteria",
+              operator:"and",
+              criteria:[
+                  { fieldName:"date", operator:"greaterThan", value:new Date("01.01."+String(new Date().getFullYear()))}
+              ]
+          },
+
+          inExecutionAndSigning : {
+               _constructor:"AdvancedCriteria",
+               operator:"or",
+               criteria:[
+                    { fieldName:"status", operator:"iContains", value:"0"},
+                    { fieldName:"status", operator:"iContains", value:"1"}
+                ]
+            },
+            noPayment : {
+                _constructor:"AdvancedCriteria",
+                operator:"and",
+                criteria:[
+                    { fieldName:"status", operator:"iContains", value:"2"},
+                    { fieldName:"reports", operator:"isNull"},
+                    { fieldName:"amount", operator:"notEqual", value: 0}
+                ]
+            }
+
+        };
 
         this.currentReport = -1;
 
@@ -8,11 +38,16 @@ ReportsFrame = {
                 children:[
                 {id: 0, title:"Контракты", isFolder: true,
                     children:[
-                      {id: 0.1, title:"Отчет по контрактам"},
+                      {id: 0.1, title:"Отчет по контрактам", frame: ContractReport},
                       {id: 0.2, title:"Шаблоны", isFolder: true, icon: imgDir+"/ic_folder_green.png", children:[
-                              {id: 0.21, title:"Котракты за текущий год"},
-                              {id: 0.22, title:"Котракты по месяцам"},
-                              {id: 0.23, title:"Исполнение&Подписание"}
+                              {id: 0.21, title:"Котракты за текущий год", frame: ContractReport,
+                                  config: {criteria: this.templates.byYear, group:"year"}},
+                              {id: 0.22, title:"Котракты по месяцам", frame: ContractReport,
+                                  config: {criteria: this.templates.byYear, group:"date", groupMode:"month"}},
+                              {id: 0.23, title:"На исполнении и подписании", frame: ContractReport,
+                                  config: {criteria: this.templates.inExecutionAndSigning, group: "status"}},
+                              {id: 0.24, title:"Неоплаченные контракты ", frame: ContractReport,
+                                  config: {criteria: this.templates.noPayment, group: "year"}}
                           ]
                       }
 
@@ -84,18 +119,12 @@ ReportsFrame = {
    },
 
     changeReport: function (viewer, node) {
-         switch (node.id) {
-             case 0.1:
-                 ReportsFrame.currentReport = node.id;
-                 ReportsFrame.browser.setMembers([
-                     ContractReport.create().content
-                 ]);
-                 break;
-             case 0.2:
-                 ReportsFrame.currentReport = node.id;
-                 ReportsFrame.browser.setMembers([HTMLFlow.create({contents:"<h1>Payments</h1>"})]);
-                 break;
-         }
+        ReportsFrame.currentReport = node.id;
+        if (typeof node.frame !== "undefined")
+            ReportsFrame.browser.setMembers([
+                node.frame.create(node.config).content
+            ]);
     }
+
     
 };
