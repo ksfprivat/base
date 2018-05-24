@@ -102,7 +102,7 @@ ContractReport = {
         this.btnGroup = createToolButton("Группировать", "ic_report_group.png", "visible", function () {
            ContractReport.btnGroup.showContextMenu();
         }, ContractReport.groupMenu);
-        this.btnReportEdit = createToolButton("Изменить", "ic_report_edit.png", "visible", null);
+        this.btnReportEdit = createToolButton("Изменить", "ic_report_edit.png", "visible", ContractReport.editRecord);
         this.btnReportDelete= createToolButton("Удалить", "ic_report_delete.png", "visible", null);
         this.btnTotal = createToolButton("Итоги", "ic_report_sigma.png", "visible", null);
         this.btnExport = createToolButton("Экспорт", "ic_report_export_excel.png", "visible", null);
@@ -297,6 +297,7 @@ ContractReport = {
                 {property: "number", direction: "descending"}
             ],
             // rowClick: this.rowClick,
+            recordDoubleClick: ContractReport.editRecord,
             dataPageSize: 10000,
             groupStartOpen:"first",
             // groupByField: 'status',
@@ -390,6 +391,15 @@ ContractReport = {
                 ContractReport.listGrid.setGroupState(item.parent);
             }
         }
+    },
+
+    editRecord: function () {
+        var record = ContractReport.listGrid.getSelectedRecord();
+        if (record != null) {
+            var contractWindow = ContractWindow.create(TRANSACTION_UPDATE, record.customerTitle);
+            contractWindow.setData(record, ContractsForm.customerId)
+        }
+        console.log(ContractReport.listGrid.getSelectedRecord());
     }
 
 };

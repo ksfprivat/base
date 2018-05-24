@@ -5087,10 +5087,10 @@ select[disabled] option {
 .selectItemLiteControlPendingOverRTL,
 .selectItemLiteControlPendingFocusedOver,
 .selectItemLiteControlPendingFocusedOverRTL {
-  -moz-box-shadow: 0 0 5px #157fcc;
-  -webkit-box-shadow: 0 0 5px #157fcc;
-  box-shadow: 0 0 5px #157fcc;
-  border: #157fcc solid 1px;
+  /*-moz-box-shadow: 0 0 5px #157fcc;*/
+  /*-webkit-box-shadow: 0 0 5px #157fcc;*/
+  /*box-shadow: 0 0 5px #157fcc;*/
+  /*border: #157fcc solid 1px;*/
 }
 
 /* pending coloring */

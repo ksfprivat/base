@@ -32,8 +32,8 @@ ContractWindow = {
                     valueMap: {
                         0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
                     }},
-                {name: "date", title: "Дата", type: "date"},
-                {name: "dateFinal", title: "Завершение", type: "date"},
+                {name: "date", title: "Дата", type: "date",  editorType: "DateItem", useTextField: true, textAlign:"left"},
+                {name: "dateFinal", title: "Завершение", type: "date",  editorType: "DateItem", useTextField: true, textAlign:"left"},
 
                 {name: "amount", title: "Сумма", type:"float", format:",0.00;", defaultValue: 0},
                 {name: "costs", title: "Расходы", type:"float", format:",0.00;", defaultValue: 0},
