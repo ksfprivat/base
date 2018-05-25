@@ -296,7 +296,7 @@ ContractReport = {
                 {property: "date", direction: "descending"},
                 {property: "number", direction: "descending"}
             ],
-            // rowClick: this.rowClick,
+            //rowClick: this.rowClick,
             recordDoubleClick: ContractReport.editRecord,
             dataPageSize: 10000,
             groupStartOpen:"first",
@@ -397,9 +397,20 @@ ContractReport = {
         var record = ContractReport.listGrid.getSelectedRecord();
         if (record != null) {
             var contractWindow = ContractWindow.create(TRANSACTION_UPDATE, record.customerTitle);
-            contractWindow.setData(record, ContractsForm.customerId)
+            contractWindow.setData(record, record.customerId);
         }
-        console.log(ContractReport.listGrid.getSelectedRecord());
+    },
+
+    updateRecord: function (contract) {
+
+        contract.date = (contract.date !== null)? new Date(contract.date): contract.date;
+        contract.dateFinal = (contract.dateFinal !== null)? new Date(contract.dateFinal): contract.dateFinal;
+        contract.datePayment = (contract.datePayment !== null)? new Date(contract.datePayment): contract.datePayment;
+
+        ContractReport.listGrid.updateData(contract);
+        ContractReport.listGrid.refreshRow(ContractReport.listGrid.getRowNum(ContractReport.listGrid.getSelectedRecord()));
+
+        console.log(contract);
     }
 
 };

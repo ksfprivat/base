@@ -1,6 +1,6 @@
 ContractWindow = {
 
-    create: function (transactionType, customerTitle) {
+    create: function (transactionType, customerTitle, customerId) {
         this.transactionType = transactionType;
         this.title = "Новый контракт";
         if (transactionType === TRANSACTION_UPDATE) this.title = "Контракт";
@@ -132,7 +132,6 @@ ContractWindow = {
         if (ContractWindow.validate()) {
             // Prepare contract entity
             var contract = ContractWindow.contractDataBlock.getValues();
-
             contract.customerId = ContractWindow.customerId;
             contract.date =  isDate(contract.date) ?
                     dateToDateString(contract.date) : contract.date;
@@ -146,13 +145,16 @@ ContractWindow = {
             var currentRecord = contractsCard.getRecordById(contract.id);
             Object.assign(currentRecord,  contract);
 
-
             updateContract(contract, function (success) {
                 if (success) {
-                    var rowNum = contractsCard.listGrid.getRowNum(contractsCard.listGrid.getSelectedRecord());
-                    contractsCard.listGrid.setEditValues(rowNum, contract);
-                    contractsCard.listGrid.refreshRow(rowNum);
-                    navContractsGrid.updateItem(contract);
+                    if (crmFrame.content.isVisible()) {
+                        var rowNum = contractsCard.listGrid.getRowNum(contractsCard.listGrid.getSelectedRecord());
+                        contractsCard.listGrid.setEditValues(rowNum, contract);
+                        contractsCard.listGrid.refreshRow(rowNum);
+                        navContractsGrid.updateItem(contract);
+                    }
+                    if (reportsFrame.content.isVisible())
+                        ContractReport.updateRecord(contract);
                 }
             });
             ContractWindow.close();
