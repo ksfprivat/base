@@ -103,7 +103,7 @@ ContractReport = {
            ContractReport.btnGroup.showContextMenu();
         }, ContractReport.groupMenu);
         this.btnReportEdit = createToolButton("Изменить", "ic_report_edit.png", "visible", ContractReport.editRecord);
-        this.btnReportDelete= createToolButton("Удалить", "ic_report_delete.png", "visible", null);
+        this.btnReportDelete= createToolButton("Удалить", "ic_report_delete.png", "visible", ContractReport.deleteRecord);
         this.btnTotal = createToolButton("Итоги", "ic_report_sigma.png", "visible", null);
         this.btnExport = createToolButton("Экспорт", "ic_report_export_excel.png", "visible", null);
 
@@ -408,9 +408,28 @@ ContractReport = {
         contract.datePayment = (contract.datePayment !== null)? new Date(contract.datePayment): contract.datePayment;
 
         ContractReport.listGrid.updateData(contract);
-        ContractReport.listGrid.refreshRow(ContractReport.listGrid.getRowNum(ContractReport.listGrid.getSelectedRecord()));
+        ContractReport.listGrid.refreshRow(ContractReport.listGrid.getRowNum(contract));
+    },
 
-        console.log(contract);
+    deleteRecord: function () {
+        var record = ContractReport.listGrid.getSelectedRecord();
+        if (record != null)
+            isc.ask("Вы хотите удалить: "+record.title,
+                {
+                    yesClick: function() {
+                        deleteContract(record.id, function (success) {
+                            if (success) {
+                                ContractReport.listGrid.removeSelectedData();
+                                navContractsGrid.listGrid.removeData(record);
+                                deleteNode(record.id);
+                            }
+                        });
+                        return this.Super('yesClick', arguments);}}
+            );
+
+
+
+        console.log(record);
     }
 
 };
