@@ -130,23 +130,21 @@ function onNavTreeOpenFolder(node) {
 
 function addContactNode(customerId, contact) {
     var folder = navTreeData.findById("contacts_"+customerId);
-
-    if (typeof folder !== "undefined") {
-        var node={
-            id: contact.id,
-            customerId: customerId,
-            title: contact.name,
-            name: contact.name,
-            type :"contact",
-            sortField: contact.name
-        };
-        navTreeData.add(node, folder);
-    }
+        if (typeof folder !== "undefined") {
+            var node = {
+                id: contact.id,
+                customerId: customerId,
+                title: contact.name,
+                name: contact.name,
+                type: "contact",
+                sortField: contact.name
+            };
+            navTreeData.add(node, folder);
+        }
 }
 
 function addContractNode(contract) {
     var folder = navTreeData.findById("contracts_"+contract.customerId);
-
     if (typeof folder !== "undefined") {
         var node={
             id: contract.id,
@@ -158,7 +156,7 @@ function addContractNode(contract) {
             sortField: reversTimestamp(contract.date)
         };
         navTreeData.add(node, folder);
-    }
+     }
 }
 
 function deleteNode(id) {
@@ -182,10 +180,12 @@ function changeNodeTitle(id, title) {
 
 function selectNode(id) {
     var node = navTreeData.findById(id);
-    if (typeof node !== "undefined") {
-        navTree.deselectAllRecords();
-        navTree.selectRecord(node);
-        navTree.scrollToRow(navTree.getFocusRow());
+    if (navTreeData.isOpen(navTreeData.getParent(node))) {
+        if (typeof node !== "undefined") {
+            navTree.deselectAllRecords();
+            navTree.selectRecord(node);
+            navTree.scrollToRow(navTree.getFocusRow());
+        }
     }
 }
 
@@ -205,7 +205,7 @@ function refreshCustomerNode(data) {
 }
 
 function onNodeClick(viewer, node, recordNum) {
-
+    console.log(node);
     navTreeSelectedNode = node;
     if (!browserFrame.isVisible()) browserFrame.show();
     if (node.type === "customer") {

@@ -296,7 +296,7 @@ ContractReport = {
                 {property: "date", direction: "descending"},
                 {property: "number", direction: "descending"}
             ],
-            //rowClick: this.rowClick,
+            rowClick: this.rowClick,
             recordDoubleClick: ContractReport.editRecord,
             dataPageSize: 10000,
             groupStartOpen:"first",

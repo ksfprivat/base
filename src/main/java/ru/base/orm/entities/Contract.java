@@ -24,6 +24,7 @@ public class Contract {
     private String status;
     private Double amount;
     private Double costs;
+    private Double payment;
     private String department;
     private String type;
     private Integer object;
@@ -100,6 +101,16 @@ public class Contract {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    @Basic
+    @Column(name = "payment", nullable = true, precision = 4)
+    public Double getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Double payment) {
+        this.payment = payment;
     }
 
     @Basic

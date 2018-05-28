@@ -133,6 +133,9 @@ ContractsForm ={
                 },
                 {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+                {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+                {name: "payment", title:"Оплата", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+
                 {name: "datePayment", title:"Дата оплаты", type:"date", align:"left", changed :this.fieldChanged,
                     formatCellValue: function (value) {
                         return ((isDate(value)) || (value == null) ? value : formatDateString(value));
@@ -238,6 +241,7 @@ ContractsForm ={
                 contract.department = ContractsForm.changeCache[i].department;
                 contract.object = 0;
                 // contract.department = ContractsForm.changeCache[i].customerId;
+                contract.payment = ContractsForm.changeCache[i].payment;
                 contract.datePayment = isDate(ContractsForm.changeCache[i].datePayment) ?
                     dateToDateString(ContractsForm.changeCache[i].datePayment) : ContractsForm.changeCache[i].datePayment;
 

@@ -37,6 +37,8 @@ ContractWindow = {
 
                 {name: "amount", title: "Сумма", type:"float", format:",0.00;", defaultValue: 0},
                 {name: "costs", title: "Расходы", type:"float", format:",0.00;", defaultValue: 0},
+                {name: "payments", title: "Оплата", type:"float", format:",0.00;", defaultValue: 0},
+                {name: "datePayment", title: "Дата оплаты", type: "date",  editorType: "DateItem", useTextField: true, textAlign:"left"},
                 {name: "status", title: "Статус", type: "text",editorType:"ComboBoxItem",
                     valueMap: {
                         0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
@@ -116,13 +118,16 @@ ContractWindow = {
                 dateToDateString(contract.date) : contract.date;
             contract.dateFinal = isDate(contract.dateFinal) ?
                 dateToDateString(contract.dateFinal) : contract.dateFinal;
+            contract.datePayment = isDate(contract.datePayment) ?
+                dateToDateString(contract.datePayment) : contract.datePayment;
+
             contract.customerId = ContractWindow.customerId;
             insertContract(contract, function (newContractId) {
                 contract.id = newContractId;
                 contractsCard.listGrid.addData(contract);
                 contractsCard.setCurrentRecord(contract);
                 navContractsGrid.insertItem(contract);
-                addContractNode(contract)
+                addContractNode(contract);
             });
             ContractWindow.close();
         }
@@ -137,6 +142,8 @@ ContractWindow = {
                     dateToDateString(contract.date) : contract.date;
             contract.dateFinal = isDate(contract.dateFinal) ?
                     dateToDateString(contract.dateFinal) : contract.dateFinal;
+            contract.datePayment = isDate(contract.datePayment) ?
+                dateToDateString(contract.datePayment) : contract.datePayment;
             contract.department = null;
             contract.object = null;
             delete contract["customerByCustomerId"];
