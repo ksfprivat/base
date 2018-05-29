@@ -109,8 +109,7 @@ CustomerWindow = {
                       id: newCustomerId,
                       isFolder: true,
                       type: "customer",
-                      sortField: customer.title,
-                      children: createBaseFolders(customer, newCustomerId)
+                      sortField: customer.title
                   };
                   navTreeAddCustomerNode(node);
               });

@@ -90,6 +90,11 @@ function openFilteredNode(node, data) {
 
 function onNavTreeOpenFolder(node) {
         switch (node.type) {
+            case "customer":
+                if (typeof node.children === "undefined") {
+                    navTreeData.addList(createBaseFolders(node), node)
+                }
+                break;
             case  "contactsFolder":
                 getContactNodesByCustomerId(node.parentId, function (contacts) {
                     // Add type property for each objects in array
@@ -205,7 +210,6 @@ function refreshCustomerNode(data) {
 }
 
 function onNodeClick(viewer, node, recordNum) {
-    console.log(node);
     navTreeSelectedNode = node;
     if (!browserFrame.isVisible()) browserFrame.show();
     if (node.type === "customer") {
@@ -234,7 +238,7 @@ function createBaseFolders(customer) {
     return(
         [
             {
-                id: "contacts_" + customer.id, parentId: customer.id, customerId: customer.id,
+                id: "contacts_" +customer.id, parentId: customer.id, customerId: customer.id,
                 title: "Контакты", name: "Контакты", icon:imgDir+"/ic_folder_contacts.png", isFolder: true, type: "contactsFolder", search: false, sortField:0
             },
             {
@@ -324,9 +328,17 @@ function createNavTree() {
         defaultTabWidth:100,
         paneMargin:0,
             tabs: [
-             {title: "ОРГАНИЗАЦИИ", pane: navTree},
-             {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid},
-             {title: "КОНТРАКТЫ", pane: navContractsGrid.listGrid}]
+             {title: "ОРГАНИЗАЦИИ", pane: navTree, tabSelected:function () {
+                     $("#searchText").val("");
+                 }},
+             {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid, tabSelected:function () {
+                     $("#searchText").val("");
+                     contactsCard.contactsGrid.filterData(null);
+                 }},
+             {title: "КОНТРАКТЫ", pane: navContractsGrid.listGrid, tabSelected:function () {
+                     $("#searchText").val("");
+                     contractsCard.listGrid.filterData(null);
+                 }}]
      });
 
    return navTreeTabSet;

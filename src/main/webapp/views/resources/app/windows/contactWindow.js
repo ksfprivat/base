@@ -103,6 +103,7 @@ ContactWindow = {
                     contactsCard.contactsGrid.addData(contact);
                     addContactNode(contact.customerId, contact);
                     navContactsGrid.insertItem(contact, customerCard.getData().title);
+                    contactsCard.contactsGrid.setSort(contactsCard.contactsGrid.getSort());
             });
             ContactWindow.close();
         }

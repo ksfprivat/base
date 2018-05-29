@@ -128,6 +128,7 @@ ContractWindow = {
                 contractsCard.setCurrentRecord(contract);
                 navContractsGrid.insertItem(contract);
                 addContractNode(contract);
+                contractsCard.listGrid.setSort(contractsCard.listGrid.getSort());
             });
             ContractWindow.close();
         }
