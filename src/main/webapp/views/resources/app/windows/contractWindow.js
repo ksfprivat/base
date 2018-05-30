@@ -37,12 +37,13 @@ ContractWindow = {
 
                 {name: "amount", title: "Сумма", type:"float", format:",0.00;", defaultValue: 0},
                 {name: "costs", title: "Расходы", type:"float", format:",0.00;", defaultValue: 0},
-                {name: "payments", title: "Оплата", type:"float", format:",0.00;", defaultValue: 0},
+                {name: "payment", title: "Оплата", type:"float", format:",0.00;"},
                 {name: "datePayment", title: "Дата оплаты", type: "date",  editorType: "DateItem", useTextField: true, textAlign:"left"},
                 {name: "status", title: "Статус", type: "text",editorType:"ComboBoxItem",
                     valueMap: {
                         0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
-                    }}
+                    }},
+                {name: "note", title: "Коментарии", type:"textArea", width:"100%", height:"120", colSpan:5}
             ]
         });
 
@@ -121,7 +122,9 @@ ContractWindow = {
             contract.datePayment = isDate(contract.datePayment) ?
                 dateToDateString(contract.datePayment) : contract.datePayment;
 
+
             contract.customerId = ContractWindow.customerId;
+            console.log(contract);
             insertContract(contract, function (newContractId) {
                 contract.id = newContractId;
                 contractsCard.listGrid.addData(contract);
@@ -170,10 +173,11 @@ ContractWindow = {
     },
 
     validate: function () {
+        var  requiredFields = ["title", "type", "date", "dateFinal", "amount", "status"];
 
-        for (var i = 0; i < ContractWindow.contractDataBlock.fields.length; i++) {
-            if (ContractWindow.contractDataBlock.getValue(ContractWindow.contractDataBlock.fields[i].name) === undefined) {
-                isc.warn("Необходимо заполнить поле: <b>" +ContractWindow.contractDataBlock.fields[i].title+"</b>");
+        for (var i = 0; i < requiredFields.length; i++) {
+            if (ContractWindow.contractDataBlock.getValue(requiredFields[i]) === undefined) {
+                isc.warn("Необходимо заполнить поле: <b>" +ContractWindow.contractDataBlock.getField(requiredFields[i]).title+"</b>");
                 return false;
             }
         }
@@ -186,10 +190,18 @@ ContractWindow = {
             isc.warn("Не корректное значение полля <b>Сумма</b>");
             return false;
         }
+
         if (!isDigit(ContractWindow.contractDataBlock.getValue("costs"))) {
             isc.warn("Не корректное значение полля <b>Расходы</b>");
             return false;
         }
+
+        if (typeof  ContractWindow.contractDataBlock.getValue("payment") !== "undefined")
+            if (!isDigit(ContractWindow.contractDataBlock.getValue("payment"))) {
+                isc.warn("Не корректное значение полля <b>Оплата</b>");
+                return false;
+            }
+
         return true;
     },
 

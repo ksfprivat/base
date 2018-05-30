@@ -133,7 +133,6 @@ ContractsForm ={
                 },
                 {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-                {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "payment", title:"Оплата", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
 
                 {name: "datePayment", title:"Дата оплаты", type:"date", align:"left", changed :this.fieldChanged,

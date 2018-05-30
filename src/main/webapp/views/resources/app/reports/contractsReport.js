@@ -154,7 +154,6 @@ ContractReport = {
                 }
             },
             {name: "customerTitle", type:"text", title: "Организация", minWidth: 250, align:"left", showGridSummary:true, showGroupSummary:true,
-
                 getGroupSummary :function (records, summaryField) {
                     var prefix = "";
                     if (records.length === 1) return prefix + (records.length)+" Контракт";
@@ -223,6 +222,15 @@ ContractReport = {
                         if (records[i].status !== "3") costs += records[i].costs;
                     }
                     return  formatStringDoubleToCurrency(costs, "₽");
+                }
+            },
+            {name: "payment", title:"Оплата", type:"float",   minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true,
+                getGroupSummary :function (records, summaryField) {
+                    var payments = 0;
+                    for (var i = 0; i < records.length; i++) {
+                        if (records[i].status !== "3") payments += records[i].payment;
+                    }
+                    return  formatStringDoubleToCurrency(payments, "₽");
                 }
             },
             {name: "datePayment", title:"Дата оплаты",minWidth:90, type:"date", align:"left", showGroupSummary:true,

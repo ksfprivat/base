@@ -333,11 +333,11 @@ function createNavTree() {
                  }},
              {title: "КОНТАКТЫ",  pane: navContactsGrid.listGrid, tabSelected:function () {
                      $("#searchText").val("");
-                     contactsCard.contactsGrid.filterData(null);
+                     setFilterNavTree(null);
                  }},
              {title: "КОНТРАКТЫ", pane: navContractsGrid.listGrid, tabSelected:function () {
                      $("#searchText").val("");
-                     contractsCard.listGrid.filterData(null);
+                     navContractsGrid.setFilter("");
                  }}]
      });
 
