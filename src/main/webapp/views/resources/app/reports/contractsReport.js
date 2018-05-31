@@ -1,7 +1,6 @@
 ContractReport = {
 
     create: function (config) {
-        this.currentFilter = null;
         function createButton(title, icon, visible, size, event){
             return (
                 IButton.create({
@@ -154,7 +153,7 @@ ContractReport = {
                 }
             },
             {name: "customerTitle", type:"text", title: "Организация", minWidth: 250, align:"left", showGridSummary:true, showGroupSummary:true,
-                getGroupSummary :function (records, summaryField) {
+                getGroupSummary :function (records) {
                     var prefix = "";
                     if (records.length === 1) return prefix + (records.length)+" Контракт";
                     if ((records.length  > 1) && (records.length  < 5))  return prefix + (records.length)+" Контракта";
@@ -206,7 +205,7 @@ ContractReport = {
                     }
             },
             {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true,
-                getGroupSummary :function (records, summaryField) {
+                getGroupSummary :function (records) {
                     var amount = 0;
                     for (var i = 0; i < records.length; i++) {
                         if (records[i].status !== "3") amount += records[i].amount;
@@ -216,7 +215,7 @@ ContractReport = {
 
             },
             {name: "costs", title:"Затраты", type:"float",   minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true,
-                getGroupSummary :function (records, summaryField) {
+                getGroupSummary :function (records) {
                     var costs = 0;
                     for (var i = 0; i < records.length; i++) {
                         if (records[i].status !== "3") costs += records[i].costs;
@@ -225,7 +224,7 @@ ContractReport = {
                 }
             },
             {name: "payment", title:"Оплата", type:"float",   minWidth:100, format: ",0.00;",align:"left", showGroupSummary:true,
-                getGroupSummary :function (records, summaryField) {
+                getGroupSummary :function (records) {
                     var payments = 0;
                     for (var i = 0; i < records.length; i++) {
                         if (records[i].status !== "3") payments += records[i].payment;

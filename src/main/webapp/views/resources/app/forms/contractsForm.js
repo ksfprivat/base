@@ -129,6 +129,20 @@ ContractsForm ={
                 {name: "status", title:"Состояние", align:"left", minWidth:100, changed :this.fieldChanged,
                     valueMap: {
                         0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
+                    },
+                    formatCellValue: function(value) {
+                        switch (getStatusFieldTextValue(value)) {
+                            case "Исполнение":
+                                return  "<div class='greenAlertBox'>&nbsp;Исполнение&nbsp;</div>";
+                            case "Подписание":
+                                return "<div class='orangeAlertBox'>&nbsp;Подписание&nbsp;</div>";
+
+                            case "Недействителен":
+                                return "<div class='grayAlertBox'>&nbsp;Недействителен&nbsp;</div>";
+
+                            default:
+                                return getStatusFieldTextValue(value);
+                        }
                     }
                 },
                 {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
@@ -136,8 +150,16 @@ ContractsForm ={
                 {name: "payment", title:"Оплата", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
 
                 {name: "datePayment", title:"Дата оплаты", type:"date", align:"left", changed :this.fieldChanged,
-                    formatCellValue: function (value) {
-                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    formatCellValue: function (value, record) {
+                        // return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+
+                        var result = ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                        if ((getStatusFieldTextValue(record.status) === "Выполнен") && (record.amount !== 0)) {
+                            if ((value === null) || (typeof value === "undefined"))
+                                result = "<div class='redAlertBox'>&nbsp;Нет оплаты&nbsp;</div>";
+                        }
+                        return result;
+
                     },
                     formatEditorValue: function (value) {
                         return ((isDate(value)) || (value == null) ? value : formatDateString(value));
@@ -155,21 +177,7 @@ ContractsForm ={
                 {property: "date", direction: "descending"},
                 {property: "title", direction: "descending"}
             ],
-            rowClick: this.rowClick,
-
-            getBaseStyle:function (record, rowNum, colNum) {
-                if (typeof record === "undefined") return this.baseStyle;
-                if ((record.status === "Исполнение") || (record.status === "1"))  {
-                    if ((new Date()) > (new Date(record.dateFinal)))
-                    return "cellRed";
-                     else return "cellGreen"
-                }
-                else
-                    if (record.status === "0") return "cellAmber";
-                else
-                    return this.baseStyle;
-            },
-
+            // rowClick: this.rowClick,
             selectionChanged  : this.selectionChanged,
             cellChanged: this.ContractsChanged
         });
@@ -197,7 +205,7 @@ ContractsForm ={
         return Object.create(this);
     },
 
-    fieldChanged: function(form, item, value) {
+    fieldChanged: function() {
         ContractsForm.ContractsChanged(ContractsForm.listGrid.getSelectedRecord());
     },
 
@@ -265,7 +273,7 @@ ContractsForm ={
         ContractsForm.setChangeBlockState("hidden");
     },
 
-    ContractsChanged:function(record, newValue, oldValue, rowNum, colNum, grid){
+    ContractsChanged:function(record){
         if (!ContractsForm.changeCache.includes(record))
             ContractsForm.changeCache.push(record);
         ContractsForm.setChangeBlockState("visible");
@@ -342,7 +350,7 @@ ContractsForm ={
         }
     },
 
-    rowClick: function (record, recordNum, fieldNum) {
+    rowClick: function (record) {
         selectNode(record.id);
         if (getNavigationFrameMode() === VM_CONTRACTS) {
             var item = navContractsGrid.getItemById(record.id);
@@ -354,41 +362,6 @@ ContractsForm ={
 
     exportToPDF: function() {
 
-        function formatAddress(data) {
-            var result = "";
-            var fields = ['post', 'district', 'region', 'city', 'street', 'building'];
-            for (var i = 0; i < fields.length; i++) {
-                if (typeof data[fields[i]] !== "undefined")
-                    if (data[fields[i]].length > 0) {
-                        result = result + data[fields[i]]+" ";
-                        if (i !== fields.length) result = result+",";
-                    }
-            }
-            return result.substring(0, result.length-1);
-        }
-
-        var customer = CustomerForm.getData();
-        var docDef = {
-            content: [
-                {text: 'Организация', fontSize: 15,  margin: 5 },
-
-                {table: {
-                        headerRows: 1,
-                        widths: [ '*', '*'],
-                        body: [
-                            ['Наименование', customer.title],
-                            ['Полное наименование', customer.titleFull],
-                            ['ИНН', customer.inn],
-                            ['Адрес', formatAddress(customer)]
-                        ]
-                    }},
-                {text: 'Контакты', fontSize: 15,  margin: 5 }
-
-            ]
-
-        };
-
-        pdfMake.createPdf(docDef).open();
     },
 
     setPageViewMode: function () {

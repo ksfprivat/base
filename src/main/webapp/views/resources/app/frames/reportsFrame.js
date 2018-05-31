@@ -31,7 +31,7 @@ ReportsFrame = {
 
         };
 
-        this.currentReport = -1;
+        // this.currentReport = -1;
 
         this.reports = [
             {id: "root", title: "Отчеты", isFolder: true,
