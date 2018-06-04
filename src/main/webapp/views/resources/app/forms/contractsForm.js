@@ -147,16 +147,28 @@ ContractsForm ={
                 },
                 {name: "amount", title:"Сумма", type:"float", minWidth:100, format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
-                {name: "payment", title:"Оплата", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
+                {name: "payment", title:"Оплата", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged,
+                    formatCellValue: function (value, record) {
+                        var result = stringNumberToCurrency(value);
+                        if ((getStatusFieldTextValue(record.status) === "Выполнен") && (record.amount !== 0)) {
+                            if ((typeof value === "undefined") || (value === null))
+                                result = "<div class='redAlertBox'>&nbsp;Нет оплаты&nbsp;</div>";
+                            else if (value < record.amount) {
+                                result = "<div class='redAlertBox'>&nbsp;" + stringNumberToCurrency(value) + "&nbsp;</div>";
+                            }
+                        }
+                        return result;
+                    }
+                },
 
                 {name: "datePayment", title:"Дата оплаты", type:"date", align:"left", changed :this.fieldChanged,
                     formatCellValue: function (value, record) {
-                        // return ((isDate(value)) || (value == null) ? value : formatDateString(value));
-
                         var result = ((isDate(value)) || (value == null) ? value : formatDateString(value));
                         if ((getStatusFieldTextValue(record.status) === "Выполнен") && (record.amount !== 0)) {
                             if ((value === null) || (typeof value === "undefined"))
                                 result = "<div class='redAlertBox'>&nbsp;Нет оплаты&nbsp;</div>";
+                            else if (new Date() < new Date(value) || (record.amount > record.payment) )
+                                result = "<div class='redAlertBox'>&nbsp;"+formatDateString(value)+"&nbsp;</div>";
                         }
                         return result;
 

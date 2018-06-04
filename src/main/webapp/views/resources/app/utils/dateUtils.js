@@ -52,6 +52,12 @@ function getContractNumber(contractTitle) {
     return Number(result);
 }
 
+function stringNumberToCurrency(value) {
+    if ( (typeof value !== "undefined") || (value !== null) )
+        return String(value).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+    return value;
+}
+
 function getStatusFieldTextValue(value) {
     var result = "";
         switch  (value) {
