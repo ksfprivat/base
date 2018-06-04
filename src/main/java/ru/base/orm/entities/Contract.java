@@ -29,6 +29,7 @@ public class Contract {
     private String type;
     private Integer object;
     private Date datePayment;
+    private String note;
     private Integer customerId;
     private Customer customerByCustomerId;
 
@@ -166,6 +167,16 @@ public class Contract {
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public void setDatePayment(Date datePayment) {
         this.datePayment = datePayment;
+    }
+
+    @Basic
+    @Column(name = "note", nullable = true)
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     @Basic

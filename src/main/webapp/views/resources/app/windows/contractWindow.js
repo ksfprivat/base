@@ -122,9 +122,7 @@ ContractWindow = {
             contract.datePayment = isDate(contract.datePayment) ?
                 dateToDateString(contract.datePayment) : contract.datePayment;
 
-
             contract.customerId = ContractWindow.customerId;
-            console.log(contract);
             insertContract(contract, function (newContractId) {
                 contract.id = newContractId;
                 contractsCard.listGrid.addData(contract);

@@ -106,9 +106,13 @@ ContractsForm ={
             canEdit:true,
             autoDraw: false,
             canAutoFitFields:false,
+            showRecordComponents: true,
+            showRecordComponentsByCell: true,
+            showAllRecords:true,
             baseStyle:"cell",
             fields: [
                 {name: "id",  primaryKey: true},
+                {name: "notes", title:" ", width:22, align: "center"},
                 {name: "title", title:"Наименование", minWidth:150, align:"left", changed :this.fieldChanged},
                 {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
                     formatCellValue: function (value) {
@@ -149,12 +153,13 @@ ContractsForm ={
                 {name: "costs", title:"Затраты", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged},
                 {name: "payment", title:"Оплата", type:"float", minWidth: 100, format: ",0.00;",align:"left", changed :this.fieldChanged,
                     formatCellValue: function (value, record) {
-                        var result = stringNumberToCurrency(value);
+                        var result = ( (stringNumberToCurrency(value) !== "null")
+                            && (stringNumberToCurrency(value) !== "undefined" ) ) ? stringNumberToCurrency(value)+",00": "";
                         if ((getStatusFieldTextValue(record.status) === "Выполнен") && (record.amount !== 0)) {
                             if ((typeof value === "undefined") || (value === null))
                                 result = "<div class='redAlertBox'>&nbsp;Нет оплаты&nbsp;</div>";
                             else if (value < record.amount) {
-                                result = "<div class='redAlertBox'>&nbsp;" + stringNumberToCurrency(value) + "&nbsp;</div>";
+                                result = "<div class='redAlertBox'>&nbsp;" + stringNumberToCurrency(value)+",00" + "&nbsp;</div>";
                             }
                         }
                         return result;
@@ -191,9 +196,36 @@ ContractsForm ={
             ],
             // rowClick: this.rowClick,
             selectionChanged  : this.selectionChanged,
-            cellChanged: this.ContractsChanged
-        });
+            cellChanged: this.ContractsChanged,
+            createRecordComponent : function (record, colNum)  {
+                var fieldName = this.getFieldName(colNum);
 
+                if (fieldName === "notes") {
+                    var recordCanvas = HLayout.create({
+                        height: 22,
+                        width: "100%",
+                        align: "center"
+                    });
+                    var notesBtn = isc.ImgButton.create({
+                        showDown: false,
+                        showRollOver: false,
+                        layoutAlign: "center",
+                        src: ( (record.note !== null) && (typeof record.note !== "undefined") && (String(record.note).length > 0) )? (imgDir+"/ic_comment_alert.png"):(imgDir+"/ic_comment_gray.png"),
+                        prompt: ( (record.note !== null) && (typeof record.note !== "undefined") && (String(record.note).length > 0) )? record.note: "Добавить коментарии",
+                        height: 18,
+                        width: 18,
+                        grid: this,
+                        click : function () {
+                            if (record != null) {
+                                var contractWindow = ContractWindow.create(TRANSACTION_UPDATE, customerCard.getData().title);
+                                contractWindow.setData(record, ContractsForm.customerId)
+                            }
+                        }});
+                    recordCanvas.addMember(notesBtn);
+                    return recordCanvas;
+                } else  return null;
+            }
+        });
 
         this.sortState = this.listGrid.getSort();
 

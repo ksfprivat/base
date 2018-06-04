@@ -3,9 +3,10 @@ const months = [
 ];
 
 function formatDateString(value) {
-    if (value != null)
-        return (value.substr(8, 2) + "." + value.substr(5, 2) + "." + value.substr(0, 4));
-    else return"-";
+    if ((value != null)) {
+        if (isDate(value)) value = dateToDateString(value);
+        return (value.substr(8, 2) + "." + value.substr(5, 2) + "." + value.substr(0, 4))
+    } else return"-";
 }
 
 function dateToDateString(value) {
