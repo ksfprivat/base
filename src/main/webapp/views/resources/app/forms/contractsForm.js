@@ -219,10 +219,12 @@ ContractsForm ={
                         grid: this,
                         click : function () {
                             if (record != null) {
+                                ContractsForm.setCurrentRecord(record);
                                 var contractWindow = ContractWindow.create(TRANSACTION_UPDATE, customerCard.getData().title);
-                                contractWindow.setData(record, ContractsForm.customerId)
+                                contractWindow.setData(record, ContractsForm.customerId);
                             }
-                        }});
+                        }
+                    });
                     recordCanvas.addMember(notesBtn);
                     return recordCanvas;
                 } else  return null;

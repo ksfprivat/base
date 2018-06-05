@@ -160,6 +160,15 @@ ContractWindow = {
                         var rowNum = contractsCard.listGrid.getRowNum(contractsCard.listGrid.getSelectedRecord());
                         contractsCard.listGrid.setEditValues(rowNum, contract);
                         contractsCard.listGrid.refreshRow(rowNum);
+
+                        var noteComponent = contractsCard.listGrid.getRecordComponent(rowNum, 0).children[0];
+                        noteComponent.setSrc(
+                            ( (contract.note !== null) && (typeof contract.note !== "undefined") &&
+                            (String(contract.note).length > 0) )?
+                                (imgDir+"/ic_comment_black_alert.png"):(imgDir+"/ic_comment_gray.png")
+                        );
+                        noteComponent.prompt = (noteComponent.src !== imgDir+"/ic_comment_gray.png")? contract.note: "Добавить коментарий";
+
                         navContractsGrid.updateItem(contract);
                     }
                     if (reportsFrame.content.isVisible())
