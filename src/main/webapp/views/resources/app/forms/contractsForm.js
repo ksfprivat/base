@@ -212,7 +212,7 @@ ContractsForm ={
                         layoutAlign: "center",
                         src: ( (record.note !== null) &&
                             (typeof record.note !== "undefined") &&
-                            (String(record.note).length > 0) )? (imgDir+"/ic_comment_black_alert.png"):(imgDir+"/ic_comment_gray.png"),
+                            (String(record.note).length > 0) )? (imgDir+"/ic_comment_alert_orange.png"):(imgDir+"/ic_comment_gray.png"),
                         prompt: ( (record.note !== null) && (typeof record.note !== "undefined") && (String(record.note).length > 0) )? record.note: "Добавить коментарии",
                         height: 18,
                         width: 18,

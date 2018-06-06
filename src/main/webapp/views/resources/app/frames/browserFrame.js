@@ -28,6 +28,7 @@ function createBrowserFrame() {
             contractsCard.content
         ]
     });
+    customerCard.cardExpand();
     return browserFrame;
 }
 

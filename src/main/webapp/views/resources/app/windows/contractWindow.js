@@ -20,7 +20,8 @@ ContractWindow = {
 
         this.contractDataBlock = DynamicForm.create({
             titleOrientation: "top",
-            colWidths: ["100", "100"],
+            // colWidths: ["100", "100"],
+            width:"100%",
             numCols: 2,
             padding: 6,
             margin: 8,
@@ -42,8 +43,9 @@ ContractWindow = {
                 {name: "status", title: "Статус", type: "text",editorType:"ComboBoxItem",
                     valueMap: {
                         0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
-                    }},
-                {name: "note", title: "Коментарии", type:"textArea", width:"100%", height:"120", colSpan:5}
+                    }}
+                    ,
+                {name: "note", title: "Коментарии", type:"textArea", width:"100%", height:"120", colSpan:2}
             ]
         });
 
@@ -165,7 +167,7 @@ ContractWindow = {
                         noteComponent.setSrc(
                             ( (contract.note !== null) && (typeof contract.note !== "undefined") &&
                             (String(contract.note).length > 0) )?
-                                (imgDir+"/ic_comment_black_alert.png"):(imgDir+"/ic_comment_gray.png")
+                                (imgDir+"/ic_comment_alert_orange.png"):(imgDir+"/ic_comment_gray.png")
                         );
                         noteComponent.prompt = (noteComponent.src !== imgDir+"/ic_comment_gray.png")? contract.note: "Добавить коментарий";
 

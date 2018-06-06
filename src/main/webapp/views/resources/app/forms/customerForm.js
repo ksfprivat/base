@@ -56,15 +56,17 @@ CustomerForm = {
 
         this.spacer = VLayout.create({width:"6"});
 
+        this.headerTitle = HTMLFlow.create({
+            width:"100%",
+            contents:"<div class='cardBoxTitle'>Организация</div>"
+        });
+
         this.header = HLayout.create({
            width:"100%",
            padding:10,
            members: [
                this.btnExpand,
-               HTMLFlow.create({
-                   width:"100%",
-                   contents:"<div class='cardBoxTitle'>Организация</div>"
-               }),
+               this.headerTitle,
                this.btnCommit,
                this.spacer,
                this.btnRollback,
@@ -182,13 +184,12 @@ CustomerForm = {
                 this.footer
             ]
         });
-
         this.content.setStyleName("cardBox");
-
         return Object.create(this);
     },
 
     setData: function (customer) {
+        if (!CustomerForm.expanded) CustomerForm.setHeaderTitle(customer.title);
         CustomerForm.changed = false;
         CustomerForm.data = customer;
         CustomerForm.titleBlock.setValues(this.data);
@@ -263,6 +264,10 @@ CustomerForm = {
     clearData: function() {
         CustomerForm.titleBlock.clearValues();
         CustomerForm.addressBlock.clearValues();
+    },
+
+    setHeaderTitle: function (title) {
+        CustomerForm.headerTitle.setContents("<div class='cardBoxTitle'>"+title+"</div>");
     },
 
     exportToPDF:function() {
