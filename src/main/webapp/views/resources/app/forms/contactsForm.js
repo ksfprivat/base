@@ -59,15 +59,17 @@ ContactsForm ={
 
         this.spacer = VLayout.create({width:"6"});
 
+        this.headerTitle = HTMLFlow.create({
+            width:"100%",
+            contents:"<div class='cardBoxTitle'>Контакты</div>"
+        });
+
         this.header = HLayout.create({
             width:"100%",
             padding:10,
             members: [
                 this.btnExpand,
-                HTMLFlow.create({
-                    width:"100%",
-                    contents:"<div class='cardBoxTitle'>Контакты</div>"
-                }),
+                this.headerTitle,
                 this.btnCommit,
                 this.spacer,
                 this.btnRollback,
@@ -338,6 +340,10 @@ ContactsForm ={
             var index =  navContactsGrid.listGrid.getRecordIndex(navContactsGridItem);
             navContactsGrid.listGrid.scrollToRow(index);
         }
+    },
+
+    setHeaderTitle: function (title) {
+        ContactsForm.headerTitle.setContents("<div class='cardBoxTitle'>"+title+"</div>");
     },
 
     mailTo: function () {

@@ -32,6 +32,7 @@ CustomerForm = {
                     icon: imgDir+"/"+icon,
                     showFocused: false,
                     baseStyle:"cardBoxToolButton",
+                    autoDraw: false,
                     click: event
             }));
         }
@@ -41,7 +42,8 @@ CustomerForm = {
         this.btnRollback = createButton("ic_rollback.png", "hidden", null, CustomerForm.rollbackChanges);
 
         this.btnMenu = createButton("ic_menu.png", "visible", null, function(){CustomerForm.menuBar.showMenu()});
-        this.btnHideNotes = createButton("ic_expand.png", "hidden", null, CustomerForm.showNotes);
+      //  this.btnHideNotes = createButton("ic_expand.png", "hidden", null, CustomerForm.showNotes);
+      //  this.btnNotesAlert = createButton("ic_note_alert.png", "hidden", null, CustomerForm.showNotes);
         this.btnNotesAlert = createButton("ic_note_alert.png", "hidden", null, CustomerForm.showNotes);
         this.btnMaximize = createButton("ic_resize_max.png", "visible", null, CustomerForm.setPageViewMode);
         this.btnMinimize = createButton("ic_resize_min.png", "hidden", null,  CustomerForm.setCardViewMode);
@@ -67,6 +69,8 @@ CustomerForm = {
            members: [
                this.btnExpand,
                this.headerTitle,
+               this.btnNotesAlert,
+               this.spacer,
                this.btnCommit,
                this.spacer,
                this.btnRollback,
@@ -133,12 +137,7 @@ CustomerForm = {
            width:"100%",
            members:[
                 HLayout.create({width:"14"}),
-                this.btnShowNotes,
-                HLayout.create({width:"100%"}),
-                this.btnNotesAlert,
-                HLayout.create({width:"6"}),
-                this.btnHideNotes,
-                HLayout.create({width:"12"})
+                this.btnShowNotes
            ]
        });
 
@@ -189,7 +188,7 @@ CustomerForm = {
     },
 
     setData: function (customer) {
-        if (!CustomerForm.expanded) CustomerForm.setHeaderTitle(customer.title);
+        CustomerForm.setHeaderTitle(customer.title);
         CustomerForm.changed = false;
         CustomerForm.data = customer;
         CustomerForm.titleBlock.setValues(this.data);
@@ -198,8 +197,11 @@ CustomerForm = {
         CustomerForm.setChangeBlockState("hidden");
         if (CustomerForm.data.note !== "" && CustomerForm.data.note !== null) {
             CustomerForm.btnNotesAlert.show();
+            CustomerForm.btnNotesAlert.prompt = CustomerForm.data.note;
         }
-        else {CustomerForm.btnNotesAlert.hide();}
+        else {
+            CustomerForm.btnNotesAlert.hide();
+        }
     },
 
     getData: function () {
@@ -227,6 +229,13 @@ CustomerForm = {
         updateCustomer(CustomerForm.data, function (success) {
             if (success) {
                 refreshCustomerNode(CustomerForm.data);
+                if (CustomerForm.data.note !== "" && CustomerForm.data.note !== null) {
+                    CustomerForm.btnNotesAlert.show();
+                    CustomerForm.btnNotesAlert.prompt = CustomerForm.data.note;
+                } else {
+                    CustomerForm.btnNotesAlert.hide();
+                    CustomerForm.btnNotesAlert.prompt = null;
+                }
                 navContactsGrid.updateCustomerTitles(CustomerForm.data.id, CustomerForm.data.title);
             }
         })
@@ -248,6 +257,7 @@ CustomerForm = {
                 CustomerForm.btnExpand.setIcon(imgDir+"/ic_expand.png");
             }
         }
+        CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_collapse.png' style='vertical-align:middle'>");
         CustomerForm.expanded = !CustomerForm.expanded;
     },
 
@@ -307,18 +317,19 @@ CustomerForm = {
 
     showNotes: function () {
         if (CustomerForm.notesBlock.visibility !== "inherit") {
-            CustomerForm.btnHideNotes.show();
             CustomerForm.notesBlock.show();
-            CustomerForm.btnShowNotes.setTitle("Коментарии");
-            CustomerForm.btnShowNotes.setWidth("130");
-        } else {
-            CustomerForm.btnHideNotes.hide();
-            CustomerForm.notesBlock.hide();
-            CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_goto.png' style='vertical-align:middle'>");
+            CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_collapse.png' style='vertical-align:middle'>");
             CustomerForm.btnShowNotes.setWidth("150");
-            if (CustomerForm.viewMode === "page") {
-                CustomerForm.footer.setHeight("100%");
-            } else CustomerForm.footer.setHeight("12");
+            CustomerForm.notesBlockHeader.show();
+
+        } else {
+            if (CustomerForm.viewMode !== "page") {
+                CustomerForm.notesBlock.hide();
+                if (!CustomerForm.expanded)
+                    CustomerForm.notesBlockHeader.hide();
+                CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_goto.png' style='vertical-align:middle'>");
+                CustomerForm.btnShowNotes.setWidth("150");
+            }
         }
     },
 
