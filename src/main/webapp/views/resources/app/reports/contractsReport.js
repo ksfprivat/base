@@ -144,6 +144,13 @@ ContractReport = {
 
         this.fieldMap = [
             {name: "id",  primaryKey: true, hidden: true},
+            {name: "notes", title:"<img src='"+imgDir+"/ic_comment_alert_white.png'>", width:22, align: "center",
+                formatCellValue: function (value, record) {
+                    if ( (record.note !== null) && (typeof record.note !== "undefined") && (String(record.note).length > 0) )
+                        return "<img src='"+imgDir+"/ic_comment_alert_orange.png' title='"+record.note+"'>";
+                    else
+                        return value;
+                }},
             {name: "number", title:"Контракт",type:"text", minWidth:150, align:"left", showGroupSummary:true, showGridSummary:true,  //summaryFunction:"count",
                 formatGroupSummary: function () {
                   return "Итого:";
@@ -258,6 +265,8 @@ ContractReport = {
             {name: "year", title:" ",width:0, type:"text", hidden: true}
 
         ];
+
+
         this.dataSource = DataSource.create({
             fields:this.fieldMap,
             serverType:"sql",
@@ -309,7 +318,7 @@ ContractReport = {
             groupStartOpen:"first",
             // groupByField: 'status',
             groupByMaxRecords: "10000",
-            showCollapsedGroupSummary: true
+            showCollapsedGroupSummary: true,
             // autoFetchData: true
         });
 

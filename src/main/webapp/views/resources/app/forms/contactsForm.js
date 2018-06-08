@@ -52,7 +52,7 @@ ContactsForm ={
         this.btnMaximize = createButton(null, "ic_resize_max.png", "visible",24, this.setPageViewMode);
         this.btnMinimize = createButton(null, "ic_resize_min.png", "hidden",24, this.setCadViewMode);
 
-        this.btnExpand = createButton(null,"ic_expand.png", "visible", 24, ContactsForm.cardExpand);
+        this.btnExpand = createButton(null,"ic_collapse.png", "visible", 24, ContactsForm.cardExpand);
         this.btnCommit = createButton(null,"ic_commit.png", "hidden", 24,ContactsForm.commitChanges);
         this.btnRollback = createButton(null,"ic_rollback.png", "hidden",24, ContactsForm.rollbackChanges);
 
@@ -203,11 +203,11 @@ ContactsForm ={
             if (ContactsForm.expanded) {
                 ContactsForm.content.members[i].hide();
                 ContactsForm.content.setHeight(30);
-                ContactsForm.btnExpand.setIcon(imgDir+"/ic_collapse.png");
+                ContactsForm.btnExpand.setIcon(imgDir+"/ic_goto.png");
             } else {
                 ContactsForm.content.members[i].show();
                 ContactsForm.content.setHeight(expandedHeight);
-                ContactsForm.btnExpand.setIcon(imgDir+"/ic_expand.png");
+                ContactsForm.btnExpand.setIcon(imgDir+"/ic_collapse.png");
             }
         }
         ContactsForm.expanded = ! ContactsForm.expanded;

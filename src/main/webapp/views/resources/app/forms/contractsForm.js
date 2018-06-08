@@ -51,7 +51,7 @@ ContractsForm ={
         this.btnMaximize = createButton(null, "ic_resize_max.png", "visible",24, this.setPageViewMode);
         this.btnMinimize = createButton(null, "ic_resize_min.png", "hidden",24, this.setCadViewMode);
 
-        this.btnExpand = createButton(null,"ic_expand.png", "visible", 24, ContractsForm.cardExpand);
+        this.btnExpand = createButton(null,"ic_collapse.png", "visible", 24, ContractsForm.cardExpand);
         this.btnCommit = createButton(null,"ic_commit.png", "hidden", 24,ContractsForm.commitChanges);
         this.btnRollback = createButton(null,"ic_rollback.png", "hidden",24, ContractsForm.rollbackChanges);
 
@@ -267,11 +267,11 @@ ContractsForm ={
             if (ContractsForm.expanded) {
                 ContractsForm.content.members[i].hide();
                 ContractsForm.content.setHeight(30);
-                ContractsForm.btnExpand.setIcon(imgDir+"/ic_collapse.png");
+                ContractsForm.btnExpand.setIcon(imgDir+"/ic_goto.png");
             } else {
                 ContractsForm.content.members[i].show();
                 ContractsForm.content.setHeight(expandedHeight);
-                ContractsForm.btnExpand.setIcon(imgDir+"/ic_expand.png");
+                ContractsForm.btnExpand.setIcon(imgDir+"/ic_collapse.png");
             }
         }
         ContractsForm.expanded = ! ContractsForm.expanded;

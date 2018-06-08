@@ -42,8 +42,6 @@ CustomerForm = {
         this.btnRollback = createButton("ic_rollback.png", "hidden", null, CustomerForm.rollbackChanges);
 
         this.btnMenu = createButton("ic_menu.png", "visible", null, function(){CustomerForm.menuBar.showMenu()});
-      //  this.btnHideNotes = createButton("ic_expand.png", "hidden", null, CustomerForm.showNotes);
-      //  this.btnNotesAlert = createButton("ic_note_alert.png", "hidden", null, CustomerForm.showNotes);
         this.btnNotesAlert = createButton("ic_note_alert.png", "hidden", null, CustomerForm.showNotes);
         this.btnMaximize = createButton("ic_resize_max.png", "visible", null, CustomerForm.setPageViewMode);
         this.btnMinimize = createButton("ic_resize_min.png", "hidden", null,  CustomerForm.setCardViewMode);
@@ -250,11 +248,11 @@ CustomerForm = {
             if (CustomerForm.expanded) {
                 CustomerForm.content.members[i].hide();
                 CustomerForm.content.setHeight(30);
-                CustomerForm.btnExpand.setIcon(imgDir+"/ic_collapse.png");
+                CustomerForm.btnExpand.setIcon(imgDir+"/ic_goto.png");
             } else {
                 CustomerForm.content.members[i].show();
                 CustomerForm.content.setHeight(300);
-                CustomerForm.btnExpand.setIcon(imgDir+"/ic_expand.png");
+                CustomerForm.btnExpand.setIcon(imgDir+"/ic_collapse.png");
             }
         }
         CustomerForm.btnShowNotes.setTitle("Коментарии<img src='" + imgDir + "/ic_collapse.png' style='vertical-align:middle'>");
