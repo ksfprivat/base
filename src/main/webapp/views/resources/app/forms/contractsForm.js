@@ -112,7 +112,7 @@ ContractsForm ={
             baseStyle:"cell",
             fields: [
                 {name: "id",  primaryKey: true},
-                {name: "notes", title:" ", width:22, align: "center"},
+                {name: "notes", title:"<img src='"+imgDir+"/ic_comment_alert_white.png' height='18px' width='18px'>", width:22, align: "left"},
                 {name: "title", title:"Наименование", minWidth:150, align:"left", changed :this.fieldChanged},
                 {name: "date", title:"Дата", type:"date", align:"left", changed :this.fieldChanged,
                     formatCellValue: function (value) {

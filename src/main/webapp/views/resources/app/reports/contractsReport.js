@@ -104,7 +104,7 @@ ContractReport = {
         this.btnReportEdit = createToolButton("Изменить", "ic_report_edit.png", "visible", ContractReport.editRecord);
         this.btnReportDelete= createToolButton("Удалить", "ic_report_delete.png", "visible", ContractReport.deleteRecord);
         this.btnTotal = createToolButton("Итоги", "ic_report_sigma.png", "visible", null);
-        this.btnExport = createToolButton("Экспорт", "ic_report_export_excel.png", "visible", null);
+        this.btnExport = createToolButton("Экспорт", "ic_report_export_excel.png", "visible", ContractReport.exportData);
 
 
         this.toolBar = HLayout.create({
@@ -144,7 +144,7 @@ ContractReport = {
 
         this.fieldMap = [
             {name: "id",  primaryKey: true, hidden: true},
-            {name: "notes", title:"<img src='"+imgDir+"/ic_comment_alert_white.png'>", width:22, align: "center",
+            {name: "notes", title:"<img src='"+imgDir+"/ic_comment_alert_white.png' width='18px' height='18px'>", width:22, align: "left",
                 formatCellValue: function (value, record) {
                     if ( (record.note !== null) && (typeof record.note !== "undefined") && (String(record.note).length > 0) )
                         return "<img src='"+imgDir+"/ic_comment_alert_orange.png' title='"+record.note+"'>";
@@ -419,9 +419,13 @@ ContractReport = {
 
     updateRecord: function (contract) {
 
-        contract.date = (contract.date !== null)? new Date(contract.date): contract.date;
-        contract.dateFinal = (contract.dateFinal !== null)? new Date(contract.dateFinal): contract.dateFinal;
-        contract.datePayment = (contract.datePayment !== null)? new Date(contract.datePayment): contract.datePayment;
+        function isEmpty(value) {
+            return ((value === null) || (typeof value === "undefined"));
+        }
+
+        contract.date = !isEmpty(contract.date)? new Date(contract.date): contract.date;
+        contract.dateFinal = !isEmpty(contract.dateFinal)? new Date(contract.dateFinal): contract.dateFinal;
+        contract.datePayment = !isEmpty(contract.datePayment)? new Date(contract.datePayment): contract.datePayment;
 
         ContractReport.listGrid.updateData(contract);
         ContractReport.listGrid.refreshRow(ContractReport.listGrid.getRowNum(contract));
@@ -442,10 +446,12 @@ ContractReport = {
                         });
                         return this.Super('yesClick', arguments);}}
             );
+    },
 
+    exportData: function () {
+        console.log("Export Data");
 
-
-        console.log(record);
+       ContractReport.listGrid.exportData(null, { operationId: "customExport" });
     }
 
 };

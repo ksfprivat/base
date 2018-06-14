@@ -517,6 +517,7 @@ function navTreeEditButtonClick() {
 
 function navTreeAddCustomerNode(node) {
     if (navTreeIsFiltered()) clearFilterNavTree();
+    navTreeData.sortByProperty("sortField");
     navTreeData.add(node, navTreeData.root);
     navTree.deselectAllRecords();
     navTree.selectRecord(node);

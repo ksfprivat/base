@@ -116,9 +116,7 @@ ContactsForm ={
             fields: [
                 {name: "id",  primaryKey: true, hidden :true},
                 {name: "favorite", hidden: true},
-                {name:"fav", title:" ", width:22, align: "center"
-                    // , autoFitWidth:true
-                },
+                {name:"fav", title:"<img src='"+imgDir+"/ic_star_white_fill.png' height='18px' width='18px'>", width:22, align: "left"},
                 {name: "name", title:"Имя", width: 250, changed :this.fieldChanged},
                 {name: "position", title:"Должность", changed :this.fieldChanged},
                 {name: "phone", title:"Телефон", changed :this.fieldChanged},
