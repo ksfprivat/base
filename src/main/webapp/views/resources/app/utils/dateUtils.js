@@ -108,3 +108,22 @@ function getStatusFieldNumberValue(value) {
     }
     return result;
 }
+
+function getContractTypeWord(value) {
+    var result = "";
+    switch (value) {
+        case "0":
+            result = "аттестация";
+            break;
+        case "1":
+            result = "контроль";
+            break;
+        case "2":
+            result = "услуга";
+            break;
+        case "3":
+            result = "поставка";
+            break;
+    }
+    return result;
+}

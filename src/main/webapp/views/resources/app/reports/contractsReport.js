@@ -312,13 +312,13 @@ ContractReport = {
                 {property: "date", direction: "descending"},
                 {property: "number", direction: "descending"}
             ],
-            rowClick: this.rowClick,
+            // rowClick: this.rowClick,
             recordDoubleClick: ContractReport.editRecord,
             dataPageSize: 10000,
             groupStartOpen:"first",
             // groupByField: 'status',
             groupByMaxRecords: "10000",
-            showCollapsedGroupSummary: true,
+            showCollapsedGroupSummary: true
             // autoFetchData: true
         });
 
@@ -448,10 +448,36 @@ ContractReport = {
             );
     },
 
-    exportData: function () {
-        console.log("Export Data");
+    getExportOutput: function (data) {
+        var output = [];
+        for (var i = 0; i < data.length; i++) {
+            output[i] = {
+                title:data[i].title, customer:data[i].customerTitle,
+                date:formatDateString(data[i].date), dateFinal:formatDateString(data[i].dateFinal),
+                status: getStatusFieldTextValue(data[i].status), type:getContractTypeWord(data[i].type),
+                amount: data[i].amount, costs:data[i].costs
+            }
+        }
+        return output;
+    },
 
-       ContractReport.listGrid.exportData(null, { operationId: "customExport" });
+    exportData: function () {
+        function parseGroupTree(tree) {
+            var  data = [];
+            for (var i = 0; i < tree.groupMembers.length; i++) {
+                if (typeof tree.groupMembers[i].groupMembers !== "undefined")
+                    for (var j = 0; j < tree.groupMembers[i].groupMembers.length; j++)
+                        data.push(tree.groupMembers[i].groupMembers[j]);
+            }
+            return data;
+        }
+        
+        var data = (typeof ContractReport.listGrid.groupTree === "undefined") ?
+            ContractReport.listGrid.data.allRows:
+            parseGroupTree(ContractReport.listGrid.groupTree.root);
+
+        var xls = new XlsExport(ContractReport.getExportOutput(data), "String");
+        xls.exportToXLS('export'+Number(new Date())+'.xls');
     }
 
 };

@@ -14,6 +14,9 @@
 	<script src="<c:url value="resources/lib/pdfmake/pdfmake.min.js"/>"></script>
 	<script src="<c:url value="resources/lib/pdfmake/vfs_fonts.js"/>"></script>
 
+	<%--Excel export library--%>
+	<script src="<c:url value="resources/lib/xlsExport/xls-export.js"/>"></script>
+
 	<%--Isomorphic SmarClient init scripts	--%>
 	<script>var isomorphicDir="/resources/lib/isomorphic/";</script>
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_Core.js"/>"></script>
