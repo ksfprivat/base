@@ -53,9 +53,9 @@ ReportsFrame = {
 
                     ]
                 },
-                {id: 0, title:"Объекты", isFolder: true
-
-                 }
+                {
+                    id: 0, title:"Объекты", isFolder: true
+                }
             ]}];
 
         this.navTree = TreeGrid.create({

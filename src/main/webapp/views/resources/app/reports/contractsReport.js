@@ -89,6 +89,19 @@ ContractReport = {
             ]
         });
 
+        this.exportMenu  = isc.Menu.create({
+            autoDraw: false,
+            showShadow: true,
+            imageSize:24,
+            shadowDepth: 0,
+            valueIconSize:24,
+            data: [
+                {id: "exportToExcel",title: "Microsoft Excel", icon:imgDir+"/ic_file_excel.png", click:function(){ContractReport.exportData('excel')}},
+                {id: "exportToWord",title: "Microsoft Word", icon:imgDir+"/ic_file_word.png", click:function(){ContractReport.exportData('word')}},
+                {id: "exportToPDF",title: "PDF", icon:imgDir+"/ic_file_pdf.png", click:function(){ContractReport.exportData('pdf')}}
+            ]
+        });
+
         this.btnMenu = createButton(null, "ic_menu.png", "visible",24, null);
         this.btnResize = createButton(null, "ic_resize_max.png", "visible",24, ContractReport.resizeLayout);
 
@@ -103,9 +116,11 @@ ContractReport = {
         }, ContractReport.groupMenu);
         this.btnReportEdit = createToolButton("Изменить", "ic_report_edit.png", "visible", ContractReport.editRecord);
         this.btnReportDelete= createToolButton("Удалить", "ic_report_delete.png", "visible", ContractReport.deleteRecord);
-        this.btnTotal = createToolButton("Итоги", "ic_report_sigma.png", "visible", null);
-        this.btnExport = createToolButton("Экспорт", "ic_report_export_excel.png", "visible", ContractReport.exportData);
-
+        // this.btnTotal = createToolButton("Итоги", "ic_report_sigma.png", "visible", ContractReport.showSummary);
+        this.btnExport = createToolButton("Экспорт", "ic_report_export.png", "visible", function() {
+            ContractReport.btnExport.showContextMenu()},
+            ContractReport.exportMenu);
+        this.btnReportChart = createToolButton("Диаграммы", "ic_report_chart.png", "visible", null);
 
         this.toolBar = HLayout.create({
             width: "100%",
@@ -120,9 +135,10 @@ ContractReport = {
                 this.btnReportEdit,
                 this.btnReportDelete,
                 separator(),
-                this.btnTotal,
-                this.btnExport
-        ]});
+                // this.btnTotal,
+                this.btnExport,
+                this.btnReportChart
+            ]});
 
         this.spacer = VLayout.create({width:"6", margin:2});
 
@@ -287,6 +303,7 @@ ContractReport = {
             showFilterEditor: true,
             filterOnKeypress: true,
             showGroupSummary:true,
+            // showGroupSummaryInHeader: true,
             canAutoFitFields: true,
             filterEditorProperties: {
                 filterImg: null,
@@ -461,7 +478,7 @@ ContractReport = {
         return output;
     },
 
-    exportData: function () {
+    exportData: function (outputFormat) {
         function parseGroupTree(tree) {
             var  data = [];
             for (var i = 0; i < tree.groupMembers.length; i++) {
@@ -472,12 +489,63 @@ ContractReport = {
             return data;
         }
         
-        var data = (typeof ContractReport.listGrid.groupTree === "undefined") ?
-            ContractReport.listGrid.data.allRows:
-            parseGroupTree(ContractReport.listGrid.groupTree.root);
+        var data = ContractReport.getExportOutput(
+            (typeof ContractReport.listGrid.groupTree === "undefined") ?
+                ContractReport.listGrid.data.allRows:
+                parseGroupTree(ContractReport.listGrid.groupTree.root)
+        );
 
-        var xls = new XlsExport(ContractReport.getExportOutput(data), "String");
+        switch (outputFormat) {
+            case 'excel':ContractReport.exportDataToExcel(data);
+                break;
+            case 'word':ContractReport.exportDataToWord(data);
+                break;
+            case 'pdf':ContractReport.exportDataToPDF(data);
+                break;
+        }
+    },
+
+    exportDataToExcel: function (data) {
+        var xls = new XlsExport(data, "String");
         xls.exportToXLS('export'+Number(new Date())+'.xls');
+    },
+
+    exportDataToWord: function (data) {
+        var fileName = "export"+Number(new Date());
+        var content =
+            "<table style='border: 1px solid black; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 9pt'>"+
+            "<b><tr>"+
+                "<td>Договор</td>"+
+                "<td>Организация</td>"+
+                "<td>Дата</td>"+
+                "<td>Окончание</td>"+
+                "<td>Сумма</td>"+
+                "<td>Затраты</td>"+
+                "<td>Статус</td>"+
+                "<td>Тип</td>"+
+            "</tr></b>";
+        for (var i =0; i < data.length; i++)
+            content += "<tr>" +
+                            "<td>"+data[i].title+"</td>" +
+                            "<td>"+data[i].customer+"</td>" +
+                            "<td>"+data[i].date+"</td>" +
+                            "<td>"+data[i].dateFinal+"</td>" +
+                            "<td>"+data[i].amount+"</td>" +
+                            "<td>"+data[i].costs+"</td>" +
+                            "<td>"+data[i].status+"</td>" +
+                            "<td>"+data[i].type+"</td>" +
+                        "</tr>";
+        content += "</table>";
+        exportHTMLtableToWord(fileName, content);
+    },
+
+    exportDataToPDF: function (data) {
+        var fileName = 'export'+Number(new Date());
+        console.log('Export to PDF '+ fileName);
     }
+
+    // showSummary: function () {
+    //     ContractReport.listGrid.setShowGroupSummaryInHeader(!ContractReport.listGrid.showGroupSummaryInHeader);
+    // }
 
 };

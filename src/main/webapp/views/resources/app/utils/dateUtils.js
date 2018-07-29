@@ -127,3 +127,27 @@ function getContractTypeWord(value) {
     }
     return result;
 }
+
+function exportHTMLtableToWord(fileName, content) {
+    var html, link, blob, url, css;
+    css = (
+        '<style>' +
+        '@page WordSection{size: 841.95pt 595.35pt; mso-page-orientation: landscape;}' +
+        'div.WordSection {page: WordSection;}' +
+        '</style>'
+    );
+
+    html = "<div class='WordSection'>"+content+"</div>";
+    blob = new Blob(['\ufeff', css + html], {
+        type: 'application/msword'
+    });
+    url = URL.createObjectURL(blob);
+    link = document.createElement('A');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    if (navigator.msSaveOrOpenBlob )
+        navigator.msSaveOrOpenBlob( blob, fileName+'.doc'); // IE10-11
+    else link.click();  // other browsers
+    document.body.removeChild(link);
+}
