@@ -445,7 +445,9 @@ ContractReport = {
         contract.datePayment = !isEmpty(contract.datePayment)? new Date(contract.datePayment): contract.datePayment;
 
         ContractReport.listGrid.updateData(contract);
+        Object.assign(ContractReport.listGrid.getSelectedRecord(), contract);
         ContractReport.listGrid.refreshRow(ContractReport.listGrid.getRowNum(contract));
+
     },
 
     deleteRecord: function () {

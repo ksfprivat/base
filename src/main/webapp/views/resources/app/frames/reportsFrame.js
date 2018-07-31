@@ -39,7 +39,7 @@ ReportsFrame = {
                 {id: 0, title:"Контракты", isFolder: true,
                     children:[
                       {id: 0.1, title:"Отчет по контрактам", frame: ContractReport},
-                      {id: 0.2, title:"Шаблоны", isFolder: true, icon: imgDir+"/ic_folder_green.png", children:[
+                      {id: 0.2, title:"Шаблоны", isFolder: true, icon: imgDir+"/ic_folder_fav.png", children:[
                               {id: 0.21, title:"Котракты за текущий год", frame: ContractReport,
                                   config: {criteria: this.templates.byYear, group:"year"}},
                               {id: 0.22, title:"Котракты по месяцам", frame: ContractReport,
