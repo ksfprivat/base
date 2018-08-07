@@ -183,7 +183,8 @@ ContractReport = {
                     if (records.length >= 5) return prefix + (records.length)+" Контрактов";
                 }
             },
-            {name: "date", title:"Дата", type:"date", align:"left", groupingModes: ["day", "month", "year"], defaultGroupingMode: "day",
+            {name: "date", title:"Дата", type:"date", align:"left",
+                groupingModes: ["day", "month", "year"], defaultGroupingMode: "day",
                 getGroupValue : function (value) {
                     if (!isDate(value)) return "Неизвестно";
                     switch (this.groupingMode) {
@@ -361,9 +362,9 @@ ContractReport = {
        getAllContracts(function (contracts) {
            contracts.forEach(function (contract) {
                contract.number = getContractNumber(contract.title);
-               contract.date = (contract.date !== null)? new Date(contract.date): contract.date;
-               contract.dateFinal = (contract.dateFinal !== null)? new Date(contract.dateFinal): contract.dateFinal;
-               contract.datePayment = (contract.datePayment !== null)? new Date(contract.datePayment): contract.datePayment;
+               contract.date = (contract.date !== null)? stringToDate(contract.date): contract.date;
+               contract.dateFinal = (contract.dateFinal !== null)? stringToDate(contract.dateFinal): contract.dateFinal;
+               contract.datePayment = (contract.datePayment !== null)? stringToDate(contract.datePayment): contract.datePayment;
                // contract.status = getStatusFieldTextValue(contract.status);
                contract.status = getStatusFieldNumberValue(contract.status);
 
@@ -381,6 +382,7 @@ ContractReport = {
                        ContractReport.listGrid.getFieldByName(config.group).groupingMode = config.groupMode;
                    ContractReport.listGrid.setGroupState(config.group);
            }
+
        })
     },
 

@@ -17,6 +17,14 @@ function dateToDateString(value) {
        );
 }
 
+// Input value format: String date format "yyy.MM.dd"
+function stringToDate(date) {
+    var year    = Number(date.substr(0,4)),
+        month   = Number(date.substr(5,2))-1,
+        day     = Number(date.substr(8,2));
+    return new Date(year, month, day, 12, 0, 0, 0);
+}
+
 // Revers date timestamp for descending sort in ascending sorted treeView
 // Input value format: String date format "yyy.MM.dd"
 function reversTimestamp(value) {

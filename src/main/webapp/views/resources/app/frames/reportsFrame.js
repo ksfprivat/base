@@ -7,7 +7,7 @@ ReportsFrame = {
               _constructor:"AdvancedCriteria",
               operator:"and",
               criteria:[
-                  { fieldName:"date", operator:"greaterThan", value:new Date("01.01."+String(new Date().getFullYear()))}
+                  { fieldName:"date", operator:"greaterThan", value:stringToDate(String(new Date().getFullYear()+"01.01"))}
               ]
           },
 
@@ -125,6 +125,4 @@ ReportsFrame = {
                 node.frame.create(node.config).content
             ]);
     }
-
-    
 };
