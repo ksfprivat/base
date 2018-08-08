@@ -19,6 +19,7 @@ function createNavigationFrame() {
             width: 334,
             height: "100%",
             minWidth: 334,
+            backgroundColor: "#1565c0",
             showResizeBar: true,
             members: [
                 createNavTreeToolbar(),
@@ -289,7 +290,7 @@ function loadNavTreeData() {
 }
 
 function createNavTree() {
-    loadNavTreeData();
+
     navTree = TreeGrid.create({
         height: "100%",
         fields: [
@@ -340,7 +341,7 @@ function createNavTree() {
                      navContractsGrid.setFilter("");
                  }}]
      });
-
+   loadNavTreeData();
    return navTreeTabSet;
 }
 

@@ -375,9 +375,9 @@ ContractsForm ={
         if (record != null) {
             var contractWindow = ContractWindow.create(TRANSACTION_UPDATE, customerCard.getData().title);
 
-            // record.date = (record.date !== null)? stringToDate(record.date): record.date;
-            // record.dateFinal = (record.dateFinal !== null)? stringToDate(record.dateFinal): record.dateFinal;
-            // record.datePayment = (record.datePayment !== null)? stringToDate(record.datePayment): record.datePayment;
+            record.date = (record.date !== null)? formatDateString(record.date): record.date;
+            record.dateFinal = (record.dateFinal !== null)? formatDateString(record.dateFinal): record.dateFinal;
+            record.datePayment = (record.datePayment !== null)? formatDateString(record.datePayment): record.datePayment;
 
             contractWindow.setData(record, ContractsForm.customerId)
         }

@@ -510,6 +510,7 @@ ContractReport = {
     },
 
     exportDataToExcel: function (data) {
+        console.log(data);
         var xls = new XlsExport(data, "String");
         xls.exportToXLS('export'+Number(new Date())+'.xls');
     },

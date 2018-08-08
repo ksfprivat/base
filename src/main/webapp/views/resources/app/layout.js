@@ -18,8 +18,8 @@ function createLayout() {
             createBrowserFrame()
         ]
     });
-    crmFrame.content = crmFrame;
 
+    crmFrame.content = crmFrame;
     dashboardFrame = DashboardFrame.create();
     reportsFrame = ReportsFrame.create();
     helpFrame = HelpFrame.create();
