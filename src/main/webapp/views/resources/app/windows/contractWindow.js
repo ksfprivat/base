@@ -221,8 +221,6 @@ ContractWindow = {
     setData: function (contract, customerId) {
         ContractWindow.customerId = customerId;
         ContractWindow.contractDataBlock.setValues(contract);
-        ContractWindow.contractDataBlock.setValue("date", new Date(contract.date));
-        ContractWindow.contractDataBlock.setValue("dateFinal", new Date(contract.dateFinal));
         ContractWindow.contractDataBlock.setValue(null);
     },
 

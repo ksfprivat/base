@@ -442,9 +442,9 @@ ContractReport = {
             return ((value === null) || (typeof value === "undefined"));
         }
 
-        contract.date = !isEmpty(contract.date)? new Date(contract.date): contract.date;
-        contract.dateFinal = !isEmpty(contract.dateFinal)? new Date(contract.dateFinal): contract.dateFinal;
-        contract.datePayment = !isEmpty(contract.datePayment)? new Date(contract.datePayment): contract.datePayment;
+        contract.date = !isEmpty(contract.date)? stringToDate(contract.date): contract.date;
+        contract.dateFinal = !isEmpty(contract.dateFinal)? stringToDate(contract.dateFinal): contract.dateFinal;
+        contract.datePayment = !isEmpty(contract.datePayment)? stringToDate(contract.datePayment): contract.datePayment;
 
         ContractReport.listGrid.updateData(contract);
         Object.assign(ContractReport.listGrid.getSelectedRecord(), contract);
