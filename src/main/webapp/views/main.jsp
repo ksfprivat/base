@@ -62,7 +62,6 @@
 	<script src="<c:url value="resources/app/frames/dummyFrame.js" />"></script>
 
 	<script src="<c:url value="resources/app/reports/contractsReport.js" />"></script>
-	<script src="<c:url value="resources/app/reports/_contractsReport.js" />"></script>
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
 

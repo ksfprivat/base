@@ -28,13 +28,13 @@ class XlsExport {
 
     const TEMPLATE_XLS = `
         <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
-        <meta http-equiv="content-type" content="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8"/>
+        <meta http-equiv="content-type" content="application/vnd.ms-excel;base64; charset=UTF-8"/>
         <head><!--[if gte mso 9]><xml>
         <x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{title}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml>
         <![endif]--></head>
         <body>{table}</body></html>`;
-    // const MIME_XLS = 'application/vnd.ms-excel;base64,';
-    const MIME_XLS = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,';
+    const MIME_XLS = 'application/vnd.ms-excel;base64,';
+
 
     const parameters = {
       title: this._title,

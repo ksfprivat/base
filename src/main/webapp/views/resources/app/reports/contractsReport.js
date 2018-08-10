@@ -476,8 +476,9 @@ ContractReport = {
                 title:data[i].title, customer:data[i].customerTitle,
                 date:formatDateString(data[i].date), dateFinal:formatDateString(data[i].dateFinal),
                 status: getStatusFieldTextValue(data[i].status), type:getContractTypeWord(data[i].type),
-                amount: data[i].amount, costs:data[i].costs
-            }
+                amount: data[i].amount, costs:data[i].costs, payment: data[i].payment, datePayment: formatDateString(data[i].datePayment)
+            };
+            if (typeof data[i].groupHeader !== "undefined") output[i].groupHeader = true;
         }
         return output;
     },
@@ -486,9 +487,11 @@ ContractReport = {
         function parseGroupTree(tree) {
             var  data = [];
             for (var i = 0; i < tree.groupMembers.length; i++) {
-                if (typeof tree.groupMembers[i].groupMembers !== "undefined")
+                if (typeof tree.groupMembers[i].groupMembers !== "undefined") {
+                    data.push({groupHeader: true, title: tree.groupMembers[i].groupValue});
                     for (var j = 0; j < tree.groupMembers[i].groupMembers.length; j++)
                         data.push(tree.groupMembers[i].groupMembers[j]);
+                }
             }
             return data;
         }
@@ -510,7 +513,6 @@ ContractReport = {
     },
 
     exportDataToExcel: function (data) {
-        console.log(data);
         var xls = new XlsExport(data, "String");
         xls.exportToXLS('export'+Number(new Date())+'.xls');
     },
@@ -518,62 +520,122 @@ ContractReport = {
     exportDataToWord: function (data) {
         var fileName = "export"+Number(new Date());
         var tdStyle = "'border: 1px solid black; padding:3px;'";
+        var rowNum = 0;
+        var total = {
+           count:0, amount:0, costs:0, payment:0
+        };
+
+        function printTotalRow() {
+            return ("<b><tr align='right'>" +
+                    "<td style="+tdStyle+" colspan='7'>Итого (Контрактов: " + total.count + ")</td>" +
+                    "<td style="+tdStyle+">" + stringNumberToCurrency(total.amount) + ".00</td>" +
+                    "<td style="+tdStyle+">" + stringNumberToCurrency(total.costs) + ".00</td>" +
+                    "<td style="+tdStyle+">" + stringNumberToCurrency(total.payment) + ".00</td>" +
+                    "<td style="+tdStyle+">&nbsp;</td>" +
+                "</tr></b>"
+            );
+        }
+
         var content =
-            "<table style='border: 1px solid black; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 10pt'>"+
-            "<b><tr>"+
-                "<td style="+tdStyle+">Договор</td>"+
-                "<td style="+tdStyle+">Организация</td>"+
-                "<td style="+tdStyle+">Дата</td>"+
-                "<td style="+tdStyle+">Окончание</td>"+
-                "<td style="+tdStyle+">Сумма</td>"+
-                "<td style="+tdStyle+">Затраты</td>"+
-                "<td style="+tdStyle+">Статус</td>"+
-                "<td style="+tdStyle+">Тип</td>"+
+            "<table style='border: 1px solid black; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 9pt'>"+
+            "<b><tr align='center'>"+
+                "<td  style="+tdStyle+">№</td>"+
+                "<td  style="+tdStyle+">Договор</td>"+
+                "<td  style="+tdStyle+">Организация</td>"+
+                "<td  style="+tdStyle+">Дата</td>"+
+                "<td  style="+tdStyle+">Окончание</td>"+
+                "<td  style="+tdStyle+">Статус</td>"+
+                "<td  style="+tdStyle+">Тип</td>"+
+                "<td  style="+tdStyle+">Сумма</td>"+
+                "<td  style="+tdStyle+">Затраты</td>"+
+                "<td  style="+tdStyle+">Оплата</td>"+
+                "<td  style="+tdStyle+">Дата оплаты</td>"+
             "</tr></b>";
         for (var i =0; i < data.length; i++)
-            content += "<tr>" +
-                            "<td style="+tdStyle+">"+data[i].title+"</td>" +
-                            "<td style="+tdStyle+">"+data[i].customer+"</td>" +
-                            "<td style="+tdStyle+">"+data[i].date+"</td>" +
-                            "<td style="+tdStyle+">"+data[i].dateFinal+"</td>" +
-                            "<td style="+tdStyle+">"+stringNumberToCurrency(data[i].amount)+"</td>" +
-                            "<td style="+tdStyle+">"+stringNumberToCurrency(data[i].costs)+"</td>" +
-                            "<td style="+tdStyle+">"+data[i].status+"</td>" +
-                            "<td style="+tdStyle+">"+data[i].type+"</td>" +
-                        "</tr>";
-        content += "</table>";
+            // Records group change
+            if (data[i].groupHeader) {
+                // Draw total row before new group
+                if (i !== 0 ) {
+                    content += printTotalRow();
+                    total.count = total.amount = total.costs = total.payment = 0;
+                }
+                // Draw group header
+                content += "<tr><td align='center' colspan='11' style='background-color: #eeeeee'><b>" + data[i].title + "</b></td></tr>";
+            }
+            else {
+                rowNum++;
+                total.count++;
+                total.amount += data[i].amount;
+                total.costs += data[i].costs;
+                total.payment += data[i].payment;
+                content += "<tr>" +
+                        "<td style=" + tdStyle + ">" + rowNum + "</td>" +
+                        "<td style=" + tdStyle + ">" + data[i].title + "</td>" +
+                        "<td style=" + tdStyle + ">" + data[i].customer + "</td>" +
+                        "<td style=" + tdStyle + ">" + data[i].date + "</td>" +
+                        "<td style=" + tdStyle + ">" + data[i].dateFinal + "</td>" +
+                        "<td style=" + tdStyle + ">" + data[i].status + "</td>" +
+                        "<td style=" + tdStyle + ">" + data[i].type + "</td>" +
+                        "<td align='right' style=" + tdStyle + ">" + stringNumberToCurrency(data[i].amount) + ",00</td>" +
+                        "<td align='right' style=" + tdStyle + ">" + stringNumberToCurrency(data[i].costs) + ",00</td>" +
+                        "<td align='right' style=" + tdStyle + ">" + stringNumberToCurrency(data[i].payment) + ",00</td>" +
+                        "<td align='right' style=" + tdStyle + ">" + data[i].datePayment + "</td>" +
+                    "</tr>";
+            }
+        content += printTotalRow()+"</table>";
         exportHTMLtableToWord(fileName, content);
     },
 
     exportDataToPDF: function (data) {
-        var fileName = 'export'+Number(new Date());
-        console.log('Export to PDF '+ fileName);
         var docDef = {
             pageOrientation: 'landscape',
             content: [
                 {table: {
                         headerRows: 1,
-                        widths: [ 110, 90, 90, 90, 90, 90, 90, 90],
+                        widths: [60, 150, 60, 60, 70, 60, 60, 60, 60, 60],
                         body: [
-                            ['Довор', "Организаця", "Дата", "Окончание", "Сумма", "Затраты", "Статус", "Тип"]
+                            [
+                                {text:"Договор", style:"header"},
+                                {text:"Организаця", style:"header"},
+                                {text:"Дата", style:"header"},
+                                {text:"Окончание", style:"header"},
+                                {text:"Статус", style:"header"},
+                                {text:"Тип", style:"header"},
+                                {text:"Сумма", style:"header"},
+                                {text:"Затраты", style:"header"},
+                                {text:"Оплата", style:"header"},
+                                {text:"Дата оплаты", style:"header"}
+                            ]
                         ]
-                    }}
-            ]
+                    },  fontSize: 9}
+            ],
+            styles: {
+                header: {
+                    alignment: 'center',
+                    bold: true
+                }
+            }
         };
         for (var i = 0; i < data.length; i++) {
-            docDef.content[0].table.body.push([
-                data[i].title,
-                data[i].customer,
-                data[i].date,
-                data[i].dateFinal,
-                data[i].amount,
-                data[i].costs,
-                data[i].status,
-                data[i].type
-            ]);
+            if (data[i].groupHeader)
+                docDef.content[0].table.body.push([
+                    {text:data[i].title, colSpan: 10, bold:true, fillColor: '#eeeeee', alignment: 'center'}
+                    ]);
+            else
+                docDef.content[0].table.body.push([
+                    data[i].title,
+                    data[i].customer,
+                    data[i].date,
+                    data[i].dateFinal,
+                    data[i].status,
+                    data[i].type,
+                    {text: stringNumberToCurrency(data[i].amount)+".00",  alignment: 'right'},
+                    {text: stringNumberToCurrency(data[i].costs)+".00",  alignment: 'right'},
+                    {text: stringNumberToCurrency(data[i].payment)+".00",  alignment: 'right'},
+                    data[i].datePayment
+                ]);
         }
-
-        pdfMake.createPdf(docDef).open();
+         pdfMake.createPdf(docDef).open();
     }
 
     // showSummary: function () {

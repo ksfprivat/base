@@ -644,3 +644,9 @@ div.dummy {
     background-color: #757575;
     text-align: center;
 }
+
+table.exportTable td {
+    border: 1px solid black;
+    font-family: Arial, Helvetica, sans-serif; font-size: 9pt;
+    padding: 3px;
+}
