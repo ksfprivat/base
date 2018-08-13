@@ -120,7 +120,7 @@ ContractReport = {
         this.btnExport = createToolButton("Экспорт", "ic_report_export.png", "visible", function() {
             ContractReport.btnExport.showContextMenu()},
             ContractReport.exportMenu);
-        this.btnReportChart = createToolButton("Диаграммы", "ic_report_chart.png", "visible", null);
+        this.btnReportChart = createToolButton("Диаграммы", "ic_report_chart.png", "visible", ContractReport.showChart);
 
         this.toolBar = HLayout.create({
             width: "100%",
@@ -340,6 +340,11 @@ ContractReport = {
             // autoFetchData: true
         });
 
+        this.chartFrame = VLayout.create({
+           width: "100%", height: "100%"
+        });
+
+        this.chartFrame.setVisibility("hidden");
         this.content = VLayout.create({
             width: "100%",
             height: "100%",
@@ -348,8 +353,9 @@ ContractReport = {
             members: [
              this.header,
              this.toolBar,
-             this.filterEditor,
-             this.listGrid
+             // this.filterEditor,
+             this.listGrid,
+             this.chartFrame
             ]
         });
 
@@ -483,23 +489,26 @@ ContractReport = {
         return output;
     },
 
-    exportData: function (outputFormat) {
-        function parseGroupTree(tree) {
-            var  data = [];
-            for (var i = 0; i < tree.groupMembers.length; i++) {
-                if (typeof tree.groupMembers[i].groupMembers !== "undefined") {
-                    data.push({groupHeader: true, title: tree.groupMembers[i].groupValue});
-                    for (var j = 0; j < tree.groupMembers[i].groupMembers.length; j++)
-                        data.push(tree.groupMembers[i].groupMembers[j]);
-                }
-            }
-            return data;
+
+    parseGroupTree: function(tree, saveHeaders) {
+    var  data = [];
+    for (var i = 0; i < tree.groupMembers.length; i++) {
+        if (typeof tree.groupMembers[i].groupMembers !== "undefined") {
+            if (saveHeaders)
+                data.push({groupHeader: true, title: tree.groupMembers[i].groupValue});
+            for (var j = 0; j < tree.groupMembers[i].groupMembers.length; j++)
+                data.push(tree.groupMembers[i].groupMembers[j]);
         }
-        
+    }
+    return data;
+    },
+
+    exportData: function (outputFormat) {
+
         var data = ContractReport.getExportOutput(
             (typeof ContractReport.listGrid.groupTree === "undefined") ?
                 ContractReport.listGrid.data.allRows:
-                parseGroupTree(ContractReport.listGrid.groupTree.root)
+                ContractReport.parseGroupTree(ContractReport.listGrid.groupTree.root, (outputFormat !== "excel"))
         );
 
         switch (outputFormat) {
@@ -587,14 +596,26 @@ ContractReport = {
     },
 
     exportDataToPDF: function (data) {
+
+        function printTotalRow(total) {
+            return ([
+                    {text: "Итого: "+total.count +" Контрактов\t"+
+                    "Сумма: "+stringNumberToCurrency(total.amount) + ".00 ₽\t"+
+                    "Затраты: "+stringNumberToCurrency(total.costs) + ".00 ₽\t"+
+                    "Оплата: "+stringNumberToCurrency(total.payment) + ".00 ₽\t",
+                     colSpan: 11, bold: true, alignment: 'right'}
+            ]);
+        }
+
         var docDef = {
             pageOrientation: 'landscape',
             content: [
                 {table: {
                         headerRows: 1,
-                        widths: [60, 150, 60, 60, 70, 60, 60, 60, 60, 60],
+                        widths: [20, 60, 150, 50, 50, 70, 60, 60, 60, 60, 50],
                         body: [
                             [
+                                {text:"№", style:"header"},
                                 {text:"Договор", style:"header"},
                                 {text:"Организаця", style:"header"},
                                 {text:"Дата", style:"header"},
@@ -616,26 +637,74 @@ ContractReport = {
                 }
             }
         };
+        var rowNum = 1;
+        var total = {count:0, amount:0, costs:0, payment:0};
+
         for (var i = 0; i < data.length; i++) {
-            if (data[i].groupHeader)
+            if (data[i].groupHeader) {
+                if (i !== 0)
+                    docDef.content[0].table.body.push(printTotalRow(total));
+                total.count = total.amount = total.costs = total.costs = 0;
                 docDef.content[0].table.body.push([
-                    {text:data[i].title, colSpan: 10, bold:true, fillColor: '#eeeeee', alignment: 'center'}
-                    ]);
-            else
+                    {text: data[i].title, colSpan: 11, bold: true, fillColor: '#eeeeee', alignment: 'center'}
+                ]);
+            }
+            else {
+                total.count++;
+                total.amount += data[i].amount;
+                total.costs += data[i].costs;
+                total.payment += data[i].payment;
+
                 docDef.content[0].table.body.push([
+                    rowNum,
                     data[i].title,
                     data[i].customer,
                     data[i].date,
                     data[i].dateFinal,
                     data[i].status,
                     data[i].type,
-                    {text: stringNumberToCurrency(data[i].amount)+".00",  alignment: 'right'},
-                    {text: stringNumberToCurrency(data[i].costs)+".00",  alignment: 'right'},
-                    {text: stringNumberToCurrency(data[i].payment)+".00",  alignment: 'right'},
+                    {text: stringNumberToCurrency(data[i].amount) + ".00", alignment: 'right'},
+                    {text: stringNumberToCurrency(data[i].costs) + ".00", alignment: 'right'},
+                    {text: stringNumberToCurrency(data[i].payment) + ".00", alignment: 'right'},
                     data[i].datePayment
                 ]);
+                rowNum++;
+            }
         }
+         docDef.content[0].table.body.push(printTotalRow(total));
          pdfMake.createPdf(docDef).open();
+    },
+
+    showChart: function () {
+        var data = ContractReport.getExportOutput(
+            (typeof ContractReport.listGrid.groupTree === "undefined") ?
+                ContractReport.listGrid.data.allRows:
+                ContractReport.parseGroupTree(ContractReport.listGrid.groupTree.root)
+        );
+       console.log(data);
+       // ContractReport.content.hideMember(ContractReport.toolBar);
+       // ContractReport.content.hideMember(ContractReport.listGrid);
+
+       var chart = isc.FacetChart.create({
+            // You use facets to define the ways in which you would like the chart to
+            // break down the data. In this case, our data has two dimensions: region and product.
+            facets: [{
+                id: "amount",    // the key used for this facet in the data above
+                title: "Region"  // the user-visible title you want in the chart
+            },{
+                id: "date",
+                title: "Дата"
+            }],
+            data: data,        // a reference to our data above
+            valueProperty: "sales", // the property in our data that is the numerical value to chart
+            chartType: "Area",
+            title: "Диаграмма"  // a title for the chart as a whole
+        });
+
+
+
+        ContractReport.content.showMember(ContractReport.chartFrame, false);
+        ContractReport.content.addMember(chart);
     }
 
     // showSummary: function () {
