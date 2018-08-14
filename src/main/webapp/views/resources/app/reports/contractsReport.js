@@ -340,11 +340,39 @@ ContractReport = {
             // autoFetchData: true
         });
 
-        this.chartFrame = VLayout.create({
-           width: "100%", height: "100%"
+
+        this.chartHeader = HLayout.create({
+            width:"100%",
+            layoutLeftMargin:10,
+            layoutTopMargin:10,
+            layoutRightMargin:10,
+            members: [
+                HTMLFlow.create({
+                    width:"100%",
+                    contents:"<div class='cardBoxTitle'>Диаграммы</div>"
+                }),
+                createButton(null, "ic_close.png",true, 24, ContractReport.hideChart)
+            ]
         });
 
-        this.chartFrame.setVisibility("hidden");
+
+        this.chartArea =HTMLFlow.create({
+            width:"100%", height:"100%",
+            contents:"<canvas id='myChart' style='width: 100%; height: 100%;'></canvas>"
+
+        });
+
+        this.chartFrame = VLayout.create({
+           width: "100%", height: "100%",
+           members:[
+                this.chartHeader, this.chartArea
+           ],
+            visibilityChanged: function (isVisible) {
+                console.log(isVisible);
+            }
+        });
+        this.chartFrame.hide();
+
         this.content = VLayout.create({
             width: "100%",
             height: "100%",
@@ -676,35 +704,47 @@ ContractReport = {
     },
 
     showChart: function () {
-        var data = ContractReport.getExportOutput(
-            (typeof ContractReport.listGrid.groupTree === "undefined") ?
-                ContractReport.listGrid.data.allRows:
-                ContractReport.parseGroupTree(ContractReport.listGrid.groupTree.root)
-        );
-       console.log(data);
-       // ContractReport.content.hideMember(ContractReport.toolBar);
-       // ContractReport.content.hideMember(ContractReport.listGrid);
-
-       var chart = isc.FacetChart.create({
-            // You use facets to define the ways in which you would like the chart to
-            // break down the data. In this case, our data has two dimensions: region and product.
-            facets: [{
-                id: "amount",    // the key used for this facet in the data above
-                title: "Region"  // the user-visible title you want in the chart
-            },{
-                id: "date",
-                title: "Дата"
-            }],
-            data: data,        // a reference to our data above
-            valueProperty: "sales", // the property in our data that is the numerical value to chart
-            chartType: "Area",
-            title: "Диаграмма"  // a title for the chart as a whole
-        });
+        //
+        // var data = ContractReport.getExportOutput(
+        //     (typeof ContractReport.listGrid.groupTree === "undefined") ?
+        //         ContractReport.listGrid.data.allRows:
+        //         ContractReport.parseGroupTree(ContractReport.listGrid.groupTree.root, false)
+        // );
 
 
 
-        ContractReport.content.showMember(ContractReport.chartFrame, false);
-        ContractReport.content.addMember(chart);
+
+        // ContractReport.content.showMember(ContractReport.chartFrame, function () {
+            ContractReport.header.hide();
+            ContractReport.toolBar.hide();
+            ContractReport.listGrid.hide();
+            ContractReport.chartFrame.show();
+
+            setTimeout(function () {
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["January", "February", "March", "April", "May", "June", "July"],
+                        datasets: [{
+                            label: "My First dataset",
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: [0, 10, 5, 2, 20, 30, 45]
+                        }]
+                    },
+                // Configuration options go here
+                    options: {
+                                            }
+                });
+            }, 100);
+    },
+
+    hideChart: function () {
+        ContractReport.chartFrame.hide();
+        ContractReport.header.show();
+        ContractReport.toolBar.show();
+        ContractReport.listGrid.show();
     }
 
     // showSummary: function () {
