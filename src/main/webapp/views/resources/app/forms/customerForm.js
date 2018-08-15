@@ -169,6 +169,7 @@ CustomerForm = {
         this.content = VLayout.create({
             width: "100%",
             height: "300",
+            minWidth: 680,
             autoDraw: false,
             members: [
                 this.header,

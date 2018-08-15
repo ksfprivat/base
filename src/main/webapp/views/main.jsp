@@ -17,8 +17,9 @@
 	<%--Excel export library--%>
 	<script src="<c:url value="resources/lib/xlsExport/xls-export.js"/>"></script>
 
-    <%--ChartJS--%>
-    <script src="<c:url value="resources/lib/charts/Chart.min.js"/>"></script>
+    <%--Chartist--%>
+	<link rel="stylesheet" type="text/css" href="resources/lib/charts/chartist.min.css"/>
+    <script src="<c:url value="resources/lib/charts/chartist.min.js"/>"></script>
 	<%--Isomorphic SmarClient init scripts	--%>
 	<script>var isomorphicDir="/resources/lib/isomorphic/";</script>
 	<script src="<c:url value="resources/lib/isomorphic/system/modules/ISC_Core.js"/>"></script>

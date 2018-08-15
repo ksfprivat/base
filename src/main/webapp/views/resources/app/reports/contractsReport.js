@@ -358,7 +358,7 @@ ContractReport = {
 
         this.chartArea =HTMLFlow.create({
             width:"100%", height:"100%",
-            contents:"<canvas id='myChart' style='width: 100%; height: 100%;'></canvas>"
+            contents:"<div class='ct-chart ct-perfect-fourth'></div>"
 
         });
 
@@ -366,16 +366,14 @@ ContractReport = {
            width: "100%", height: "100%",
            members:[
                 this.chartHeader, this.chartArea
-           ],
-            visibilityChanged: function (isVisible) {
-                console.log(isVisible);
-            }
+           ]
         });
         this.chartFrame.hide();
 
         this.content = VLayout.create({
             width: "100%",
             height: "100%",
+            overflow:"hidden",
             autoDraw: false,
             styleName: "cardBox",
             members: [
@@ -704,40 +702,33 @@ ContractReport = {
     },
 
     showChart: function () {
-        //
-        // var data = ContractReport.getExportOutput(
-        //     (typeof ContractReport.listGrid.groupTree === "undefined") ?
-        //         ContractReport.listGrid.data.allRows:
-        //         ContractReport.parseGroupTree(ContractReport.listGrid.groupTree.root, false)
-        // );
 
-
-
-
-        // ContractReport.content.showMember(ContractReport.chartFrame, function () {
+            var data = ContractReport.getExportOutput(
+                (typeof ContractReport.listGrid.groupTree === "undefined") ?
+                    ContractReport.listGrid.data.allRows:
+                    ContractReport.parseGroupTree(ContractReport.listGrid.groupTree.root, false)
+            );
             ContractReport.header.hide();
             ContractReport.toolBar.hide();
             ContractReport.listGrid.hide();
             ContractReport.chartFrame.show();
 
             setTimeout(function () {
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var chart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ["January", "February", "March", "April", "May", "June", "July"],
-                        datasets: [{
-                            label: "My First dataset",
-                            backgroundColor: 'rgb(255, 99, 132)',
-                            borderColor: 'rgb(255, 99, 132)',
-                            data: [0, 10, 5, 2, 20, 30, 45]
-                        }]
-                    },
-                // Configuration options go here
-                    options: {
-                                            }
-                });
+                var data = {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                    series: [
+                        [5, 2, 4, 2, 0]
+                    ]
+                };
+                var options = {
+                    height: ContractReport.chartArea.getInnerHeight()-80, width:"100%",
+                    low: 0,
+                    showArea: true
+                };
+                new Chartist.Line('.ct-chart', data, options);
+                ContractReport.content.setHeight("100%");
             }, 100);
+
     },
 
     hideChart: function () {
