@@ -33,9 +33,17 @@ CRMScrollerFrame = {
                     browserFrame.scrollToTop();
                 }), spacer(10),
                 createButton(null,"ic_contacts.png", "visible", 30, "Контакты", function () {
-
+                    console.log( browserFrame.getScrollTop());
+                    console.log(customerCard.expanded);
+                    browserFrame.scrollTo(0,70
+                                    +((customerCard.expanded)? 475:0)); // if CustomerFrame expanded + delta pixels
                 }),spacer(10),
-                createButton(null,"ic_currency-rub.png", "visible", 30,"Контракты", null),spacer(10)
+                createButton(null,"ic_currency-rub.png", "visible", 30,"Контракты", function () {
+                    browserFrame.scrollTo(0,390
+                                    // +((customerCard.expanded)? 475:0)+
+                                    // +((contractsCard.expanded)? 220:0)
+                    );
+                }),spacer(10)
             ]
         });
 
