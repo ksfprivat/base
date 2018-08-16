@@ -7,6 +7,7 @@ var   dashboardFrame;
 var   reportsFrame;
 var   helpFrame;
 
+
 function createLayout() {
     header   = Header.create();
     sideBar  = SideBarFrame.create();
@@ -15,6 +16,7 @@ function createLayout() {
         overflow:"hidden",
         members:[
             createNavigationFrame(),
+            (CRMScrollerFrame.create().content),
             createBrowserFrame()
         ]
     });

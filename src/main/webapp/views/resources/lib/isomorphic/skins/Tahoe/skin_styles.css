@@ -2484,6 +2484,7 @@ into the listGrid filterEditor  */
 .promptBody {
   border: solid 1px #dddddd;
   border-top: none;
+  /*font-size: 12pt;*/
 }
 
 .windowHeader,

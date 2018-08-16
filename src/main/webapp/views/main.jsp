@@ -59,6 +59,7 @@
 	<script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/sideBarFrame.js" />"></script>
+	<script src="<c:url value="resources/app/frames/CRMScrollerFrame.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/dashboardFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/reportsFrame.js" />"></script>
     <script src="<c:url value="resources/app/frames/helpFrame.js" />"></script>

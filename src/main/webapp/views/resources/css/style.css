@@ -228,6 +228,33 @@ div.dummy {
     color: #2962ff;
 }
 
+.crmScroller {
+    background-color: #9e9e9e;
+    box-shadow: 0 1px 6px 1px #b6b6b6;
+}
+
+.scrollerButton,
+.scrollerButtonSelected,
+.scrollerButtonDisabled,
+.scrollerButtonSelectedDisabled {
+    background-color: #eeeeee;
+    padding-bottom: 3px;
+}
+
+.scrollerButtonOver,
+.scrollerButtonSelectedOver,
+.scrollerButtonSelected,
+.scrollerButtonSelectedOver,
+.scrollerButtonSelectedDisabled {
+    background-color: #e0e0e0;
+}
+
+.scrollerButtonDown,
+.scrollerButtonSelectedDown {
+
+}
+
+
 .reportToolButton {
     display: table-cell;
     color: #757575;
