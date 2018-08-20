@@ -28,7 +28,8 @@ NavContractsGrid = {
             // sortField: "date",
             // sortDirection: "descending",
             initialSort: [
-                {property: "date", direction: "descending"},
+                // {property: "date", direction: "descending"},
+                {property: "year", direction: "descending"},
                 {property: "contractNumber", direction: "descending"}
             ],
             virtualScrolling: false,

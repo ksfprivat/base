@@ -33,21 +33,19 @@ CRMScrollerFrame = {
                     browserFrame.scrollToTop();
                 }), spacer(10),
                 createButton(null,"ic_contacts.png", "visible", 30, "Контакты", function () {
-                    console.log( browserFrame.getScrollTop());
-                    console.log(customerCard.expanded);
                     browserFrame.scrollTo(0,70
-                                    +((customerCard.expanded)? 475:0)); // if CustomerFrame expanded + delta pixels
+                                    +((customerCard.expanded)? 475:0)
+                                    -((customerCard.expanded) && (!customerCard.notesBlock.isVisible()) ? 120:0)
+                    );
                 }),spacer(10),
                 createButton(null,"ic_currency-rub.png", "visible", 30,"Контракты", function () {
                     browserFrame.scrollTo(0,390
-                                    // +((customerCard.expanded)? 475:0)+
-                                    // +((contractsCard.expanded)? 220:0)
+                                    +((customerCard.expanded)? 492:0)+
+                                    +((contractsCard.expanded)? 220:0)
                     );
                 }),spacer(10)
             ]
         });
-
-
         this.content = VLayout.create({
             width:"24px", height:"100%", padding:0, margin:0,
             backgroundColor:"#eeeeee",
@@ -57,7 +55,6 @@ CRMScrollerFrame = {
                 VLayout.create({height:"100%"})
             ]
         });
-
         return Object.create(this);
     }
 };
