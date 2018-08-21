@@ -54,12 +54,13 @@
 	<script src="<c:url value="resources/app/windows/contractWindow.js"/>"></script>
     <script src="<c:url value="resources/app/windows/splashWindow.js" />"></script>
 
+    <script src="<c:url value="resources/app/widgets/scrollerWidget.js"/>"></script>
+
     <script src="<c:url value="resources/app/frames/navContactsGrid.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/navContractsGrid.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/browserFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/navigationFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/sideBarFrame.js" />"></script>
-	<script src="<c:url value="resources/app/frames/CRMScrollerFrame.js"/>"></script>
 	<script src="<c:url value="resources/app/frames/dashboardFrame.js" />"></script>
 	<script src="<c:url value="resources/app/frames/reportsFrame.js" />"></script>
     <script src="<c:url value="resources/app/frames/helpFrame.js" />"></script>
@@ -68,7 +69,7 @@
 	<script src="<c:url value="resources/app/reports/contractsReport.js" />"></script>
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
-
+        var buildString = "180822 (foxtrot-golf)";
         function initApplication() {
      	    isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);

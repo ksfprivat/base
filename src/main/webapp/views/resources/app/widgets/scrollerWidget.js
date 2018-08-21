@@ -1,6 +1,5 @@
-CRMScrollerFrame = {
+ScrollerWidget = {
     create:function () {
-
 
         function createButton(title, icon, visible, size, prompt, event){
             return (
@@ -49,6 +48,7 @@ CRMScrollerFrame = {
         this.content = VLayout.create({
             width:"24px", height:"100%", padding:0, margin:0,
             backgroundColor:"#eeeeee",
+            visibility:"hidden",
             members:[
                 VLayout.create({height:"100%"}),
                 this.toolBar,

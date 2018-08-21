@@ -66,7 +66,10 @@ NavContactsGrid =  {
 
     onRowClick: function (record, recordNum, fieldNum) {
          NavContactsGrid.currentRecord = record;
-         if (!browserFrame.isVisible()) browserFrame.show();
+         if (!browserFrame.isVisible()) {
+             scrollerWidget.content.show();
+             browserFrame.show();
+         }
           if (navTreeCurrentCustomerId !== record.customerId) {
               refreshBrowserFrame(record.customerId);
 //  Setup current node in navTree - Replace after implement application menu

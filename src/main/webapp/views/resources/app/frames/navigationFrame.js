@@ -212,7 +212,10 @@ function refreshCustomerNode(data) {
 
 function onNodeClick(viewer, node, recordNum) {
     navTreeSelectedNode = node;
-    if (!browserFrame.isVisible()) browserFrame.show();
+    if (!browserFrame.isVisible()) {
+        scrollerWidget.content.show();
+        browserFrame.show();
+    }
     if (node.type === "customer") {
         if (navTreeCurrentCustomerId !== node.id) {
             refreshBrowserFrame(node.id);

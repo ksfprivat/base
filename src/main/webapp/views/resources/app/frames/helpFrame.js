@@ -24,9 +24,9 @@ HelpFrame = {
                 contents:
                 "<div align='center' style='overflow: hidden'>"+
                 "<div class='aboutBanner'></div>"+
-                "<h1 align='center' style='color: #0b6ef9'><b>Build</b> 182003 (Sierra)</h1><br>"+
+                "<h1 align='center' style='color: #0b6ef9'><b>Build</b> "+buildString+"</h1><br>"+
                 "<p>BASE. Customer relationship system. 2018. Zintur Ltd. Fedotovskih Konstantin</p>"+
-                "<a href='/resources/html/index.html' target=\_blank\">Справочные материалы</a>"+
+                "<a href='/resources/html/index.html' target=\_blank\">Справочные материалы WikiBase</a>"+
                 "</div>"
             })
         );

@@ -143,11 +143,11 @@ ContractWindow = {
             var contract = ContractWindow.contractDataBlock.getValues();
             contract.customerId = ContractWindow.customerId;
             contract.date =  isDate(contract.date) ?
-                    dateToDateString(contract.date) : contract.date;
+                    dateToDateString(contract.date) : null;
             contract.dateFinal = isDate(contract.dateFinal) ?
-                    dateToDateString(contract.dateFinal) : contract.dateFinal;
+                    dateToDateString(contract.dateFinal) : null;
             contract.datePayment = isDate(contract.datePayment) ?
-                dateToDateString(contract.datePayment) : contract.datePayment;
+                dateToDateString(contract.datePayment) : null;
             contract.department = null;
             contract.object = null;
             delete contract["customerByCustomerId"];

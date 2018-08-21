@@ -6,17 +6,19 @@ var   crmFrame;
 var   dashboardFrame;
 var   reportsFrame;
 var   helpFrame;
+var   scrollerWidget;
 
 
 function createLayout() {
     header   = Header.create();
     sideBar  = SideBarFrame.create();
+    scrollerWidget = ScrollerWidget.create();
     crmFrame = HLayout.create({
         width: "100%", height: "100%", autoDraw: false,
         overflow:"hidden",
         members:[
             createNavigationFrame(),
-            (CRMScrollerFrame.create().content),
+            scrollerWidget.content,
             createBrowserFrame()
         ]
     });
@@ -59,7 +61,7 @@ function createFooter() {
         width: "100%",
         contents:
         "<div class='footer'>" +
-            "<a class='footer_text'>Base CRM Copyright (c) 2018. Build 182003 (Sierra)</a>" +
+            "<a class='footer_text'>Base CRM Copyright (c) 2018. "+buildString+"</a>" +
         "</div>"
     });
 }

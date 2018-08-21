@@ -74,7 +74,10 @@ NavContractsGrid = {
 
     onRowClick: function (record) {
         NavContractsGrid.currentRecord = record;
-        if (!browserFrame.isVisible()) browserFrame.show();
+        if (!browserFrame.isVisible()) {
+            scrollerWidget.content.show();
+            browserFrame.show();
+        }
         if (navTreeCurrentCustomerId !== record.customerId) {
             refreshBrowserFrame(record.customerId);
             //  Setup current node in navTree - Replace after implement application menu
