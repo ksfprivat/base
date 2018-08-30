@@ -40,11 +40,12 @@ ContractWindow = {
                 {name: "costs", title: "Расходы", type:"float", format:",0.00;", defaultValue: 0},
                 {name: "payment", title: "Оплата", type:"float", format:",0.00;"},
                 {name: "datePayment", title: "Дата оплаты", type: "date",  editorType: "DateItem", useTextField: true, textAlign:"left"},
+                {name: "dateWorkBegin", title: "Дата начала работ", type: "date",  editorType: "DateItem", useTextField: true, textAlign:"left"},
+                {name: "dateWorkEnd", title: "Дата окончания работ", type: "date",  editorType: "DateItem", useTextField: true, textAlign:"left"},
                 {name: "status", title: "Статус", type: "text",editorType:"ComboBoxItem",
                     valueMap: {
                         0:"Подписание", 1:"Исполнение", 2: "Выполнен", 3:"Не действителен"
-                    }}
-                    ,
+                    }},
                 {name: "note", title: "Коментарии", type:"textArea", width:"100%", height:"120", colSpan:2}
             ]
         });
@@ -123,6 +124,10 @@ ContractWindow = {
                 dateToDateString(contract.dateFinal) : contract.dateFinal;
             contract.datePayment = isDate(contract.datePayment) ?
                 dateToDateString(contract.datePayment) : contract.datePayment;
+            contract.dateWorkBegin = isDate(contract.dateWorkBegin) ?
+                dateToDateString(contract.dateWorkBegin) : contract.dateWorkBegin;
+            contract.dateWorkEnd = isDate(contract.dateWorkEnd) ?
+                dateToDateString(contract.dateWorkEnd) : contract.dateWorkEnd;
 
             contract.customerId = ContractWindow.customerId;
             insertContract(contract, function (newContractId) {
@@ -148,6 +153,10 @@ ContractWindow = {
                     dateToDateString(contract.dateFinal) : null;
             contract.datePayment = isDate(contract.datePayment) ?
                 dateToDateString(contract.datePayment) : null;
+            contract.dateWorkBegin = isDate(contract.dateWorkBegin) ?
+                dateToDateString(contract.dateWorkBegin) : contract.dateWorkBegin;
+            contract.dateWorkEnd = isDate(contract.dateWorkEnd) ?
+                dateToDateString(contract.dateWorkEnd) : contract.dateWorkEnd;
             contract.department = null;
             contract.object = null;
             delete contract["customerByCustomerId"];

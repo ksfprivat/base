@@ -1,6 +1,6 @@
 package ru.base.orm.entities;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,6 +29,8 @@ public class Contract {
     private String type;
     private Integer object;
     private Date datePayment;
+    private Date dateWorkBegin;
+    private Date dateWorkEnd;
     private String note;
     private Integer customerId;
     private Customer customerByCustomerId;
@@ -168,6 +170,38 @@ public class Contract {
     public void setDatePayment(Date datePayment) {
         this.datePayment = datePayment;
     }
+
+
+    @Basic
+    @Column(name = "dateWorkBegin", nullable = true)
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
+    public Date getDateWorkBegin() {
+        return dateWorkBegin;
+    }
+
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public void setDateWorkBegin(Date dateWorkBegin) {
+        this.dateWorkBegin = dateWorkBegin;
+    }
+
+    @Basic
+    @Column(name = "dateWorkEnd", nullable = true)
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
+    public Date getDateWorkEnd() {
+        return dateWorkEnd;
+    }
+
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public void setDateWorkEnd(Date dateWorkEnd) {
+        this.dateWorkEnd = dateWorkEnd;
+    }
+    
 
     @Basic
     @Column(name = "note", nullable = true)

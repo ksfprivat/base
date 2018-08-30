@@ -186,7 +186,23 @@ ContractsForm ={
                     valueMap: {
                         0:"аттестация", 1:"контроль", 2: "услуги", 3:"поставка"
                     }
-                }
+                },
+                {name: "dateWorkBegin", title:"Начало работ", type:"date", align:"left", changed :this.fieldChanged,
+                    formatCellValue: function (value) {
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    },
+                    formatEditorValue: function (value) {
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    }
+                },
+                {name: "dateWorkEnd", title:"Завершение работ", type:"date", align:"left", changed :this.fieldChanged,
+                    formatCellValue: function (value) {
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    },
+                    formatEditorValue: function (value) {
+                        return ((isDate(value)) || (value == null) ? value : formatDateString(value));
+                    }
+                }                
             ],
             // sortField: 2,
             // sortDirection:"descending",
@@ -299,7 +315,12 @@ ContractsForm ={
                 contract.payment = ContractsForm.changeCache[i].payment;
                 contract.datePayment = isDate(ContractsForm.changeCache[i].datePayment) ?
                     dateToDateString(ContractsForm.changeCache[i].datePayment) : ContractsForm.changeCache[i].datePayment;
-
+                contract.dateWorkBegin = isDate(ContractsForm.changeCache[i].dateWorkBegin) ?
+                    dateToDateString(ContractsForm.changeCache[i].dateWorkBegin) : ContractsForm.changeCache[i].dateWorkBegin;
+                contract.dateWorkEnd = isDate(ContractsForm.changeCache[i].dateWorkEnd) ?
+                    dateToDateString(ContractsForm.changeCache[i].dateWorkEnd) : ContractsForm.changeCache[i].dateWorkEnd;
+                
+                
             updateContract(contract, function(success) { });
 
             changeNodeTitle(contract.id, contract.title);
