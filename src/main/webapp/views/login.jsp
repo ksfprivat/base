@@ -32,7 +32,7 @@
 
 </div>
 <div class="copyright-text">
-    BASE CRM (build 180205) 2018 Copyright (c) Zintur Ltd.
+    BASE CRM 2018
 </div>
 
 </body>

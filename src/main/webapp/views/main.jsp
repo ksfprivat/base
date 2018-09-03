@@ -69,7 +69,7 @@
 	<script src="<c:url value="resources/app/reports/contractsReport.js" />"></script>
 	<%--Application initialization script--%>
 	<script  type="text/javascript">
-        var buildString = "180822 (foxtrot-golf)";
+        var buildString = "180822";
         function initApplication() {
      	    isc.Canvas.resizeFonts(3);
             isc.Canvas.resizeControls(8);

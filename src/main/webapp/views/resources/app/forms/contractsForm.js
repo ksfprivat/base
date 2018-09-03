@@ -399,6 +399,8 @@ ContractsForm ={
             record.date = (record.date !== null)? formatDateString(record.date): record.date;
             record.dateFinal = (record.dateFinal !== null)? formatDateString(record.dateFinal): record.dateFinal;
             record.datePayment = (record.datePayment !== null)? formatDateString(record.datePayment): record.datePayment;
+            record.dateWorkBegin = (record.dateWorkBegin !== null)? formatDateString(record.dateWorkBegin): record.dateWorkBegin;
+            record.dateWorkEnd = (record.dateWorkEnd !== null)? formatDateString(record.dateWorkEnd): record.dateWorkEnd;
 
             contractWindow.setData(record, ContractsForm.customerId)
         }
